@@ -1,93 +1,48 @@
-# dbx-cafe-hands-on
+# Databricks Cafe End-to-End Hands-on
 
+개인 Databricks Workspace에서 Git folder로 실행하는 카페 데이터 실습입니다.
 
+## 실행 순서
 
-## Getting started
+1. [`docs/00_start_here.md`](docs/00_start_here.md)에서 Catalog, Schema, Volume을 준비합니다.
+2. [`notebooks/00_setup.sql`](notebooks/00_setup.sql)로 환경을 확인합니다.
+3. CSV를 Volume에 업로드합니다.
+4. [`notebooks/01_cafe_medallion_pipeline.sql`](notebooks/01_cafe_medallion_pipeline.sql)로 Bronze–Silver–Gold Pipeline을 실행합니다.
+5. [`notebooks/02_metric_view_baseline.sql`](notebooks/02_metric_view_baseline.sql)과 [`notebooks/03_metric_view_optimized.sql`](notebooks/03_metric_view_optimized.sql)로 Metric View를 구성합니다.
+6. `resources/genie_instructions.md`와 `resources/genie_questions.md`를 사용해 Genie Agent를 구성합니다.
+7. [`docs/01_hands_on_runbook.md`](docs/01_hands_on_runbook.md)의 Genie Example Query, Benchmark, Monitor, 품질 최적화 절차를 실행합니다.
+8. [`notebooks/05_create_ai_search.py`](notebooks/05_create_ai_search.py)로 용어집 AI Search를 구성합니다.
+9. `resources/supervisor_prompt.md`와 `resources/app.yaml.example`을 사용해 Supervisor Agent와 Databricks App을 구성합니다.
+10. [`notebooks/06_mlflow_monitoring.py`](notebooks/06_mlflow_monitoring.py)로 Trace와 평가 결과를 확인합니다.
+11. [`docs/01_hands_on_runbook.md`](docs/01_hands_on_runbook.md)의 최종 통합 검증에서 Q1~Q4 Tool routing과 MLflow Trace를 확인합니다.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+전체 실습 설계는 [`HANDS_ON_SESSION_DESIGN.md`](HANDS_ON_SESSION_DESIGN.md)를 참고합니다.
+GitHub 저장소 연결 절차는 [`docs/00_github_publish.md`](docs/00_github_publish.md)를 참고합니다.
+처음부터 따라 하는 실행 절차는 [`docs/01_hands_on_runbook.md`](docs/01_hands_on_runbook.md)를 참고합니다.
+Git folder를 받은 뒤에는 이 실행 가이드를 먼저 열고, Volume에 업로드할 CSV와 실습 중 확인할 Excel·CSV 목록을 가이드에서 확인합니다.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Unity Catalog 이름
 
-## Add your files
-
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
+```text
+Catalog: cafe_training
+Landing Schema: cafe_landing
+Analytics Schema: cafe_hands_on
+Volume: cafe_landing.raw
 ```
-cd existing_repo
-git remote add origin https://cpeteam.duckdns.org/data_ai/dbx-cafe-hands-on.git
-git branch -M main
-git push -uf origin main
+
+## Git folder
+
+Databricks Workspace에서 `Workspace > Git folders > Clone repo`를 선택하고 저장소 URL을 입력합니다. 실행 파일은 저장소의 `main` 브랜치에 있습니다.
+
+## 데이터 위치
+
+```text
+/Volumes/cafe_training/cafe_landing/raw/stores.csv
+/Volumes/cafe_training/cafe_landing/raw/products.csv
+/Volumes/cafe_training/cafe_landing/raw/orders/*.csv
+/Volumes/cafe_training/cafe_landing/raw/support/glossary.csv
 ```
 
-## Integrate with your tools
+## Bundle
 
-* [Set up project integrations](https://cpeteam.duckdns.org/data_ai/dbx-cafe-hands-on/-/settings/integrations)
-
-## Collaborate with your team
-
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+저장소 루트의 `databricks.yml`에서 `warehouse_id` 값을 지정한 뒤 `dev` target을 검증·배포합니다.
