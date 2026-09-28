@@ -10,15 +10,15 @@
 4. [`notebooks/01_cafe_medallion_pipeline.sql`](notebooks/01_cafe_medallion_pipeline.sql)로 Bronze–Silver–Gold Pipeline을 실행합니다.
 5. [`notebooks/02_metric_view_baseline.sql`](notebooks/02_metric_view_baseline.sql)과 [`notebooks/03_metric_view_optimized.sql`](notebooks/03_metric_view_optimized.sql)로 Metric View를 구성합니다.
 6. `resources/genie_instructions.md`와 `resources/genie_questions.md`를 사용해 Genie Agent를 구성합니다.
-7. [`docs/01_hands_on_runbook.md`](docs/01_hands_on_runbook.md)의 Genie Example Query, Benchmark, Monitor, 품질 최적화 절차를 실행합니다.
+7. [실행 가이드 3파트](docs/runbook/3_metric_genie.md)의 Genie Example Query, Benchmark, Monitor, 품질 최적화 절차를 실행합니다.
 8. [`notebooks/05_create_ai_search.py`](notebooks/05_create_ai_search.py)로 용어집 AI Search를 구성합니다.
 9. `resources/supervisor_prompt.md`와 `resources/app.yaml.example`을 사용해 Supervisor Agent와 Databricks App을 구성합니다.
 10. [`notebooks/06_mlflow_monitoring.py`](notebooks/06_mlflow_monitoring.py)로 Trace와 평가 결과를 확인합니다.
-11. [`docs/01_hands_on_runbook.md`](docs/01_hands_on_runbook.md)의 최종 통합 검증에서 Q1~Q4 Tool routing과 MLflow Trace를 확인합니다.
+11. [실행 가이드 4파트](docs/runbook/4_advanced.md#step-16)의 최종 통합 검증에서 Q1~Q4 Tool routing과 MLflow Trace를 확인합니다.
 
 전체 실습 설계는 [`HANDS_ON_SESSION_DESIGN.md`](HANDS_ON_SESSION_DESIGN.md)를 참고합니다.
-GitHub 저장소 연결과 강사용 배포 절차는 [`실행 가이드`](docs/01_hands_on_runbook.md)의 2절과 17절을 참고합니다.
-처음부터 따라 하는 실행 절차는 [`docs/01_hands_on_runbook.md`](docs/01_hands_on_runbook.md)를 참고합니다.
+GitHub 저장소 연결은 [실행 가이드 1파트](docs/runbook/1_setup.md#step-2), 강사용 배포 절차는 [강사용 배포](docs/runbook/5_instructor.md)를 참고합니다.
+처음부터 따라 하는 실행 절차는 [`docs/runbook/`](docs/runbook/README.md)를 참고합니다.
 Git folder를 받은 뒤에는 이 실행 가이드를 먼저 열고, Volume에 업로드할 CSV와 실습 중 확인할 Excel·CSV 목록을 가이드에서 확인합니다.
 
 ## Unity Catalog 이름
