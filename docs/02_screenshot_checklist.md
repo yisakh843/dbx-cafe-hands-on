@@ -1,10 +1,10 @@
 # 강사용: runbook 화면 캡처 확인표
 
-캡처 기준일: 2026-09-21(기존 Databricks 화면), 2026-09-28(GitHub ZIP 다운로드 추가). 대상: Databricks Free Edition의 실제 실습 화면과 실습 저장소의 GitHub 다운로드 메뉴. 교육은 참가자가 각자 만든 Free Edition 계정의 Workspace에서 진행합니다.
+캡처 기준일: 2026-09-21(기존 Databricks 화면), 2026-09-28(GitHub ZIP 다운로드 추가, 노트북 Catalog 패널 화면 교체). 대상: Databricks Free Edition의 실제 실습 화면과 실습 저장소의 GitHub 다운로드 메뉴. 교육은 참가자가 각자 만든 Free Edition 계정의 Workspace에서 진행합니다.
 
 일반 메뉴 클릭과 화면 캡처가 동작함을 확인했습니다. 아래 표는 캡처 및 실행 검증 상태를 구분하여 관리합니다.
 
-이미지는 `docs/images/runbook/`에 보관하고 `docs/runbook/` 각 파트의 해당 단계 바로 뒤에 상대 경로의 `<img width>` 태그로 넣습니다(기본 720px, 가로로 긴 캡처는 800px). 캡처에는 실제 입력값과 버튼이 함께 보이게 하고, 그림 설명에서 클릭할 버튼과 확인할 값을 굵게 표시합니다. 원본 캡처 31장은 보존하고, 17장의 강조본(`*-annotated.png`)을 별도로 만들어 본문에 연결했습니다. 강조본은 imagegen 내장 이미지 편집으로 제작했습니다. 원본은 강조본 재작업용으로만 보존하며 runbook에서는 링크하지 않습니다. 일부 Owner·Workspace 경로에 교육 계정 이메일이 표시됩니다. 외부 공개 배포 시 공개 범위를 확인합니다. 실행 전 설정 화면과 실행 후 성공 화면을 구분합니다.
+이미지는 `docs/images/runbook/`에 보관하고 `docs/runbook/` 각 파트의 해당 단계 바로 뒤에 상대 경로의 `<img width>` 태그로 넣습니다(기본 720px, 가로로 긴 캡처는 800px). 캡처에는 실제 입력값과 버튼이 함께 보이게 하고, 그림 설명에서 클릭할 버튼과 확인할 값을 굵게 표시합니다. 본문의 실제 화면 31장 중 20장은 강조본(`*-annotated.png`)으로 연결했습니다. 교체 전후의 원본 캡처와 이전 강조본은 재작업 이력으로 보존합니다. 강조본은 imagegen 내장 이미지 편집으로 제작했습니다. 원본은 강조본 재작업용으로만 보존하며 runbook에서는 링크하지 않습니다. 일부 Owner·Workspace 경로에 교육 계정 이메일이 표시됩니다. 외부 공개 배포 시 공개 범위를 확인합니다. 실행 전 설정 화면과 실행 후 성공 화면을 구분합니다.
 
 | 절 | 캡처할 화면 | 강조할 위치·확인할 값 | 상태 |
 |---|---|---|---|
@@ -13,9 +13,9 @@
 | 2 | Clone된 폴더 | main 브랜치, docs·notebooks·sample_data | 캡처 완료 · main 확인 |
 | 2-3 | GitHub 저장소의 Code 메뉴 | Code 버튼, Download ZIP | 캡처 완료 · 강조본 반영 |
 | 3 | `00_setup.sql` 노트북 | Warehouse 선택, Run all, 성공 결과 | 캡처 완료 · 실행 완료 |
-| 3 | Catalog 트리 | cafe_training → 두 Schema → raw Volume | 캡처 완료 · 객체 생성 확인 |
-| 4 | Volume 업로드 | 대상 경로와 파일 선택 | 캡처 완료 |
-| 4 | 업로드 완료 목록 | 루트 CSV 2개, orders 3개, support 1개 | 캡처 완료 · 6 files uploaded 확인 |
+| 3 | 노트북 왼쪽 Catalog 트리 | cafe_training → 두 Schema → raw Volume | 노트북 화면으로 교체 완료 · 객체 생성 확인 |
+| 4 | 노트북 왼쪽 Volume 메뉴의 디렉터리 생성·업로드 | orders 생성, 대상 경로와 파일 선택, Create·Upload | 노트북 화면으로 교체 완료 · 라이트 모드·빨간 테두리 적용 |
+| 4 | 노트북 왼쪽 업로드 완료 트리 | 루트 CSV 2개, orders 3개, support 1개 | 교체 완료 · 실제 CSV 6개 업로드 및 트리 확인 |
 | 5 | Pipeline 생성·소스 선택 | 이름, SQL 소스, Catalog, Schema, Serverless | 캡처 완료 · 저장 완료 |
 | 5 | Pipeline 실행 결과 | Bronze → Silver → Gold 노드 성공 | 캡처 완료 · Completed, 7개 노드 확인 |
 | 6 | Job의 Pipeline task | 이름, Pipeline 선택, Full refresh Off | 캡처 완료 · 저장 완료 |
@@ -61,4 +61,6 @@
 
 추가 강조본은 `image_gen.imagegen`으로 제작했습니다. 공통 편집 지시는 원래 UI·텍스트·선택 상태를 유지하고 지정 대상에만 얇은 빨간 테두리를 추가하는 것입니다. 클릭 위치를 오해할 수 있는 체크표시는 추가하지 않았고, Full refresh 체크박스는 비워 둔 상태를 확인했습니다. 추가 강조본의 정확한 프롬프트와 출력 파일명은 [annotation-prompts.json](images/runbook/annotation-prompts.json)에 보관합니다.
 
-2026-09-28에는 GitHub 저장소의 **Code → Download ZIP** 화면을 추가했습니다. 화면 4-1로 삽입해 기존 화면 번호는 유지했고, 두 클릭 위치에 빨간 테두리를 넣어 본문 표시 폭을 720px로 맞췄습니다. 현재 본문은 **강조본 17장, 원본 14장**을 사용합니다.
+2026-09-28에는 GitHub 저장소의 **Code → Download ZIP** 화면을 추가했습니다. 화면 4-1로 삽입해 기존 화면 번호는 유지했고, 두 클릭 위치에 빨간 테두리를 넣어 본문 표시 폭을 720px로 맞췄습니다. 이 추가 시점의 본문은 **강조본 17장, 원본 14장**이었습니다.
+
+같은 날 화면 7~12의 6장을 `00_setup` 노트북의 왼쪽 Catalog 패널에서 직접 조작한 화면으로 교체했습니다. `raw`의 더보기 메뉴에서 디렉터리를 만들고, 각 대상의 **Upload to volume**으로 CSV를 실제 업로드했습니다. 여섯 장 모두 라이트 모드·빨간 사각 테두리·720px 표시 폭을 적용했으며, 최종 트리에서 파일 6개를 확인했습니다. 현재 본문은 **강조본 20장, 원본 11장**을 사용합니다.

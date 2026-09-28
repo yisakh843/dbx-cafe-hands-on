@@ -111,7 +111,7 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 ### 3-3. 생성 객체 확인
 
-Setup 노트북은 Schema 두 개(`cafe_landing`, `cafe_hands_on`)와 Volume `cafe_training.cafe_landing.raw`를 만듭니다. Catalog Explorer에서 다음 구조를 확인합니다.
+Setup 노트북은 Schema 두 개(`cafe_landing`, `cafe_hands_on`)와 Volume `cafe_training.cafe_landing.raw`를 만듭니다. `00_setup` 노트북을 열어 둔 상태에서 왼쪽 **Catalog** 탭을 눌러 다음 구조를 확인합니다.
 
 ```text
 cafe_training
@@ -121,13 +121,13 @@ cafe_training
 └── cafe_hands_on
 ```
 
-왼쪽에서 **cafe\_training → cafe\_landing → Volumes → raw**를 엽니다. 아직 파일을 올리기 전이라 목록은 비어 있습니다.
+왼쪽 Catalog 패널에서 **cafe\_training → cafe\_landing → Volumes → raw**를 각 이름 앞의 화살표로 펼칩니다. 아직 파일을 올리기 전이라 `raw` 아래에는 **No data**가 표시됩니다. 오른쪽에는 노트북 편집 화면이 그대로 보입니다.
 
-<a href="../images/runbook/06-volume.jpg"><img src="../images/runbook/06-volume.jpg" alt="Catalog Explorer에서 raw Volume 확인" width="720">
+<a href="../images/runbook/06-volume-notebook-annotated.png"><img src="../images/runbook/06-volume-notebook-annotated.png" alt="노트북 왼쪽 Catalog 패널에서 raw Volume 펼치기" width="720">
 
 </a>
 
-<sub>*화면 7 · raw Volume 위치*</sub>
+<sub>*화면 7 · 노트북 왼쪽 **Catalog** 패널의 **raw** Volume*</sub>
 
 ---
 
@@ -135,23 +135,25 @@ cafe_training
 
 ## 4. CSV를 Volume에 업로드
 
-**이동:** `Catalog → cafe_training → cafe_landing → Volumes → raw`
+**이동:** `00_setup 노트북 → 왼쪽 Catalog 탭 → cafe_training → cafe_landing → Volumes → raw`
+
+4절에서도 노트북 편집 화면을 유지합니다. 왼쪽 트리에서 대상 행의 **⋮(더보기)** 메뉴를 열거나 행을 **마우스 오른쪽 버튼으로 클릭**해 디렉터리 생성·업로드 메뉴를 사용합니다.
 
 ### 4-1. 업로드할 디렉터리 만들기
 
-`raw` Volume의 **Create directory**로 `orders`를 만듭니다. 파일 목록 위 경로에서 `raw`로 돌아온 뒤, 같은 방법으로 `support`를 만듭니다.
+왼쪽 `raw` 행의 **⋮ → Create directory**를 선택하고 `orders`를 입력한 뒤 **Create**를 누릅니다. 다시 `raw` 행의 같은 메뉴에서 `support`를 만듭니다.
 
-<a href="../images/runbook/08-create-directory.jpg"><img src="../images/runbook/08-create-directory.jpg" alt="Volume 디렉터리 생성" width="720">
+<a href="../images/runbook/08-create-directory-notebook-annotated.png"><img src="../images/runbook/08-create-directory-notebook-annotated.png" alt="노트북 왼쪽 raw 메뉴에서 orders 디렉터리 생성" width="720">
 
 </a>
 
-<sub>*화면 8 · 디렉터리 생성*</sub>
+<sub>*화면 8 · **orders** 입력 후 **Create**로 디렉터리 생성*</sub>
 
 **완료 확인:** `orders`와 `support`가 모두 `raw` 바로 아래에 있습니다.
 
 ### 4-2. 매장·상품 파일 업로드
 
-`raw`에서 **Upload to this volume → browse → Select files**를 선택합니다. 아래 두 파일을 고르고 **Destination volume**을 확인한 뒤 **Upload**를 누릅니다.
+왼쪽 `raw` 행의 **⋮ → Upload to volume → browse → Select files**를 선택합니다. 아래 두 파일을 고르고 **Destination volume**을 확인한 뒤 **Upload**를 누릅니다.
 
 
 | 항목     | 값                            |
@@ -166,17 +168,17 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw
 ```
 
-<a href="../images/runbook/07-upload-root-annotated.png"><img src="../images/runbook/07-upload-root-annotated.png" alt="매장·상품 CSV 업로드 대상 확인" width="720">
+<a href="../images/runbook/07-upload-root-notebook-annotated.png"><img src="../images/runbook/07-upload-root-notebook-annotated.png" alt="노트북에서 raw를 대상으로 매장·상품 CSV 업로드" width="720">
 
 </a>
 
-<sub>*화면 9 · 매장·상품 업로드*</sub>
+<sub>*화면 9 · 목적지 **raw** 확인 후 **Upload**로 매장·상품 업로드*</sub>
 
-**완료 확인:** `raw`에 `stores.csv`, `products.csv`가 보입니다.
+**완료 확인:** 왼쪽 `raw` 아래에 `stores.csv`, `products.csv`가 보입니다. 목록이 갱신되지 않으면 Catalog 패널 상단의 **Refresh catalog**를 누릅니다. 업로드 요약 창이 다음 작업을 가리면 닫습니다.
 
 ### 4-3. 주문 배치 세 개 업로드
 
-`orders` 디렉터리를 열고 같은 방법으로 아래 세 파일을 업로드합니다. 목적지 끝이 **orders**인지 확인합니다.
+왼쪽 `orders` 행의 **⋮ → Upload to volume**에서 같은 방법으로 아래 세 파일을 업로드합니다. 목적지 끝이 **orders**인지 확인합니다.
 
 
 | 항목     | 값                                                                      |
@@ -191,17 +193,17 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw/orders
 ```
 
-<a href="../images/runbook/09-upload-orders-annotated.png"><img src="../images/runbook/09-upload-orders-annotated.png" alt="orders 디렉터리에 주문 배치 세 개 업로드" width="720">
+<a href="../images/runbook/09-upload-orders-notebook-annotated.png"><img src="../images/runbook/09-upload-orders-notebook-annotated.png" alt="노트북에서 orders 디렉터리에 주문 배치 세 개 업로드" width="720">
 
 </a>
 
-<sub>*화면 10 · 주문 배치 업로드*</sub>
+<sub>*화면 10 · 목적지 **orders** 확인 후 **Upload**로 주문 배치 업로드*</sub>
 
 **완료 확인:** `orders` 안에 주문 배치 CSV 세 개가 보입니다.
 
 ### 4-4. 용어집 업로드
 
-`raw`로 돌아온 뒤 `support` 디렉터리를 엽니다. `sample_data/support/glossary.csv`를 선택하고 목적지 끝이 **support**인지 확인한 뒤 업로드합니다.
+왼쪽 `support` 행의 **⋮ → Upload to volume**을 선택합니다. `sample_data/support/glossary.csv`를 고르고 목적지 끝이 **support**인지 확인한 뒤 **Upload**를 누릅니다.
 
 **업로드 목적지:**
 
@@ -209,23 +211,23 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw/support
 ```
 
-<a href="../images/runbook/10-upload-glossary-annotated.png"><img src="../images/runbook/10-upload-glossary-annotated.png" alt="support 디렉터리에 glossary 업로드" width="720">
+<a href="../images/runbook/10-upload-glossary-notebook-annotated.png"><img src="../images/runbook/10-upload-glossary-notebook-annotated.png" alt="노트북에서 support 디렉터리에 glossary 업로드" width="720">
 
 </a>
 
-<sub>*화면 11 · 용어집 업로드*</sub>
+<sub>*화면 11 · 목적지 **support** 확인 후 **Upload**로 용어집 업로드*</sub>
 
 **완료 확인:** `support` 안에 `glossary.csv`가 보입니다.
 
 ### 4-5. 최종 파일 구조 확인
 
-`raw`로 돌아가 아래 구조와 비교합니다. 업로드 요약이 표시되어 있다면 **6 files uploaded**도 확인합니다.
+왼쪽 Catalog 패널 상단의 **Refresh catalog**를 누르고 `raw` 아래의 `orders`와 `support`를 펼쳐 아래 구조와 비교합니다. 루트에 CSV 두 개, `orders`에 세 개, `support`에 한 개가 보여야 합니다.
 
-<a href="../images/runbook/11-volume-ready.jpg"><img src="../images/runbook/11-volume-ready.jpg" alt="Volume 업로드 완료 목록" width="720">
+<a href="../images/runbook/11-volume-ready-notebook-annotated.png"><img src="../images/runbook/11-volume-ready-notebook-annotated.png" alt="노트북 왼쪽 Catalog 트리에서 업로드된 CSV 여섯 개 확인" width="720">
 
 </a>
 
-<sub>*화면 12 · Volume 업로드 완료*</sub>
+<sub>*화면 12 · 노트북 왼쪽 **raw** 트리에서 CSV 여섯 개 확인*</sub>
 
 ```text
 raw/
