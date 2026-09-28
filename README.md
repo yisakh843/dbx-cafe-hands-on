@@ -1,5 +1,7 @@
 # Databricks Cafe End-to-End Hands-on
 
+👉 **[실습 시작하기](https://yisakh843.github.io/dbx-cafe-hands-on/#intro)**
+
 개인 Databricks Workspace에서 Git folder로 실행하는 카페 데이터 실습입니다.
 
 3개 매장을 운영하는 카페의 2주치 주문 CSV에는 중복·잘못된 값·취소 주문이 섞여 있습니다. 이 원천 데이터를 Lakeflow Pipeline으로 정리하고, Metric View로 매출 계산 기준을 정한 뒤, 자연어 질문에 같은 기준으로 답하는 Genie Agent를 만들고 정확도를 측정합니다. 심화 과정에서는 용어집(AI Search)과 Supervisor App, MLflow 평가까지 연결합니다.
