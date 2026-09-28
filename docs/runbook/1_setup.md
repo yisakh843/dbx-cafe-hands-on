@@ -69,6 +69,12 @@
 
 Volume에 올릴 파일은 내 PC에서 선택해야 하므로, [GitHub 저장소 화면](https://github.com/yisakh843/dbx-cafe-hands-on)에서 `Code > Download ZIP`을 선택해 저장소 파일을 받은 뒤 압축을 해제합니다.
 
+<a href="../images/runbook/03a-github-download-zip-annotated.png"><img src="../images/runbook/03a-github-download-zip-annotated.png" alt="GitHub 저장소의 Code 메뉴에서 Download ZIP 선택" width="720">
+
+</a>
+
+<sub>*화면 4-1 · **Code → Download ZIP**으로 저장소 내려받기*</sub>
+
 ---
 
 <a id="step-3"></a>

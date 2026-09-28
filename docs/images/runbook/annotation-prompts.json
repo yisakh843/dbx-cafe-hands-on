@@ -1,8 +1,15 @@
 {
   "tool": "image_gen.imagegen",
-  "review_date": "2026-09-22",
-  "note": "추가 강조본 10장의 편집 프롬프트. 기존 강조본 6장은 별도로 제작됨.",
+  "review_date": "2026-09-28",
+  "note": "2026-09-22 추가 강조본 10장과 2026-09-28 GitHub ZIP 다운로드 강조본 1장의 편집 프롬프트. 기존 강조본 6장은 별도로 제작됨.",
   "edits": [
+    {
+      "name": "03a-github-download-zip",
+      "capture_date": "2026-09-28",
+      "prompt": "Use case: precise-object-edit. Edit target: this actual GitHub screenshot for a beginner training runbook. Preserve the complete screenshot, framing, original UI, text, Korean, filenames, repository name yisakh843/dbx-cafe-hands-on, layout and open menu state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px at source resolution, transparent interior, small padding) around the green Code button near x464 y232 width103 height32, and the Download ZIP menu item near x200 y492 width355 height32 in the 832x853 source. Exactly two outlines. No arrows, checkmarks, numbering or added words. Keep all underlying pixels and text as faithful as possible. Preserve the original aspect ratio.",
+      "source": "03a-github-download-zip.png",
+      "output": "03a-github-download-zip-annotated.png"
+    },
     {
       "name": "01-create-menu",
       "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline the top-right Create button, and the Git folder menu item in its open menu. Exactly two outlines.",
