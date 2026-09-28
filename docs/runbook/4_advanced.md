@@ -1,6 +1,8 @@
-# 4. 심화 실습 · 13~16절
+# 4부 · 심화 실습
 
-[← 3. Metric View와 Genie](3_metric_genie.md) · [목차](README.md) · [강사용 배포 →](5_instructor.md)
+> 이 부에서 진행하는 절: **13~16절**
+
+[← 3부 Metric View와 Genie](3_metric_genie.md) · [목차](README.md) · [강사용 배포 →](5_instructor.md)
 
 <a id="step-13"></a>
 
@@ -146,6 +148,8 @@ display(results)
 - Hybrid 검색 결과 Top 3 확인
 - 아메·피크타임·라떼·손님수 검색 규칙 확인
 
+---
+
 <a id="step-14"></a>
 
 ## 14. Databricks Apps 구성
@@ -162,7 +166,7 @@ Playground에 아래처럼 **Choose an option to get started**와 모델 배포 
 
 </a>
 
-화면 30. Playground 사전 준비 화면
+<sub>*화면 30 · Playground 사전 준비 화면*</sub>
 
 1. 왼쪽 **AI/ML &gt; Playground**를 엽니다.
 2. 강사가 지정한 모델 중 `Tools enabled` 모델을 선택합니다.
@@ -258,6 +262,8 @@ App에서 다음 질문을 하나씩 입력해 봅니다.
 
 
 질문마다 답변과 도구 호출 순서가 위와 같은지 확인합니다.
+
+---
 
 <a id="step-15"></a>
 
@@ -392,6 +398,8 @@ print(safety_monitor)
 - Evaluation 결과 확인
 - MLflow UI에서 Trace와 Evaluation 확인
 - Production Monitoring은 Preview일 때만 선택 실행
+
+---
 
 <a id="step-16"></a>
 
@@ -534,4 +542,4 @@ ToolCallCorrectness 결과:
 
 ---
 
-[← 3. Metric View와 Genie](3_metric_genie.md) · [목차](README.md) · [강사용 배포 →](5_instructor.md)
+[← 3부 Metric View와 Genie](3_metric_genie.md) · [목차](README.md) · [강사용 배포 →](5_instructor.md)

@@ -1,6 +1,8 @@
-# 3. Metric View와 Genie · 7~12절
+# 3부 · Metric View와 Genie
 
-[← 2. 데이터 파이프라인](2_pipeline.md) · [목차](README.md) · [4. 심화 실습 →](4_advanced.md)
+> 이 부에서 진행하는 절: **7~12절**
+
+[← 2부 데이터 파이프라인](2_pipeline.md) · [목차](README.md) · [4부 심화 실습 →](4_advanced.md)
 
 <a id="step-7"></a>
 
@@ -22,7 +24,7 @@
 
 </a>
 
-화면 23. Metric View 기준선 실행
+<sub>*화면 23 · Metric View 기준선 실행*</sub>
 
 **완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**이면 됩니다. CREATE 문 뒤에 나오는 `No rows returned`는 오류가 아니니 걱정하지 않으셔도 됩니다.
 
@@ -30,7 +32,9 @@
 
 </a>
 
-화면 24. 기준선 지표 조회 결과
+<sub>*화면 24 · 기준선 지표 조회 결과*</sub>
+
+---
 
 <a id="step-8"></a>
 
@@ -42,7 +46,7 @@
 
 </a>
 
-화면 25. Metric View 최적화 실행
+<sub>*화면 25 · Metric View 최적화 실행*</sub>
 
 이 단계에서 추가되는 정보는 다음과 같습니다.
 
@@ -68,6 +72,8 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 예상값은 `net_sales=1,734,580`, `order_count=266`, `avg_order_value=약 6,520.98`입니다.
 
+---
+
 <a id="step-9"></a>
 
 ## 9. Genie Agent 생성
@@ -80,7 +86,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 </a>
 
-화면 26. Genie 연결 자산 선택
+<sub>*화면 26 · Genie 연결 자산 선택*</sub>
 
 만들고 나면 이름이 자동으로 붙어 있으니 **Configure → About → About this agent의 연필 아이콘**에서 **Name = Cafe Sales Genie Agent**, **Default warehouse = Serverless Starter Warehouse**(실습에 사용한 Warehouse)로 지정하고 **Save**를 누릅니다. Owner와 Agent ID는 자동으로 채워집니다.
 
@@ -88,7 +94,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 </a>
 
-화면 27. Genie 이름과 Warehouse
+<sub>*화면 27 · Genie 이름과 Warehouse*</sub>
 
 이어서 **Configure → Instructions**(구버전: `Configure > Context > Instructions`)에 [genie\_instructions.md](../../resources/genie_instructions.md)의 전체 내용(아래 펼치기에도 있음)을 붙여 넣고 **Save**를 누릅니다. 다른 탭에 다녀와도 내용이 남아 있으면 제대로 저장된 것입니다.
 
@@ -96,7 +102,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 </a>
 
-화면 28. Genie 지침 입력
+<sub>*화면 28 · Genie 지침 입력*</sub>
 
 <details class="orca-details">
 <summary>복사용 Genie 지침 전문 펼치기</summary>
@@ -137,6 +143,8 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 </details>
 
+---
+
 <a id="step-10"></a>
 
 ## 10. Genie Example Query 등록
@@ -147,7 +155,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 </a>
 
-화면 29. 예제 등록 메뉴
+<sub>*화면 29 · 예제 등록 메뉴*</sub>
 
 Add를 누르면 여러 항목이 나오는데(이름은 버전에 따라 다를 수 있습니다), 이번 실습에서는 **Example Query**만 사용합니다.
 
@@ -258,6 +266,8 @@ ORDER BY avg_order_value DESC;
 | 손님    | 고객 데이터가 없음을 설명하고 주문수 또는 판매수량을 질문 |
 
 
+---
+
 <a id="step-11"></a>
 
 ## 11. Genie Benchmark 등록 및 실행
@@ -358,6 +368,8 @@ Bad 또는 Manual Review 문항:
 
 사용자 피드백이 쌓인다고 Instruction이 저절로 바뀌지는 않습니다. 같은 문제가 반복되는 질문을 찾았다면 12절의 방법으로 직접 수정합니다.
 
+---
+
 <a id="step-12"></a>
 
 ## 12. Genie 품질 최적화 일반 가이드
@@ -457,8 +469,8 @@ Bad 또는 Manual Review 문항:
 - [ ] Evaluations에서 Accuracy 확인
 - [ ] Monitor에서 질문·응답·생성 SQL 확인
 
-> **기초 과정 끝:** 3시간 과정은 여기까지입니다. 수고하셨습니다. 13~16절 심화 실습은 강사가 안내한 경우에만 [4. 심화 실습](4_advanced.md)에서 이어서 진행합니다.
+> **기초 과정 끝:** 3시간 과정은 여기까지입니다. 수고하셨습니다. 13~16절 심화 실습은 강사가 안내한 경우에만 [4부 심화 실습](4_advanced.md)에서 이어서 진행합니다.
 
 ---
 
-[← 2. 데이터 파이프라인](2_pipeline.md) · [목차](README.md) · [4. 심화 실습 →](4_advanced.md)
+[← 2부 데이터 파이프라인](2_pipeline.md) · [목차](README.md) · [4부 심화 실습 →](4_advanced.md)

@@ -1,6 +1,8 @@
-# 2. 데이터 파이프라인 · 5~6절
+# 2부 · 데이터 파이프라인
 
-[← 1. 환경 준비](1_setup.md) · [목차](README.md) · [3. Metric View와 Genie →](3_metric_genie.md)
+> 이 부에서 진행하는 절: **5~6절**
+
+[← 1부 환경 준비](1_setup.md) · [목차](README.md) · [3부 Metric View와 Genie →](3_metric_genie.md)
 
 <a id="step-5"></a>
 
@@ -16,7 +18,7 @@
 
 </a>
 
-화면 13. ETL pipeline 진입 메뉴
+<sub>*화면 13 · ETL pipeline 진입 메뉴*</sub>
 
 `ETL pipeline`을 누르면 기본 Pipeline과 빈 소스 파일이 자동으로 만들어집니다. 상단 Pipeline 이름을 `cafe_medallion_pipeline`으로 바꾸고 Enter를 누른 뒤 **Settings**를 엽니다.
 
@@ -26,7 +28,7 @@ Settings에서 **Code assets**와 **Default location for data assets**를 확인
 
 </a>
 
-화면 14. Pipeline 설정
+<sub>*화면 14 · Pipeline 설정*</sub>
 
 Pipeline 설정:
 
@@ -55,7 +57,7 @@ Source가 폴더 단위로 표시되면 다음 폴더에서 `01_cafe_medallion_p
 
 </a>
 
-화면 15. Pipeline 소스 선택
+<sub>*화면 15 · Pipeline 소스 선택*</sub>
 
 Source code의 **Path**, Destination의 **cafe\_training / cafe\_hands\_on**을 확인하고 **Save**합니다. Free Edition은 Default Storage를 사용하기 때문에 Channel이 **Preview**로 표시되는 것이 정상입니다. Product edition 선택란이 보이지 않으면 그대로 두셔도 됩니다.
 
@@ -63,7 +65,7 @@ Source code의 **Path**, Destination의 **cafe\_training / cafe\_hands\_on**을 
 
 </a>
 
-화면 16. 소스 경로와 출력 위치
+<sub>*화면 16 · 소스 경로와 출력 위치*</sub>
 
 저장했으면 **Run pipeline**을 클릭합니다.
 
@@ -79,9 +81,11 @@ Source code의 **Path**, Destination의 **cafe\_training / cafe\_hands\_on**을 
 
 </a>
 
-화면 17. Pipeline 실행 결과
+<sub>*화면 17 · Pipeline 실행 결과*</sub>
 
 Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 만들어진 테이블을 볼 수 있습니다.
+
+---
 
 <a id="step-6"></a>
 
@@ -108,7 +112,7 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 만들어진 테이�
 
 </a>
 
-화면 18. Pipeline 실행 Task
+<sub>*화면 18 · Pipeline 실행 Task*</sub>
 
 ### 6-2. Pipeline 검증 Task
 
@@ -146,7 +150,7 @@ Git provider Source인 경우:
 
 </a>
 
-화면 19. 검증 SQL 파일 선택
+<sub>*화면 19 · 검증 SQL 파일 선택*</sub>
 
 **SQL warehouse**, **Depends on = run\_medallion\_pipeline**, **Run if dependencies = All succeeded**를 확인한 뒤 **Create task**를 누릅니다.
 
@@ -154,7 +158,7 @@ Git provider Source인 경우:
 
 </a>
 
-화면 20. 검증 Task 설정
+<sub>*화면 20 · 검증 Task 설정*</sub>
 
 완성된 Job DAG는 다음과 같습니다.
 
@@ -182,7 +186,7 @@ run_medallion_pipeline
 
 </a>
 
-화면 21. Job 실행 결과
+<sub>*화면 21 · Job 실행 결과*</sub>
 
 촬영 환경에서는 Pipeline Task 41초, 검증 Task 23초가 걸렸습니다. 소요 시간은 환경에 따라 달라집니다.
 
@@ -190,8 +194,8 @@ run_medallion_pipeline
 
 </a>
 
-화면 22. 행 수 검증 결과
+<sub>*화면 22 · 행 수 검증 결과*</sub>
 
 ---
 
-[← 1. 환경 준비](1_setup.md) · [목차](README.md) · [3. Metric View와 Genie →](3_metric_genie.md)
+[← 1부 환경 준비](1_setup.md) · [목차](README.md) · [3부 Metric View와 Genie →](3_metric_genie.md)

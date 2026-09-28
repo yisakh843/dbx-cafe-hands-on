@@ -1,6 +1,8 @@
-# 1. 환경 준비 · 2~4절
+# 1부 · 환경 준비
 
-[← 시작하기](README.md) · [목차](README.md) · [2. 데이터 파이프라인 →](2_pipeline.md)
+> 이 부에서 진행하는 절: **2~4절**
+
+[← 시작하기](README.md) · [목차](README.md) · [2부 데이터 파이프라인 →](2_pipeline.md)
 
 <a id="step-2"></a>
 
@@ -14,7 +16,7 @@
 
 </a>
 
-화면 2. Git folder 생성 메뉴
+<sub>*화면 2 · Git folder 생성 메뉴*</sub>
 
 입력값:
 
@@ -32,7 +34,7 @@
 
 </a>
 
-화면 3. 저장소 연결 정보
+<sub>*화면 3 · 저장소 연결 정보*</sub>
 
 폴더는 다음 위치에 만들어집니다.
 
@@ -53,9 +55,9 @@
 
 </a>
 
-화면 4. Clone 완료와 main 브랜치
+<sub>*화면 4 · Clone 완료와 main 브랜치*</sub>
 
-### 2-2. 함께 열어 둘 문서
+### 2-2. (참고) 문서
 
 실습에 필요한 이름, 경로, 입력값, 검증값은 모두 이 가이드(`docs/runbook/`)에 있으니 실습하는 동안 계속 열어 둡니다. 배경이 궁금하면 다음 문서를 참고하시면 됩니다.
 
@@ -69,62 +71,9 @@ Volume에 올릴 파일은 내 PC에서 선택해야 하므로, 다음 방법 �
 
 방법 A: GitHub 저장소 화면에서 `Code > Download ZIP`을 선택한 뒤 압축을 해제합니다.
 
-방법 B: GitHub 저장소를 로컬 PC에 clone합니다.
 
-```powershell
-git clone https://github.com/yisakh843/dbx-cafe-hands-on.git
-```
 
-문서와 노트북은 Workspace의 Git folder에서 바로 열면 됩니다. PC에 받은 파일은 Volume 업로드와 Excel·CSV 참고 파일을 볼 때만 사용합니다.
-
-### 2-4. Volume에 업로드할 파일 확인
-
-4절에서 다음 6개 파일을 Volume에 업로드합니다.
-
-- `sample_data/raw/stores.csv`
-- `sample_data/raw/products.csv`
-- `sample_data/raw/orders/orders_batch_001.csv`
-- `sample_data/raw/orders/orders_batch_002.csv`
-- `sample_data/raw/orders/orders_batch_003.csv`
-- `sample_data/support/glossary.csv`
-
-### 2-5. 실습 중 열어볼 참고 파일
-
-<details class="orca-details">
-<summary>전체 참고 파일 목록 펼치기</summary>
-
-| 시점          | 열어볼 파일                                          | 용도                       |
-| ----------- | ----------------------------------------------- | ------------------------ |
-| 시작          | `docs/runbook/README.md`                        | 전체 실행 절차                 |
-| 시작          | `docs/00_start_here.md`                         | Catalog·Schema·Volume 준비 |
-| 시작          | `README.md`                                     | 저장소 구조와 실행 순서            |
-| Pipeline    | `notebooks/01_cafe_medallion_pipeline.sql`      | Bronze·Silver·Gold 소스 확인 |
-| Pipeline 검증 | `notebooks/04_pipeline_validate.sql`            | Job 검증 SQL 확인            |
-| 기대값 확인      | `sample_data/support/expected_results.csv`      | 행 수와 지표 기대값 확인           |
-| 데이터 설명      | `sample_data/support/data_dictionary.csv`       | 컬럼과 업무 의미 확인             |
-| Metric View | `notebooks/02_metric_view_baseline.sql`         | 기준선 정의 확인                |
-| Metric View | `notebooks/03_metric_view_optimized.sql`        | 설명·동의어·포맷 확인             |
-| Genie 지침    | `resources/genie_instructions.md`               | 일반 지침 입력                 |
-| Genie 질문    | `resources/genie_questions.md`                  | 기본·분석·다의어 질문             |
-| Genie 예제    | `sample_data/support/genie_example_queries.csv` | Example Query 입력 SQL     |
-| Genie 평가    | `sample_data/support/genie_benchmarks.csv`      | Benchmark 질문과 정답         |
-| AI Search   | `sample_data/support/glossary.csv`              | 용어집 원본                   |
-| Agent 평가    | `sample_data/support/agent_evaluation.csv`      | Agent 평가 질문              |
-| Apps        | `resources/supervisor_prompt.md`                | Supervisor 지침            |
-| Apps        | `resources/app.yaml.example`                    | App 설정 예시                |
-| Apps        | `resources/app_resource_binding.example.yml`    | App 리소스 연결 예시            |
-| MLflow      | `notebooks/06_mlflow_monitoring.py`             | Trace·평가 확인              |
-
-</details>
-
-### 2-6. Excel 파일 사용
-
-다음 Excel 파일은 참고용이라 Volume에 올리지 않습니다.
-
-- `cafe_hands_on_assets.xlsx`
-- `cafe_sample_data_review.xlsx`
-
-샘플 데이터, 데이터 사전, 기대 결과, Genie 질문·Benchmark 구성을 한눈에 볼 수 있습니다. 실행 결과가 예상과 다를 때 `expected_results.csv`와 함께 비교해 봅니다.
+---
 
 <a id="step-3"></a>
 
@@ -146,7 +95,7 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 </a>
 
-화면 5. SQL Warehouse 연결
+<sub>*화면 5 · SQL Warehouse 연결*</sub>
 
 ### 3-2. Setup 실행
 
@@ -156,7 +105,7 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 </a>
 
-화면 6. Setup 노트북 전체 실행
+<sub>*화면 6 · Setup 노트북 전체 실행*</sub>
 
 ### 3-3. 생성 객체 확인
 
@@ -176,7 +125,9 @@ cafe_training
 
 </a>
 
-화면 7. raw Volume 위치
+<sub>*화면 7 · raw Volume 위치*</sub>
+
+---
 
 <a id="step-4"></a>
 
@@ -192,7 +143,7 @@ cafe_training
 
 </a>
 
-화면 8. 디렉터리 생성
+<sub>*화면 8 · 디렉터리 생성*</sub>
 
 **완료 확인:** `orders`와 `support`가 모두 `raw` 바로 아래에 있습니다.
 
@@ -217,7 +168,7 @@ cafe_training
 
 </a>
 
-화면 9. 매장·상품 업로드
+<sub>*화면 9 · 매장·상품 업로드*</sub>
 
 **완료 확인:** `raw`에 `stores.csv`, `products.csv`가 보입니다.
 
@@ -242,7 +193,7 @@ cafe_training
 
 </a>
 
-화면 10. 주문 배치 업로드
+<sub>*화면 10 · 주문 배치 업로드*</sub>
 
 **완료 확인:** `orders` 안에 주문 배치 CSV 세 개가 보입니다.
 
@@ -260,7 +211,7 @@ cafe_training
 
 </a>
 
-화면 11. 용어집 업로드
+<sub>*화면 11 · 용어집 업로드*</sub>
 
 **완료 확인:** `support` 안에 `glossary.csv`가 보입니다.
 
@@ -272,7 +223,7 @@ cafe_training
 
 </a>
 
-화면 12. Volume 업로드 완료
+<sub>*화면 12 · Volume 업로드 완료*</sub>
 
 ```text
 raw/
@@ -290,4 +241,4 @@ raw/
 
 ---
 
-[← 시작하기](README.md) · [목차](README.md) · [2. 데이터 파이프라인 →](2_pipeline.md)
+[← 시작하기](README.md) · [목차](README.md) · [2부 데이터 파이프라인 →](2_pipeline.md)

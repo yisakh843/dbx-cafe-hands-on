@@ -1,6 +1,6 @@
-# 강사용 배포
+# 강사용 · GitHub 반영 및 배포
 
-[← 4. 심화 실습](4_advanced.md) · [목차](README.md)
+[← 4부 심화 실습](4_advanced.md) · [목차](README.md)
 
 <a id="step-17"></a>
 
@@ -29,4 +29,4 @@ GitHub 반영 후 Databricks Git folder에서 다음을 선택합니다.
 
 ---
 
-[← 4. 심화 실습](4_advanced.md) · [목차](README.md)
+[← 4부 심화 실습](4_advanced.md) · [목차](README.md)
