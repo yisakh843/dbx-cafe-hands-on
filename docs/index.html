@@ -1349,7 +1349,8 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
 <div class="pane" data-pane="bench">
 <section class="step">
   <div class="head"><span class="num">11<small>·12</small></span><h2>답이 맞는지 재고 고치기</h2><span class="dots"></span></div>
-  <p>채팅에서 몇 번 맞았다고 믿을 수는 없습니다. <strong>Benchmark</strong>는 테스트 질문을 모아 두고 몇 개를 맞히는지 반복해서 재는 기능입니다. 모드는 실행할 때 고릅니다. <strong>Chat 모드</strong>는 정답 SQL의 결과와 Genie의 결과를 비교하고, <strong>Agent 모드</strong>는 Evaluation note에 적은 기준으로 채점합니다.</p>
+  <p>채팅으로 몇 번 물어본 것만으로는 정확하다고 말하기 어렵습니다. <strong>Benchmark</strong>는 테스트 질문을 모아 두고 몇 개를 맞히는지 반복해서 재는 기능입니다.</p>
+  <p>채점 방식은 <strong>Chat 모드</strong>와 <strong>Agent 모드</strong> 두 가지가 있고, 실행할 때 고릅니다. Chat 모드는 정답 SQL의 결과와 Genie의 결과를 비교하고, Agent 모드는 Evaluation note에 적은 기준으로 채점합니다.</p>
 
   <h3><span class="sn">11-1</span>Benchmark 입력 파일</h3>
   <p>질문과 정답은 <code class="k" data-c>sample_data/support/genie_benchmarks.csv</code>에 있습니다. 열은 <code class="k">benchmark_id</code> <code class="k">mode</code> <code class="k">category</code> <code class="k">question</code> <code class="k">sql_answer</code> <code class="k">evaluation_note</code> <code class="k">expected_behavior</code>입니다. 아래 카드에 같은 값을 옮겨 두었으니 복사해서 쓰면 됩니다.</p>
