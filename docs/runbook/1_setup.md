@@ -87,6 +87,8 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 `notebooks/00_setup.sql`
 
+> 참고: 노트북을 열 때 **This file is part of a bundle** 안내가 보이면 닫고 진행합니다. 저장소에 Pipeline·Job을 코드로 배포하는 Bundle 설정이 함께 들어 있어서 뜨는 안내이며, 이 실습에서는 사용하지 않습니다.
+
 1. 노트북 상단 Compute 버튼이 `Serverless`이면 **Serverless → More… → SQL Warehouse**를 선택합니다.
 2. 교육용 Warehouse를 고릅니다. Free Edition의 기본 Warehouse 이름은 `Serverless Starter Warehouse`입니다.
 3. **SQL Warehouse**가 선택되어 있고 Warehouse 이름이 맞는지 확인한 뒤 **Start and attach**(이미 실행 중이면 **Attach**)를 누릅니다.
@@ -203,7 +205,7 @@ cafe_training
 
 ### 4-4. 용어집 업로드
 
-왼쪽 `support` 행의 **⋮ → Upload to volume**을 선택합니다. `sample_data/support/glossary.csv`를 고르고 목적지 끝이 **support**인지 확인한 뒤 **Upload**를 누릅니다.
+왼쪽 `support` 행의 **⋮ → Upload to volume**을 선택합니다. 내려받아 압축을 푼 폴더에서 `sample_data/support/glossary.csv`를 고르고 목적지 끝이 **support**인지 확인한 뒤 **Upload**를 누릅니다.
 
 **업로드 목적지:**
 
