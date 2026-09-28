@@ -78,7 +78,7 @@
 
 ## 1. 사전 조건
 
-참가자는 교육 전에 **본인 계정으로 Databricks Free Edition을 만들고 Workspace에 로그인**합니다. 실습 객체는 각자의 환경에 생성하므로, 모두 아래의 `cafe_training` 등 동일한 이름을 사용합니다. 로컬 폴더 이름을 Databricks Workspace 이름으로 입력할 필요는 없습니다.
+참가자는 교육 전에 **본인 계정으로 Databricks Free Edition을 만들고 Workspace에 로그인**합니다. 실습 객체는 각자의 환경에 생성하므로, 모두 0절의 고정 이름(`cafe_training` 등)을 그대로 사용합니다.
 
 본인 Workspace에서 다음 기능과 권한을 확인합니다.
 
@@ -758,12 +758,12 @@ ORDER BY avg_order_value DESC;
 
 `전체 기간 순매출은 얼마야?`
 
-**예상 결과:** `순매출 약 1,734,580원`
+**예상 결과:** 순매출 `1,734,580원`
 
 다음 질문은 바로 SQL을 실행하지 않고 되물어야 합니다.
 
 - 인기메뉴가 뭐야?
-- 라떼 매출 알려줘.
+- 라떼 매출 알려줘
 - 손님이 가장 많은 매장은 어디야?
 
 예상 동작:
@@ -792,7 +792,7 @@ Benchmark는 Genie Agent의 답변 정확도를 반복 측정하기 위한 테�
 
 다음 메뉴를 선택합니다.
 
-`Cafe Sales Genie Agent → Benchmark → Add benchmark`
+`Cafe Sales Genie Agent → Benchmarks → Add benchmark`
 
 Chat 모드 B001~B008은 다음 값을 입력합니다.
 
@@ -829,7 +829,7 @@ Agent Benchmark 입력값:
 |---|---|---|
 | B009 | 인기메뉴가 뭐야? | 매출 기준인지 판매수량 기준인지 질문해야 한다. |
 | B010 | 손님이 가장 많은 매장은 어디야? | 고객 데이터가 없음을 알리고 주문수와 판매수량 중 의미를 확인해야 한다. |
-| B011 | 라떼 매출 알려줘. | 카페라떼와 바닐라라떼 중 어느 상품인지 질문해야 한다. |
+| B011 | 라떼 매출 알려줘 | 카페라떼와 바닐라라떼 중 어느 상품인지 질문해야 한다. |
 | B012 | 최근 매출 추이를 보여줘 | 데이터 최대일 2026-07-14 기준 최근 7일을 사용하고 실제 기간을 응답에 밝혀야 한다. |
 
 ### 11-3. Benchmark 실행
@@ -1096,7 +1096,7 @@ AI Playground에서 검증한 Supervisor Agent를 Databricks Apps로 배포합�
 
 ### 14-0. 먼저 Playground에서 Supervisor 구성
 
-이 단계는 저장소의 [Supervisor 지침](../resources/supervisor_prompt.md)과 [Databricks 공식 Playground 가이드](https://docs.databricks.com/aws/en/getting-started/gen-ai-llm-agent)를 바탕으로 보완한 절차입니다.
+Export 전에 Playground에서 Supervisor가 두 도구를 올바르게 고르는지 먼저 확인합니다. 참고: [Supervisor 지침](../resources/supervisor_prompt.md) · [Databricks Playground 가이드](https://docs.databricks.com/aws/en/getting-started/gen-ai-llm-agent)
 
 Playground에 아래처럼 **Choose an option to get started**와 모델 배포 안내만 보이면 아직 사용할 모델이 없는 상태입니다. 강사가 모델 endpoint와 접근 권한을 먼저 준비해야 모델·System prompt·Tools를 입력할 수 있습니다.
 
@@ -1184,7 +1184,7 @@ env:
 
 예상 흐름:
 
-| 항목 | 값 |
+| 질문 유형 | 도구 호출 흐름 |
 |---|---|
 | 표준 질문 | Supervisor → Genie Agent |
 | 별칭 질문 | Supervisor → AI Search → Genie Agent |
@@ -1201,16 +1201,7 @@ MLflow Trace는 Supervisor의 입력·출력·모델 호출·Genie 호출·AI Se
 
 ### 15-1. Trace 생성
 
-먼저 App에서 다음 평가 질문을 실행합니다.
-
-- 매장별 순매출을 비교해줘
-- 아메 매출 알려줘
-- 라떼 매출 알려줘
-- 손님 수가 가장 많은 매장은?
-
-전체 평가 질문은 다음 파일에서 확인합니다.
-
-`sample_data/support/agent_evaluation.csv`
+14-4에서 App에 입력한 네 질문이 Trace로 기록됩니다. 아직 실행하지 않았다면 App에서 먼저 실행합니다. 전체 평가 질문은 `sample_data/support/agent_evaluation.csv`에 있습니다.
 
 ### 15-2. MLflow 노트북 실행
 
@@ -1261,7 +1252,7 @@ Trace에서 다음 항목을 확인합니다.
 
 질문별 예상 Tool 경로:
 
-| 항목 | 값 |
+| 질문 | Tool 경로 |
 |---|---|
 | 매장별 순매출 | genie |
 | 아메 매출 | ai_search → genie |
@@ -1405,7 +1396,7 @@ App에서 다음 4개 질문을 새 대화로 각각 실행합니다.
 
 MLflow Experiment에서 Q1~Q4 Trace를 확인합니다.
 
-| 항목 | 값 |
+| 질문 | 기대 Tool span |
 |---|---|
 | Q1 | Genie Tool span |
 | Q2 | AI Search Tool span → Genie Tool span |
@@ -1459,20 +1450,17 @@ ToolCallCorrectness 결과:
 
 이 절은 **강사·저장소 관리자용 배포 절차**입니다. 참가자는 GitHub에 push할 필요가 없습니다.
 
-최종 검증이 끝난 문서와 이미지 파일을 함께 GitHub에 반영합니다. 터미널 또는 PowerShell에서 로컬 저장소 `dbx-cafe-hands-on` 폴더로 이동한 뒤 아래 명령을 실행합니다. 현재 브랜치와 변경 파일을 먼저 확인하고 저장소의 리뷰·병합 절차를 따릅니다.
-
-최종 반영 명령:
+최종 검증이 끝난 문서와 이미지 파일을 함께 GitHub에 반영합니다. 로컬 저장소 `dbx-cafe-hands-on` 폴더에서 작업 브랜치로 커밋·push한 뒤, 저장소의 리뷰 절차에 따라 `main`에 병합합니다.
 
 ```powershell
-git status
-git branch --show-current
-git diff --check
-git add HANDS_ON_SESSION_DESIGN.md README.md docs notebooks/06_mlflow_monitoring.py resources/app_resource_binding.example.yml
-git commit -m "Finalize hands-on integration guide"
-git pull --rebase origin main
-git push origin main
-git status
+git status                      # 변경 파일 확인
+git diff --check                # 공백 오류 확인
+git add <변경한 파일>
+git commit -m "<변경 요약>"
+git push origin <작업 브랜치>    # 이후 PR/MR로 main에 병합
 ```
+
+참가자는 `main`을 Clone하므로, 병합 전에는 변경 내용이 참가자에게 보이지 않습니다.
 
 GitHub 반영 후 Databricks Git folder에서 다음을 선택합니다.
 
