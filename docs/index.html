@@ -1470,15 +1470,15 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <p>Benchmark에서 틀린 문항이 나왔을 때 어디를 고칠지 정하는 방법입니다.</p>
 
   <h3><span class="sn">12-1</span>기능별 역할</h3>
-  <p>Genie의 답을 바꾸는 곳은 다섯 군데입니다. 각각 넣는 내용이 다릅니다.</p>
+  <p>Genie 품질에 관여하는 구성 요소는 다섯 가지입니다. Metric View, Example Query, Instruction은 Genie가 답을 만들 때 참고하고, Benchmark와 Monitor는 그 답이 맞는지 확인할 때 씁니다.</p>
   <div class="tw min"><table>
-    <thead><tr><th>구성 요소</th><th>넣을 내용</th></tr></thead>
+    <thead><tr><th>구성 요소</th><th>쓰임</th><th>넣을 내용</th></tr></thead>
     <tbody>
-      <tr><td class="key">Metric View</td><td>필드·측정값의 의미, 표시명, 설명, 동의어, 포맷, 공통 업무 규칙</td></tr>
-      <tr><td class="key">Example Query</td><td>자주 쓰는 질문과 검증된 SQL 패턴</td></tr>
-      <tr><td class="key">Instruction</td><td>여러 질문에 공통으로 적용되는 해석·응답 원칙</td></tr>
-      <tr><td class="key">Benchmark</td><td>정확도와 회귀 테스트를 위한 질문·SQL Answer·Evaluation note</td></tr>
-      <tr><td class="key">Monitor</td><td>실제 질문, 생성 SQL, 피드백, 반복 오류</td></tr>
+      <tr><td class="key">Metric View</td><td>답을 만들 때 참고</td><td>필드·측정값의 의미, 표시명, 설명, 동의어, 포맷, 공통 업무 규칙</td></tr>
+      <tr><td class="key">Example Query</td><td>답을 만들 때 참고</td><td>자주 쓰는 질문과 검증된 SQL 패턴</td></tr>
+      <tr><td class="key">Instruction</td><td>답을 만들 때 참고</td><td>여러 질문에 공통으로 적용되는 해석·응답 원칙</td></tr>
+      <tr><td class="key">Benchmark</td><td>답을 확인</td><td>정확도와 회귀 테스트를 위한 질문·SQL Answer·Evaluation note</td></tr>
+      <tr><td class="key">Monitor</td><td>답을 확인</td><td>실제 질문, 생성 SQL, 피드백, 반복 오류</td></tr>
     </tbody>
   </table></div>
 
