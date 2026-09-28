@@ -4,23 +4,15 @@
 
 [← 시작하기](README.md) · [목차](README.md) · [2부 데이터 파이프라인 →](2_pipeline.md)
 
-<a id="step-2">
-
-</a>
-
 ## 2. GitHub 저장소를 Git folder로 받기
 
 ### 2-1. Git folder 생성
 
 **이동:** `Workspace → Home(개인 폴더) → Create → Git folder`
 
-<a href="../images/runbook/01-create-menu-annotated.png">
+[![Workspace의 Create 메뉴에서 Git folder 선택](../images/runbook/thumbnails/01-create-menu-annotated.png)](../images/runbook/01-create-menu-annotated.png)
 
-<img src="../images/runbook/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720">
-
-</a>
-
-<sub>*화면 2 · Git folder 생성 메뉴*</sub>
+*화면 2 · Git folder 생성 메뉴*
 
 입력값:
 
@@ -34,13 +26,9 @@
 
 위 값을 입력한 뒤 **Create Git folder**를 누릅니다.
 
-<a href="../images/runbook/02-create-git-folder-annotated.png">
+[![Git 저장소 URL과 폴더 이름 입력](../images/runbook/thumbnails/02-create-git-folder-annotated.png)](../images/runbook/02-create-git-folder-annotated.png)
 
-<img src="../images/runbook/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720">
-
-</a>
-
-<sub>*화면 3 · 저장소 연결 정보*</sub>
+*화면 3 · 저장소 연결 정보*
 
 폴더는 다음 위치에 만들어집니다.
 
@@ -57,13 +45,9 @@
 - `resources/`
 - `sample_data/`
 
-<a href="../images/runbook/03-git-folder-ready.jpg">
+[![Clone 완료 후 main 브랜치와 실습 폴더](../images/runbook/thumbnails/03-git-folder-ready.jpg)](../images/runbook/03-git-folder-ready.jpg)
 
-<img src="../images/runbook/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720">
-
-</a>
-
-<sub>*화면 4 · Clone 완료와 main 브랜치*</sub>
+*화면 4 · Clone 완료와 main 브랜치*
 
 ### 2-2. (참고) 문서
 
@@ -77,17 +61,11 @@
 
 Volume에 올릴 파일은 내 PC에서 선택해야 하므로, [GitHub 저장소 화면](https://github.com/yisakh843/dbx-cafe-hands-on)에서 `Code > Download ZIP`을 선택해 저장소 파일을 받은 뒤 압축을 해제합니다.
 
-<a href="../images/runbook/03a-github-download-zip-annotated.png"><img src="../images/runbook/03a-github-download-zip-annotated.png" alt="GitHub 저장소의 Code 메뉴에서 Download ZIP 선택" width="720">
+[![GitHub 저장소의 Code 메뉴에서 Download ZIP 선택](../images/runbook/thumbnails/03a-github-download-zip-annotated.png)](../images/runbook/03a-github-download-zip-annotated.png)
 
-</a>
-
-<sub>*화면 4-1 · **Code → Download ZIP**으로 저장소 내려받기*</sub>
+*화면 4-1 · **Code → Download ZIP**으로 저장소 내려받기*
 
 ---
-
-<a id="step-3">
-
-</a>
 
 ## 3. Catalog, Schema, Volume 준비
 
@@ -105,25 +83,17 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 아래는 **Serverless → More…** 메뉴에서 **SQL Warehouse**를 선택하면 나타나는 연결 창입니다.
 
-<a href="../images/runbook/04-attach-warehouse-annotated.png">
+[![SQL Warehouse 선택 및 연결](../images/runbook/thumbnails/04-attach-warehouse-annotated.png)](../images/runbook/04-attach-warehouse-annotated.png)
 
-<img src="../images/runbook/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720">
-
-</a>
-
-<sub>*화면 5 · SQL Warehouse 연결*</sub>
+*화면 5 · SQL Warehouse 연결*
 
 ### 3-2. Setup 실행
 
 상단에 Warehouse 이름이 보이면 **Run all**을 눌러 전체를 실행합니다. 셀 왼쪽의 실행 버튼은 그 셀 하나만 실행하므로 혼동하지 않도록 주의합니다.
 
-<a href="../images/runbook/05-setup-run-all-annotated.png">
+[![Setup 노트북의 Run all과 Warehouse](../images/runbook/thumbnails/05-setup-run-all-annotated.png)](../images/runbook/05-setup-run-all-annotated.png)
 
-<img src="../images/runbook/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720">
-
-</a>
-
-<sub>*화면 6 · Setup 노트북 전체 실행*</sub>
+*화면 6 · Setup 노트북 전체 실행*
 
 ### 3-3. 생성 객체 확인
 
@@ -139,17 +109,11 @@ cafe_training
 
 왼쪽 Catalog 패널에서 **cafe\_training → cafe\_landing → Volumes → raw**를 각 이름 앞의 화살표로 펼칩니다. 아직 파일을 올리기 전이라 `raw` 아래에는 **No data**가 표시됩니다. 오른쪽에는 노트북 편집 화면이 그대로 보입니다.
 
-<a href="../images/runbook/06-volume-notebook-annotated.png"><img src="../images/runbook/06-volume-notebook-annotated.png" alt="노트북 왼쪽 Catalog 패널에서 raw Volume 펼치기" width="720">
+[![노트북 왼쪽 Catalog 패널에서 raw Volume 펼치기](../images/runbook/thumbnails/06-volume-notebook-annotated.png)](../images/runbook/06-volume-notebook-annotated.png)
 
-</a>
-
-<sub>*화면 7 · 노트북 왼쪽 **Catalog** 패널의 **raw** Volume*</sub>
+*화면 7 · 노트북 왼쪽 **Catalog** 패널의 **raw** Volume*
 
 ---
-
-<a id="step-4">
-
-</a>
 
 ## 4. CSV를 Volume에 업로드
 
@@ -161,11 +125,9 @@ cafe_training
 
 왼쪽 `raw` 행의 **⋮ → Create directory**를 선택하고 `orders`를 입력한 뒤 **Create**를 누릅니다. 다시 `raw` 행의 같은 메뉴에서 `support`를 만듭니다.
 
-<a href="../images/runbook/08-create-directory-notebook-annotated.png"><img src="../images/runbook/08-create-directory-notebook-annotated.png" alt="노트북 왼쪽 raw 메뉴에서 orders 디렉터리 생성" width="720">
+[![노트북 왼쪽 raw 메뉴에서 orders 디렉터리 생성](../images/runbook/thumbnails/08-create-directory-notebook-annotated.png)](../images/runbook/08-create-directory-notebook-annotated.png)
 
-</a>
-
-<sub>*화면 8 · **orders** 입력 후 **Create**로 디렉터리 생성*</sub>
+*화면 8 · **orders** 입력 후 **Create**로 디렉터리 생성*
 
 **완료 확인:** `orders`와 `support`가 모두 `raw` 바로 아래에 있습니다.
 
@@ -186,11 +148,9 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw
 ```
 
-<a href="../images/runbook/07-upload-root-notebook-annotated.png"><img src="../images/runbook/07-upload-root-notebook-annotated.png" alt="노트북에서 raw를 대상으로 매장·상품 CSV 업로드" width="720">
+[![노트북에서 raw를 대상으로 매장·상품 CSV 업로드](../images/runbook/thumbnails/07-upload-root-notebook-annotated.png)](../images/runbook/07-upload-root-notebook-annotated.png)
 
-</a>
-
-<sub>*화면 9 · 목적지 **raw** 확인 후 **Upload**로 매장·상품 업로드*</sub>
+*화면 9 · 목적지 **raw** 확인 후 **Upload**로 매장·상품 업로드*
 
 **완료 확인:** 왼쪽 `raw` 아래에 `stores.csv`, `products.csv`가 보입니다. 목록이 갱신되지 않으면 Catalog 패널 상단의 **Refresh catalog**를 누릅니다. 업로드 요약 창이 다음 작업을 가리면 닫습니다.
 
@@ -211,11 +171,9 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw/orders
 ```
 
-<a href="../images/runbook/09-upload-orders-notebook-annotated.png"><img src="../images/runbook/09-upload-orders-notebook-annotated.png" alt="노트북에서 orders 디렉터리에 주문 배치 세 개 업로드" width="720">
+[![노트북에서 orders 디렉터리에 주문 배치 세 개 업로드](../images/runbook/thumbnails/09-upload-orders-notebook-annotated.png)](../images/runbook/09-upload-orders-notebook-annotated.png)
 
-</a>
-
-<sub>*화면 10 · 목적지 **orders** 확인 후 **Upload**로 주문 배치 업로드*</sub>
+*화면 10 · 목적지 **orders** 확인 후 **Upload**로 주문 배치 업로드*
 
 **완료 확인:** `orders` 안에 주문 배치 CSV 세 개가 보입니다.
 
@@ -229,11 +187,9 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw/support
 ```
 
-<a href="../images/runbook/10-upload-glossary-notebook-annotated.png"><img src="../images/runbook/10-upload-glossary-notebook-annotated.png" alt="노트북에서 support 디렉터리에 glossary 업로드" width="720">
+[![노트북에서 support 디렉터리에 glossary 업로드](../images/runbook/thumbnails/10-upload-glossary-notebook-annotated.png)](../images/runbook/10-upload-glossary-notebook-annotated.png)
 
-</a>
-
-<sub>*화면 11 · 목적지 **support** 확인 후 **Upload**로 용어집 업로드*</sub>
+*화면 11 · 목적지 **support** 확인 후 **Upload**로 용어집 업로드*
 
 **완료 확인:** `support` 안에 `glossary.csv`가 보입니다.
 
@@ -241,11 +197,9 @@ cafe_training
 
 왼쪽 Catalog 패널 상단의 **Refresh catalog**를 누르고 `raw` 아래의 `orders`와 `support`를 펼쳐 아래 구조와 비교합니다. 루트에 CSV 두 개, `orders`에 세 개, `support`에 한 개가 보여야 합니다.
 
-<a href="../images/runbook/11-volume-ready-notebook-annotated.png"><img src="../images/runbook/11-volume-ready-notebook-annotated.png" alt="노트북 왼쪽 Catalog 트리에서 업로드된 CSV 여섯 개 확인" width="720">
+[![노트북 왼쪽 Catalog 트리에서 업로드된 CSV 여섯 개 확인](../images/runbook/thumbnails/11-volume-ready-notebook-annotated.png)](../images/runbook/11-volume-ready-notebook-annotated.png)
 
-</a>
-
-<sub>*화면 12 · 노트북 왼쪽 **raw** 트리에서 CSV 여섯 개 확인*</sub>
+*화면 12 · 노트북 왼쪽 **raw** 트리에서 CSV 여섯 개 확인*
 
 ```text
 raw/

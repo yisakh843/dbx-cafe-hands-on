@@ -44,11 +44,11 @@
 
 | 구간                  | 바로 가기                                                                                                              |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 환경 준비               | [네이밍 규칙](#step-0) · [사전 조건](#step-1) · [저장소 받기](1_setup.md#step-2) · [Catalog 준비](1_setup.md#step-3) · [CSV 업로드](1_setup.md#step-4)               |
-| 데이터 파이프라인           | [Pipeline](2_pipeline.md#step-5) · [Job과 검증](2_pipeline.md#step-6)                                                                           |
-| Metric View · Genie | [기준선](3_metric_genie.md#step-7) · [최적화](3_metric_genie.md#step-8) · [Genie 생성](3_metric_genie.md#step-9) · [예제](3_metric_genie.md#step-10) · [Benchmark](3_metric_genie.md#step-11) · [품질 개선](3_metric_genie.md#step-12) |
-| 심화 실습               | [AI Search](4_advanced.md#step-13) · [Apps](4_advanced.md#step-14) · [MLflow](4_advanced.md#step-15) · [통합 검증](4_advanced.md#step-16)                                  |
-| 마무리                 | [강사용 배포](5_instructor.md#step-17) · [기초 확인표](3_metric_genie.md#step-18) · [심화 확인표](4_advanced.md#step-18-advanced)                                                                            |
+| 환경 준비               | [네이밍 규칙](#0-네이밍-규칙) · [사전 조건](#1-사전-조건) · [저장소 받기](1_setup.md#2-github-저장소를-git-folder로-받기) · [Catalog 준비](1_setup.md#3-catalog-schema-volume-준비) · [CSV 업로드](1_setup.md#4-csv를-volume에-업로드)               |
+| 데이터 파이프라인           | [Pipeline](2_pipeline.md#5-lakeflow-pipeline-생성) · [Job과 검증](2_pipeline.md#6-lakeflow-job-생성)                                                                           |
+| Metric View · Genie | [기준선](3_metric_genie.md#7-metric-view-기준선-생성) · [최적화](3_metric_genie.md#8-metric-view-최적화-정의-적용) · [Genie 생성](3_metric_genie.md#9-genie-agent-생성) · [예제](3_metric_genie.md#10-genie-example-query-등록) · [Benchmark](3_metric_genie.md#11-genie-benchmark-등록-및-실행) · [품질 개선](3_metric_genie.md#12-genie-품질-최적화-일반-가이드) |
+| 심화 실습               | [AI Search](4_advanced.md#13-ai-search-용어집-구성) · [Apps](4_advanced.md#14-databricks-apps-구성) · [MLflow](4_advanced.md#15-mlflow-trace평가모니터링) · [통합 검증](4_advanced.md#16-최종-통합-검증)                                  |
+| 마무리                 | [강사용 배포](5_instructor.md#17-github-반영-및-참가자-배포) · [기초 확인표](3_metric_genie.md#기초-실습-확인표) · [심화 확인표](4_advanced.md#심화-실습-확인표)                                                                            |
 
 
 ### 화면과 경로 읽는 법
@@ -57,11 +57,9 @@
 
 실습에서는 왼쪽 메뉴의 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents, SQL Warehouses, Playground를 주로 사용합니다.
 
-<a href="../images/runbook/00-workspace-home.jpg"><img src="../images/runbook/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600">
+[![Databricks 홈과 실습에서 사용할 왼쪽 메뉴](../images/runbook/thumbnails/00-workspace-home.jpg)](../images/runbook/00-workspace-home.jpg)
 
-</a>
-
-<sub>*화면 1 · 실습에서 사용할 홈 화면*</sub>
+*화면 1 · 실습에서 사용할 홈 화면*
 
 > **화면 안내:** 그림은 Databricks Free Edition에서 직접 촬영한 화면입니다. 캡처에 보이는 계정 이메일과 리소스 ID는 촬영할 때의 값이니, 실습은 본인 계정에서 진행하시면 됩니다. 버튼 이름과 위치는 Workspace 버전에 따라 조금 다를 수 있습니다. 그림을 클릭하면 원래 크기로 볼 수 있습니다. 
 
@@ -87,8 +85,6 @@
 
 ---
 
-<a id="step-0"></a>
-
 ## 0. 네이밍 규칙
 
 
@@ -110,8 +106,6 @@
 
 
 ---
-
-<a id="step-1"></a>
 
 ## 1. 사전 조건
 

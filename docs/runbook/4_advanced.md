@@ -4,8 +4,6 @@
 
 [← 3부 Metric View와 Genie](3_metric_genie.md) · [목차](README.md) · [강사용 배포 →](5_instructor.md)
 
-<a id="step-13"></a>
-
 ## 13. AI Search 용어집 구성
 
 AI Search는 "아메" 같은 약어나 동의어, 여러 뜻을 가진 단어, 업무 규칙을 찾아 주는 용어집 역할을 합니다. 검색으로 뜻이 하나로 정해지면 Supervisor가 그 뜻을 Genie Agent에 넘겨 줍니다.
@@ -150,8 +148,6 @@ display(results)
 
 ---
 
-<a id="step-14"></a>
-
 ## 14. Databricks Apps 구성
 
 Playground에서 확인한 Supervisor Agent를 Databricks Apps로 배포합니다. 배포한 App은 Genie Agent와 AI Search Index를 사용하고, 대화 기록(Trace)을 MLflow Experiment에 남깁니다.
@@ -162,11 +158,9 @@ App으로 내보내기 전에, Playground에서 Supervisor가 질문에 맞는 �
 
 Playground에 아래처럼 **Choose an option to get started**와 모델 배포 안내만 보이면 아직 사용할 모델이 없는 상태입니다. 강사가 모델 endpoint와 접근 권한을 먼저 준비해야 모델·System prompt·Tools를 입력할 수 있습니다.
 
-<a href="../images/runbook/27-playground-prerequisites.jpg"><img src="../images/runbook/27-playground-prerequisites.jpg" alt="사용 가능한 모델 설정이 필요한 Playground 시작 화면" width="720">
+[![사용 가능한 모델 설정이 필요한 Playground 시작 화면](../images/runbook/thumbnails/27-playground-prerequisites.jpg)](../images/runbook/27-playground-prerequisites.jpg)
 
-</a>
-
-<sub>*화면 30 · Playground 사전 준비 화면*</sub>
+*화면 30 · Playground 사전 준비 화면*
 
 1. 왼쪽 **AI/ML &gt; Playground**를 엽니다.
 2. 강사가 지정한 모델 중 `Tools enabled` 모델을 선택합니다.
@@ -264,8 +258,6 @@ App에서 다음 질문을 하나씩 입력해 봅니다.
 질문마다 답변과 도구 호출 순서가 위와 같은지 확인합니다.
 
 ---
-
-<a id="step-15"></a>
 
 ## 15. MLflow Trace·평가·모니터링
 
@@ -401,8 +393,6 @@ print(safety_monitor)
 
 ---
 
-<a id="step-16"></a>
-
 ## 16. 최종 통합 검증
 
 지금까지 따로 확인한 기능들이 하나로 잘 이어지는지, 즉 질문 하나가 `Supervisor → AI Search/Genie → App → MLflow`를 거쳐 제대로 처리되는지 확인합니다.
@@ -525,8 +515,6 @@ ToolCallCorrectness 결과:
 - 개선할 항목 한 가지 기록
 
 ---
-
-<a id="step-18-advanced"></a>
 
 ## 심화 실습 확인표
 

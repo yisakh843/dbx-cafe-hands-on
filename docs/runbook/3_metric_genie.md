@@ -4,7 +4,20 @@
 
 [← 2부 데이터 파이프라인](2_pipeline.md) · [목차](README.md) · [4부 심화 실습 →](4_advanced.md)
 
-<a id="step-7"></a>
+## 이번 챕터에서 할 일
+
+지난 챕터에서 만든 `gold_sales`를 바탕으로 **매출 지표의 계산 기준을 정의하고, 자연어로 질문할 수 있는 Genie Agent를 만듭니다.** 예를 들어 “매장별 순매출을 알려줘”라고 물었을 때, 미리 정한 기준으로 계산한 답을 받는 것이 목표입니다.
+
+실습은 다음 순서로 진행합니다.
+
+1. **계산 기준 만들기 · 7~8절** — Metric View에 순매출·주문수·객단가를 정의합니다. 표시명과 동의어 등을 추가한 뒤에도 계산 결과가 같은지 확인합니다.
+2. **질문할 Agent 만들기 · 9~10절** — Genie에 Metric View를 연결하고, 답변 지침과 예제 SQL을 등록한 뒤 채팅으로 질문합니다.
+3. **답변 정확도 확인하기 · 11절** — Benchmark에 테스트 질문과 정답 SQL을 등록해 평가 결과와 생성 SQL을 확인합니다.
+4. **틀린 답 개선하기 · 12절** — 실패 원인에 맞춰 지표 설명·지침·예제 SQL을 보완하고 같은 질문으로 다시 평가하는 방법을 익힙니다.
+
+완료하면 **Metric View 하나와 이를 사용하는 Genie Agent 하나**가 준비됩니다. SQL로 확인한 매출 지표를 기준으로, Genie의 답변이 맞는지도 검증할 수 있습니다.
+
+---
 
 ## 7. Metric View 기준선 생성
 
@@ -20,33 +33,25 @@
 | avg\_order\_value | 약 6,520.98 |
 
 
-<a href="../images/runbook/20-metric-baseline.jpg"><img src="../images/runbook/20-metric-baseline.jpg" alt="Metric View 기준선 생성 노트북" width="720">
+[![Metric View 기준선 생성 노트북](../images/runbook/thumbnails/20-metric-baseline.jpg)](../images/runbook/20-metric-baseline.jpg)
 
-</a>
-
-<sub>*화면 23 · Metric View 기준선 실행*</sub>
+*화면 23 · Metric View 기준선 실행*
 
 **완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**이면 됩니다. CREATE 문 뒤에 나오는 `No rows returned`는 오류가 아니니 걱정하지 않으셔도 됩니다.
 
-<a href="../images/runbook/21-metric-baseline-result.jpg"><img src="../images/runbook/21-metric-baseline-result.jpg" alt="Metric View 실제 지표 조회 결과" width="720">
+[![Metric View 실제 지표 조회 결과](../images/runbook/thumbnails/21-metric-baseline-result.jpg)](../images/runbook/21-metric-baseline-result.jpg)
 
-</a>
-
-<sub>*화면 24 · 기준선 지표 조회 결과*</sub>
+*화면 24 · 기준선 지표 조회 결과*
 
 ---
-
-<a id="step-8"></a>
 
 ## 8. Metric View 최적화 정의 적용
 
 `notebooks/03_metric_view_optimized.sql`을 같은 SQL Warehouse에서 `Run all`합니다. 기준선 Metric View에 표시명·동의어·포맷을 추가하는 단계입니다.
 
-<a href="../images/runbook/22-metric-optimized.jpg"><img src="../images/runbook/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720">
+[![Metric View 최적화 SQL 실행 화면](../images/runbook/thumbnails/22-metric-optimized.jpg)](../images/runbook/22-metric-optimized.jpg)
 
-</a>
-
-<sub>*화면 25 · Metric View 최적화 실행*</sub>
+*화면 25 · Metric View 최적화 실행*
 
 이 단계에서 추가되는 정보는 다음과 같습니다.
 
@@ -74,35 +79,27 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 ---
 
-<a id="step-9"></a>
-
 ## 9. Genie Agent 생성
 
 **이동:** `Genie Agents → New`
 
 **Connect your data**에서 `cafe_sales_metrics`를 검색합니다. 위치가 **cafe\_training.cafe\_hands\_on**인 Metric View 하나만 선택하고 **Create**를 누릅니다.
 
-<a href="../images/runbook/23-genie-select-metric-view-annotated.png"><img src="../images/runbook/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720">
+[![Genie에 연결할 Metric View 선택](../images/runbook/thumbnails/23-genie-select-metric-view-annotated.png)](../images/runbook/23-genie-select-metric-view-annotated.png)
 
-</a>
-
-<sub>*화면 26 · Genie 연결 자산 선택*</sub>
+*화면 26 · Genie 연결 자산 선택*
 
 만들고 나면 이름이 자동으로 붙어 있으니 **Configure → About → About this agent의 연필 아이콘**에서 **Name = Cafe Sales Genie Agent**, **Default warehouse = Serverless Starter Warehouse**(실습에 사용한 Warehouse)로 지정하고 **Save**를 누릅니다. Owner와 Agent ID는 자동으로 채워집니다.
 
-<a href="../images/runbook/24-genie-name.jpg"><img src="../images/runbook/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720">
+[![Genie 이름과 기본 Warehouse 설정](../images/runbook/thumbnails/24-genie-name.jpg)](../images/runbook/24-genie-name.jpg)
 
-</a>
-
-<sub>*화면 27 · Genie 이름과 Warehouse*</sub>
+*화면 27 · Genie 이름과 Warehouse*
 
 이어서 **Configure → Instructions**(구버전: `Configure > Context > Instructions`)에 [genie\_instructions.md](../../resources/genie_instructions.md)의 전체 내용(아래 펼치기에도 있음)을 붙여 넣고 **Save**를 누릅니다. 다른 탭에 다녀와도 내용이 남아 있으면 제대로 저장된 것입니다.
 
-<a href="../images/runbook/25-genie-instructions-annotated.png"><img src="../images/runbook/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720">
+[![Genie 공통 지침 입력 화면](../images/runbook/thumbnails/25-genie-instructions-annotated.png)](../images/runbook/25-genie-instructions-annotated.png)
 
-</a>
-
-<sub>*화면 28 · Genie 지침 입력*</sub>
+*화면 28 · Genie 지침 입력*
 
 <details class="orca-details">
 <summary>복사용 Genie 지침 전문 펼치기</summary>
@@ -145,17 +142,13 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 ---
 
-<a id="step-10"></a>
-
 ## 10. Genie Example Query 등록
 
 **Configure → Examples** 탭 오른쪽 위 **Add**에서 예제를 추가합니다(구버전: `Configure > Context > Add`). 아래 화면은 등록 전 상태(**All (0)**)이며, 6개를 저장하면 목록에 6개가 표시됩니다(**All (6)**).
 
-<a href="../images/runbook/26-genie-examples-annotated.png"><img src="../images/runbook/26-genie-examples-annotated.png" alt="Genie 예제 목록과 Add 버튼" width="800">
+[![Genie 예제 목록과 Add 버튼](../images/runbook/thumbnails/26-genie-examples-annotated.png)](../images/runbook/26-genie-examples-annotated.png)
 
-</a>
-
-<sub>*화면 29 · 예제 등록 메뉴*</sub>
+*화면 29 · 예제 등록 메뉴*
 
 Add를 누르면 여러 항목이 나오는데(이름은 버전에 따라 다를 수 있습니다), 이번 실습에서는 **Example Query**만 사용합니다.
 
@@ -268,8 +261,6 @@ ORDER BY avg_order_value DESC;
 
 ---
 
-<a id="step-11"></a>
-
 ## 11. Genie Benchmark 등록 및 실행
 
 Benchmark는 Genie Agent가 얼마나 정확하게 답하는지 반복해서 측정하는 테스트 질문 모음입니다. Chat 모드는 정답 SQL(SQL Answer)의 결과와 Genie의 결과를 비교하고, Agent 모드는 Evaluation note에 적은 기준으로 평가합니다. 모드는 실행할 때 고릅니다.
@@ -370,8 +361,6 @@ Bad 또는 Manual Review 문항:
 
 ---
 
-<a id="step-12"></a>
-
 ## 12. Genie 품질 최적화 일반 가이드
 
 ### 12-1. 기능별 역할
@@ -449,8 +438,6 @@ Bad 또는 Manual Review 문항:
 실패한 문항이 없다면 Instruction을 더 추가할 필요가 없습니다. 현재 Accuracy를 기준선으로 기록해 둡니다.
 
 ---
-
-<a id="step-18"></a>
 
 ## 기초 실습 확인표
 
