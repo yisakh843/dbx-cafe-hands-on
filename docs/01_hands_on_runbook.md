@@ -60,7 +60,7 @@
 
 | 대상 | 이름 또는 값 |
 |---|---|
-| GitHub repository | `https://github.com/juun0-han/dbx-cafe-hands-on.git` |
+| GitHub repository | `https://github.com/yisakh843/dbx-cafe-hands-on.git` |
 | Git branch | `main` |
 | Git folder | `dbx-cafe-hands-on` |
 | Catalog | `cafe_training` |
@@ -112,7 +112,7 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 
 | 항목 | 값 |
 |---|---|
-| Git repository URL | https://github.com/juun0-han/dbx-cafe-hands-on.git |
+| Git repository URL | https://github.com/yisakh843/dbx-cafe-hands-on.git |
 | Provider | GitHub |
 | Git folder name | dbx-cafe-hands-on |
 
@@ -158,7 +158,7 @@ Volume 업로드 화면은 로컬 파일을 선택하므로, 다음 방법 중 �
 방법 B: GitHub 저장소를 로컬 PC에 clone합니다.
 
 ```powershell
-git clone https://github.com/juun0-han/dbx-cafe-hands-on.git
+git clone https://github.com/yisakh843/dbx-cafe-hands-on.git
 ```
 
 Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니다. 로컬 다운로드는 아래 Volume 업로드 파일과 Excel·CSV 참고 파일을 확인할 때 사용합니다.
@@ -476,7 +476,7 @@ Git provider Source인 경우:
 
 | 항목 | 값 |
 |---|---|
-| Repository | https://github.com/juun0-han/dbx-cafe-hands-on.git |
+| Repository | https://github.com/yisakh843/dbx-cafe-hands-on.git |
 | Branch | main |
 | Path | notebooks/04_pipeline_validate.sql |
 
