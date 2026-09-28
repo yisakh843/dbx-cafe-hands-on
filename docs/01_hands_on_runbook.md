@@ -98,11 +98,9 @@ Catalog는 3절의 setup 노트북에서 생성합니다. 생성 또는 실행�
 
 ## 2. GitHub 저장소를 Git folder로 받기
 
-### Git folder 생성
+### 2-1. Git folder 생성
 
-Databricks Workspace에서 다음 메뉴를 선택합니다.
-
-`Workspace → Home(개인 폴더) → Create → Git folder`
+**이동:** `Workspace → Home(개인 폴더) → Create → Git folder`
 
 <a href="images/runbook/01-create-menu-annotated.png"><img src="images/runbook/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720"></a>
 
@@ -112,9 +110,9 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 
 | 항목 | 값 |
 |---|---|
-| Git repository URL | https://github.com/yisakh843/dbx-cafe-hands-on.git |
+| Git repository URL | `https://github.com/yisakh843/dbx-cafe-hands-on.git` |
 | Provider | GitHub |
-| Git folder name | dbx-cafe-hands-on |
+| Git folder name | `dbx-cafe-hands-on` |
 
 위 값을 입력한 뒤 **Create Git folder**를 누릅니다.
 
@@ -141,7 +139,7 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 
 화면 4. Clone 완료와 main 브랜치
 
-### 2-1. 함께 열어 둘 문서
+### 2-2. 함께 열어 둘 문서
 
 실습에 필요한 이름, 경로, 입력값, 검증값은 모두 이 문서(`docs/01_hands_on_runbook.md`)에 있으므로 실습 내내 열어 둡니다. 배경이 궁금하면 다음 문서를 참고합니다.
 
@@ -149,7 +147,7 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 - `docs/00_start_here.md` — Catalog·Schema·Volume 준비
 - `HANDS_ON_SESSION_DESIGN.md` — 세션 설계
 
-### 2-2. 로컬 PC로 파일 내려받기
+### 2-3. 로컬 PC로 파일 내려받기
 
 Volume 업로드 화면은 로컬 파일을 선택하므로, 다음 방법 중 하나로 저장소 파일을 로컬 PC에 준비합니다.
 
@@ -163,7 +161,7 @@ git clone https://github.com/yisakh843/dbx-cafe-hands-on.git
 
 Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니다. 로컬 다운로드는 아래 Volume 업로드 파일과 Excel·CSV 참고 파일을 확인할 때 사용합니다.
 
-### 2-3. 이후 Volume에 업로드할 파일 확인
+### 2-4. Volume에 업로드할 파일 확인
 
 다음 6개 파일을 4절에서 Volume에 업로드합니다.
 
@@ -174,7 +172,7 @@ Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니�
 - `sample_data/raw/orders/orders_batch_003.csv`
 - `sample_data/support/glossary.csv`
 
-### 2-4. 실습 중 열어볼 참고 파일
+### 2-5. 실습 중 열어볼 참고 파일
 
 <details>
 <summary>전체 참고 파일 목록 펼치기</summary>
@@ -203,7 +201,7 @@ Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니�
 
 </details>
 
-### 2-5. Excel 파일 사용
+### 2-6. Excel 파일 사용
 
 다음 Excel 파일은 참고용이며 Volume에 업로드하지 않습니다.
 
@@ -262,7 +260,7 @@ cafe_training
 
 ## 4. CSV를 Volume에 업로드
 
-**이동:** Catalog → cafe_training → cafe_landing → Volumes → raw
+**이동:** `Catalog → cafe_training → cafe_landing → Volumes → raw`
 
 ### 4-1. 업로드할 디렉터리 만들기
 
@@ -283,7 +281,7 @@ cafe_training
 | 로컬 폴더 | `sample_data/raw/` |
 | 선택할 파일 | `stores.csv`, `products.csv` |
 
-**업로드 목적지**
+**업로드 목적지:**
 
 ```text
 /Volumes/cafe_training/cafe_landing/raw
@@ -304,7 +302,7 @@ cafe_training
 | 로컬 폴더 | `sample_data/raw/orders/` |
 | 선택할 파일 | `orders_batch_001.csv`, `orders_batch_002.csv`, `orders_batch_003.csv` |
 
-**업로드 목적지**
+**업로드 목적지:**
 
 ```text
 /Volumes/cafe_training/cafe_landing/raw/orders
@@ -320,7 +318,7 @@ cafe_training
 
 `raw`로 돌아온 뒤 `support` 디렉터리를 엽니다. `sample_data/support/glossary.csv`를 선택하고 목적지 끝이 **support**인지 확인한 뒤 업로드합니다.
 
-**업로드 목적지**
+**업로드 목적지:**
 
 ```text
 /Volumes/cafe_training/cafe_landing/raw/support
@@ -352,7 +350,7 @@ raw/
     └── glossary.csv
 ```
 
-> **완료 확인:** 루트에 CSV 두 개, `orders`에 세 개, `support`에 한 개로 총 6개입니다.
+**완료 확인:** 루트에 CSV 두 개, `orders`에 세 개, `support`에 한 개로 총 6개입니다.
 
 ---
 
@@ -364,9 +362,7 @@ raw/
 
 `01_cafe_medallion_pipeline.sql`은 Pipeline 전용 소스입니다. 3절의 setup 노트북처럼 SQL Warehouse에서 `Run all`하지 말고, 아래에서 Pipeline에 연결합니다.
 
-다음 메뉴를 선택합니다.
-
-`Jobs & Pipelines → ETL pipeline`
+**이동:** `Jobs & Pipelines → ETL pipeline`
 
 **ETL pipeline**은 데이터 변환용이고, **Job**은 6절에서 실행 순서를 만드는 메뉴입니다.
 
@@ -386,10 +382,10 @@ Pipeline 설정:
 
 | 항목 | 값 |
 |---|---|
-| Pipeline name | cafe_medallion_pipeline |
-| Source file | notebooks/01_cafe_medallion_pipeline.sql |
-| Catalog | cafe_training |
-| Schema | cafe_hands_on |
+| Pipeline name | `cafe_medallion_pipeline` |
+| Source file | `notebooks/01_cafe_medallion_pipeline.sql` |
+| Catalog | `cafe_training` |
+| Schema | `cafe_hands_on` |
 | Serverless | On |
 | Product edition | Advanced |
 | Channel | Current (Default Storage 사용 시 Preview로 고정됨) |
@@ -433,9 +429,7 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 위 테이블이 생�
 
 ## 6. Lakeflow Job 생성
 
-다음 메뉴를 선택합니다.
-
-`Jobs & Pipelines → Job`
+**이동:** `Jobs & Pipelines → Job`
 
 상단의 자동 생성된 Job 이름을 클릭해 `cafe_medallion_job`으로 바꾸고 Enter를 누릅니다. 첫 화면의 **Add another task type → ETL Pipeline**으로 첫 Task를 추가합니다.
 
@@ -443,9 +437,9 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 위 테이블이 생�
 
 | 항목 | 값 |
 |---|---|
-| Task name | run_medallion_pipeline |
+| Task name | `run_medallion_pipeline` |
 | Task type | Pipeline |
-| Pipeline | cafe_medallion_pipeline |
+| Pipeline | `cafe_medallion_pipeline` |
 | Full refresh | Off |
 
 **Task name**, **Pipeline**을 확인하고 **Trigger a full refresh**는 체크하지 않습니다. **Save task**를 누릅니다.
@@ -460,7 +454,7 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 위 테이블이 생�
 
 | 항목 | 값 |
 |---|---|
-| Task name | validate_pipeline |
+| Task name | `validate_pipeline` |
 | Task type | SQL file |
 | SQL Warehouse | 앞 단계에서 사용한 SQL Warehouse |
 
@@ -476,9 +470,9 @@ Git provider Source인 경우:
 
 | 항목 | 값 |
 |---|---|
-| Repository | https://github.com/yisakh843/dbx-cafe-hands-on.git |
-| Branch | main |
-| Path | notebooks/04_pipeline_validate.sql |
+| Repository | `https://github.com/yisakh843/dbx-cafe-hands-on.git` |
+| Branch | `main` |
+| Path | `notebooks/04_pipeline_validate.sql` |
 
 **Users → 본인 계정 → dbx-cafe-hands-on → notebooks → 04_pipeline_validate.sql**을 선택하고 **Confirm**합니다.
 
@@ -586,9 +580,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 ## 9. Genie Agent 생성
 
-다음 메뉴를 선택합니다.
-
-`Genie Agents → New`
+**이동:** `Genie Agents → New`
 
 **Connect your data**에서 `cafe_sales_metrics`를 검색합니다. 소속이 **cafe_training.cafe_hands_on**인 Metric View 하나만 선택하고 **Create**를 누릅니다.
 
@@ -673,8 +665,6 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 **Question:** `전체 기간 순매출은 얼마야?`
 
-SQL:
-
 ```sql
 SELECT MEASURE(net_sales) AS net_sales
 FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
@@ -683,8 +673,6 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 ### E002 · 매장별 순매출
 
 **Question:** `매장별 순매출을 비교해줘`
-
-SQL:
 
 ```sql
 SELECT store_name,
@@ -697,8 +685,6 @@ ORDER BY net_sales DESC;
 ### E003 · 판매수량 TOP 3
 
 **Question:** `판매수량 기준 TOP 3 메뉴는?`
-
-SQL:
 
 ```sql
 SELECT product_name,
@@ -713,8 +699,6 @@ LIMIT 3;
 
 **Question:** `일자별 순매출 추이를 보여줘`
 
-SQL:
-
 ```sql
 SELECT order_date,
        MEASURE(net_sales) AS net_sales
@@ -726,8 +710,6 @@ ORDER BY order_date;
 ### E005 · 시간대별 순매출과 주문수
 
 **Question:** `시간대별 순매출과 주문수를 비교해줘`
-
-SQL:
 
 ```sql
 SELECT daypart,
@@ -741,8 +723,6 @@ ORDER BY net_sales DESC;
 ### E006 · 매장별 객단가
 
 **Question:** `매장별 객단가가 높은 순서로 보여줘`
-
-SQL:
 
 ```sql
 SELECT store_name,
@@ -790,9 +770,7 @@ Benchmark는 Genie Agent의 답변 정확도를 반복 측정하기 위한 테�
 
 ### 11-2. Benchmark 추가
 
-다음 메뉴를 선택합니다.
-
-`Cafe Sales Genie Agent → Benchmarks → Add benchmark`
+**이동:** `Cafe Sales Genie Agent → Benchmarks → Add benchmark`
 
 Chat 모드 B001~B008은 다음 값을 입력합니다.
 
@@ -854,9 +832,7 @@ Bad 또는 Manual Review 문항:
 
 ### 11-4. Monitor 확인
 
-다음 메뉴를 선택합니다.
-
-`Cafe Sales Genie Agent → Monitor`
+**이동:** `Cafe Sales Genie Agent → Monitor`
 
 다음 항목을 확인합니다.
 
@@ -906,9 +882,7 @@ Bad 또는 Manual Review 문항:
 
 ### 12-4. 생성 SQL 검토와 Add as instruction
 
-실패한 응답에서 다음 메뉴를 선택합니다.
-
-`... → Show code`
+실패한 응답에서 `... → Show code`를 선택합니다.
 
 다음 항목을 비교합니다.
 
@@ -916,9 +890,7 @@ Bad 또는 Manual Review 문항:
 - SQL Answer
 - 실행 결과
 
-생성 SQL을 수정한 경우 실행 결과가 올바른지 확인한 뒤 다음 메뉴를 선택합니다.
-
-`... → Add as instruction`
+생성 SQL을 수정한 경우 실행 결과가 올바른지 확인한 뒤 `... → Add as instruction`을 선택합니다.
 
 이 기능은 질문과 검증된 SQL을 재사용 가능한 예제로 저장하는 용도로 사용합니다. 생성 SQL을 검토하지 않은 상태로 저장하지 않습니다.
 
@@ -962,11 +934,11 @@ AI Search는 약어·동의어·다의어·업무 규칙을 검색하는 용어�
 
 | 항목 | 값 |
 |---|---|
-| Source table | cafe_training.cafe_hands_on.cafe_glossary |
-| AI Search endpoint | cafe-ai-search-endpoint |
-| AI Search index | cafe_training.cafe_hands_on.cafe_glossary_index |
-| Primary key | term_id |
-| Embedding source | search_text |
+| Source table | `cafe_training.cafe_hands_on.cafe_glossary` |
+| AI Search endpoint | `cafe-ai-search-endpoint` |
+| AI Search index | `cafe_training.cafe_hands_on.cafe_glossary_index` |
+| Primary key | `term_id` |
+| Embedding source | `search_text` |
 | Sync mode | TRIGGERED |
 | Query type | HYBRID |
 | Top results | 3 |
@@ -1000,9 +972,9 @@ Python이 재시작되면 설치 셀을 반복 실행하지 말고 다음 위젯
 
 | 항목 | 값 |
 |---|---|
-| Catalog | cafe_training |
-| Schema | cafe_hands_on |
-| AI Search endpoint | cafe-ai-search-endpoint |
+| Catalog | `cafe_training` |
+| Schema | `cafe_hands_on` |
+| AI Search endpoint | `cafe-ai-search-endpoint` |
 | Embedding model | databricks-qwen3-embedding-0-6b |
 
 ### 13-4. Delta 테이블 확인
@@ -1016,15 +988,13 @@ Catalog Explorer에서 다음을 확인합니다.
 | 항목 | 값 |
 |---|---|
 | 행 수 | 19 |
-| Primary key | term_id |
+| Primary key | `term_id` |
 | 검색 텍스트 | search_text |
 | Change Data Feed | 활성화 |
 
 ### 13-5. Endpoint와 Index 확인
 
-Endpoint 생성 셀을 실행한 뒤 다음 화면에서 상태를 확인합니다.
-
-`AI Search → Endpoints → cafe-ai-search-endpoint`
+Endpoint 생성 셀을 실행한 뒤 `AI Search → Endpoints → cafe-ai-search-endpoint`에서 상태를 확인합니다.
 
 **완료 확인:** Endpoint 상태가 `ONLINE`입니다.
 
@@ -1032,10 +1002,10 @@ Endpoint가 `ONLINE`인 뒤 Index 생성 셀을 실행합니다.
 
 | 항목 | 값 |
 |---|---|
-| Index | cafe_training.cafe_hands_on.cafe_glossary_index |
-| Source | cafe_training.cafe_hands_on.cafe_glossary |
-| Primary key | term_id |
-| Embedding source | search_text |
+| Index | `cafe_training.cafe_hands_on.cafe_glossary_index` |
+| Source | `cafe_training.cafe_hands_on.cafe_glossary` |
+| Primary key | `term_id` |
+| Embedding source | `search_text` |
 | Sync mode | TRIGGERED |
 
 ### 13-6. Triggered Sync와 검색 실행
@@ -1129,9 +1099,9 @@ AI Playground에서 Supervisor 구성 화면을 엽니다.
 
 | 항목 | 값 |
 |---|---|
-| App name | agent-cafe-supervisor |
+| App name | `agent-cafe-supervisor` |
 | App description | 카페 매출 Genie와 용어집 AI Search를 연결한 Supervisor Agent |
-| MLflow experiment | cafe-supervisor-agent |
+| MLflow experiment | `cafe-supervisor-agent` |
 
 `Export` 후 생성된 App을 엽니다.
 
@@ -1139,9 +1109,7 @@ AI Playground에서 Supervisor 구성 화면을 엽니다.
 
 ### 14-2. App Resource 연결
 
-App 설정에서 다음 메뉴를 엽니다.
-
-`Settings → Resources`
+App 설정에서 `Settings → Resources`를 엽니다.
 
 다음 리소스를 추가하거나 Export 결과를 확인합니다.
 
@@ -1288,9 +1256,7 @@ display(evaluation.result_df)
 
 ### 15-6. MLflow UI 확인
 
-Workspace 왼쪽 메뉴에서 다음을 선택합니다.
-
-`AI/ML → Experiments`
+Workspace 왼쪽 메뉴에서 `AI/ML → Experiments`를 선택합니다.
 
 `/Shared/cafe-supervisor-agent` Experiment를 열고 다음 탭을 확인합니다.
 
@@ -1365,7 +1331,7 @@ print(safety_monitor)
 
 | 항목 | 값 |
 |---|---|
-| Source table | cafe_training.cafe_hands_on.cafe_glossary |
+| Source table | `cafe_training.cafe_hands_on.cafe_glossary` |
 | 행 수 | 19 |
 | Endpoint | cafe-ai-search-endpoint / ONLINE |
 | Index | cafe_training.cafe_hands_on.cafe_glossary_index / ONLINE |
