@@ -507,11 +507,22 @@
 
   /* 확대 보기 */
   .lb{
-    position:fixed;inset:0;z-index:100;background:var(--shade);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:10px;
+    position:fixed;inset:0;z-index:100;background:var(--shade);overflow:auto;overscroll-behavior:contain;
+    display:flex;flex-direction:column;align-items:center;padding:0 20px 24px;
   }
-  .lb img{max-width:100%;max-height:calc(100% - 60px);object-fit:contain;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.35);}
-  .lb .lb-bar{display:flex;gap:14px;align-items:center;max-width:100%;}
+  /* 기본은 화면 폭에 맞춰(원본 크기까지) 크게, 세로는 스크롤. 이미지를 누르면 화면에 맞춤으로 전환 */
+  .lb img{
+    display:block;flex:none;width:auto;height:auto;max-width:100%;margin:auto 0;
+    background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.35);cursor:zoom-out;
+  }
+  .lb.fit img{max-height:calc(100vh - 84px);object-fit:contain;cursor:zoom-in;}
+  .lb .lb-bar{
+    position:sticky;top:0;z-index:1;flex:none;align-self:stretch;
+    display:flex;gap:10px;align-items:center;justify-content:center;
+    padding:12px 20px;margin:0 -20px 8px;background:rgba(10,16,28,.9);
+  }
+  .lb .lb-cap{flex:0 1 auto;min-width:0;margin-right:6px;}
+  .lb button.lb-sub{background:none;color:#fff;border:1px solid rgba(255,255,255,.55);}
   .lb .lb-cap{color:#E8ECF2;font-size:14.5px;}
   .lb button{font-family:var(--sans);font-size:14px;font-weight:600;background:#fff;color:#131A25;border:0;border-radius:3px;padding:6px 14px;cursor:pointer;flex:none;}
   body.lb-open{overflow:hidden;}
@@ -2013,8 +2024,8 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
 
 <!-- ── 확대 보기 ── -->
 <div class="lb" id="lb" hidden role="dialog" aria-label="스크린샷 크게 보기">
-  <img id="lbimg" alt="">
-  <div class="lb-bar"><span class="lb-cap" id="lbcap"></span><button type="button" id="lbclose">닫기</button></div>
+  <div class="lb-bar"><span class="lb-cap" id="lbcap"></span><button type="button" class="lb-sub" id="lbfit">화면에 맞춤</button><button type="button" id="lbclose">닫기</button></div>
+  <img id="lbimg" alt="" title="눌러서 화면에 맞춤/크게 보기 전환">
 </div>
 
 <script>
@@ -2293,7 +2304,8 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
 
   // 스크린샷 확대
   var lb = document.getElementById("lb"), lbImg = document.getElementById("lbimg"), lbCap = document.getElementById("lbcap");
-  var lastZoom = null;
+  var lastZoom = null, lbFit = document.getElementById("lbfit");
+  function setFit(on) { lb.classList.toggle("fit", on); lbFit.textContent = on ? "크게 보기" : "화면에 맞춤"; }
   function closeLb() { lb.hidden = true; document.body.classList.remove("lb-open"); lbImg.removeAttribute("src"); if (lastZoom) { lastZoom.focus(); } }
   [].forEach.call(document.querySelectorAll(".zoom"), function (z) {
     z.addEventListener("click", function () {
@@ -2304,14 +2316,18 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
       lbImg.alt = img.alt;
       var fn = cap ? cap.querySelector(".fn") : null;
       lbCap.textContent = !cap ? "" : fn ? fn.textContent + " · " + cap.textContent.slice(fn.textContent.length) : cap.textContent;
-      lb.hidden = false; document.body.classList.add("lb-open");
+      setFit(false);
+      lb.hidden = false; document.body.classList.add("lb-open"); lb.scrollTop = 0;
       document.getElementById("lbclose").focus();
     });
   });
   lbImg.addEventListener("error", function () {
     if (lastZoom) { var t = lastZoom.querySelector("img").src; if (lbImg.src !== t) { lbImg.src = t; } }
   });
-  lb.addEventListener("click", function (e) { if (e.target === lb || e.target.id === "lbclose") { closeLb(); } });
+  lb.addEventListener("click", function (e) {
+    if (e.target === lb || e.target.id === "lbclose") { closeLb(); }
+    else if (e.target === lbImg || e.target === lbFit) { setFit(!lb.classList.contains("fit")); if (e.target === lbImg) { lb.scrollTop = 0; } }
+  });
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") { return; }
     if (!lb.hidden) { closeLb(); } else if (!helpBox.hidden) { setHelp(false); }
