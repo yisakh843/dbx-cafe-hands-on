@@ -543,6 +543,12 @@
   .step .checks{margin-top:var(--gap-topic);}
   .step .checks + .note{margin-top:var(--gap-block);}
 
+  .step .checks.inline{margin:0 0 var(--gap-block);}
+  .step .checks.inline .task:last-child{margin-bottom:0;}
+  .step :is(figure.shot,.snip,.tw,.qa,.memo,.receipts,.diagram,details.fold):has(+ .checks.inline){margin-bottom:12px;}
+  .step p:has(+ .checks.inline){margin-bottom:12px;}
+  .step .checks.inline + .note{margin-top:0;}
+
   @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
   @media print{
     .bar,.helpbtn,.helpdesk,.pager{display:none!important;}
@@ -656,6 +662,10 @@
       <p>13~16절 심화 실습은 Free Edition에서 필요한 기능과 모델을 쓸 수 있는지 강사가 미리 확인한 뒤 진행합니다.</p>
     </div>
   </details>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="i1"><span class="mark"></span>
+      <span class="txt">Free Edition Workspace에 본인 계정으로 로그인했다</span></label>
+  </div>
 
   <h3>왼쪽 메뉴</h3>
   <p>실습에서는 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents, SQL Warehouses, Playground를 주로 씁니다. 아래는 2026-09-21에 찍은 Free Edition 홈 화면입니다.</p>
@@ -663,6 +673,10 @@
     <button type="button" class="zoom" data-full="images/runbook/00-workspace-home.jpg"><img src="images/runbook/thumbnails/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600" height="551" loading="lazy"></button>
     <figcaption><span class="fn">화면 1</span>실습에서 쓰는 홈 화면. 캡처 속 이메일과 리소스 ID는 촬영 당시 값입니다. 버튼 위치는 Workspace 버전에 따라 조금 다를 수 있습니다.</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="i2"><span class="mark"></span>
+      <span class="txt">왼쪽 메뉴에서 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents 위치를 찾았다</span></label>
+  </div>
 
   <h3>헷갈리기 쉬운 것</h3>
   <ul class="do">
@@ -690,13 +704,6 @@
     <p>어느 파일의 어느 셀에서 어떤 메시지가 나왔는지, 어떤 Compute를 골랐는지 먼저 봅니다. 앞 단계가 실패한 채로 다음 단계로 넘어가지 마세요. 그 화면 그대로 강사에게 보여 주면 됩니다.</p>
   </div>
 
-  <div class="checks">
-    <span class="lbl">준비 확인</span>
-    <label class="task"><input type="checkbox" data-k="i1"><span class="mark"></span>
-      <span class="txt">Free Edition Workspace에 본인 계정으로 로그인했다</span></label>
-    <label class="task"><input type="checkbox" data-k="i2"><span class="mark"></span>
-      <span class="txt">왼쪽 메뉴에서 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents 위치를 찾았다</span></label>
-  </div>
 </section>
 </div>
 
@@ -736,6 +743,10 @@
     <button type="button" class="zoom" data-full="images/runbook/03-git-folder-ready.jpg"><img src="images/runbook/thumbnails/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 4</span>Clone 완료와 main 브랜치</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="r1"><span class="mark"></span>
+      <span class="txt">Git folder <code class="k">dbx-cafe-hands-on</code>가 main 브랜치로 만들어졌다</span></label>
+  </div>
 
   <h3><span class="sn">2-2</span>(참고) 문서</h3>
   <p>실습에 필요한 이름·경로·입력값·검증값은 모두 이 화면에 있습니다. 배경이 궁금하면 저장소의 <code class="k">README.md</code>(구조와 실행 순서), <code class="k">docs/00_start_here.md</code>(Catalog·Schema·Volume 준비), <code class="k">HANDS_ON_SESSION_DESIGN.md</code>(세션 설계)를 보세요.</p>
@@ -746,6 +757,10 @@
     <button type="button" class="zoom" data-full="images/runbook/03a-github-download-zip-annotated.png"><img src="images/runbook/thumbnails/03a-github-download-zip-annotated.png" alt="GitHub 저장소의 Code 메뉴에서 Download ZIP 선택" width="720" height="738" loading="lazy"></button>
     <figcaption><span class="fn">화면 4-1</span>Code → Download ZIP으로 저장소 내려받기</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="r3"><span class="mark"></span>
+      <span class="txt">내 PC에 ZIP을 받아 압축을 풀었다</span></label>
+  </div>
 
   <h3><span class="sn">3</span>Catalog, Schema, Volume 준비</h3>
   <p>setup 노트북 하나를 실행하면 Catalog와 Schema 두 개, CSV를 올릴 Volume이 한꺼번에 만들어집니다.</p>
@@ -784,16 +799,11 @@
     <button type="button" class="zoom" data-full="images/runbook/06-volume-notebook-annotated.png"><img src="images/runbook/thumbnails/06-volume-notebook-annotated.png" alt="노트북 왼쪽 Catalog 패널에서 raw Volume 펼치기" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 7</span>노트북 왼쪽 Catalog 패널의 raw Volume</figcaption>
   </figure>
-
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="r1"><span class="mark"></span>
-      <span class="txt">Git folder <code class="k">dbx-cafe-hands-on</code>가 main 브랜치로 만들어졌다</span></label>
-    <label class="task"><input type="checkbox" data-k="r3"><span class="mark"></span>
-      <span class="txt">내 PC에 ZIP을 받아 압축을 풀었다</span></label>
+  <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="c3"><span class="mark"></span>
       <span class="txt">setup을 Run all 했고, Catalog 패널에 <code class="k">raw</code> Volume이 보인다</span></label>
   </div>
+
 </section>
 </div>
 
@@ -822,6 +832,10 @@
     <button type="button" class="zoom" data-full="images/runbook/08-create-directory-notebook-annotated.png"><img src="images/runbook/thumbnails/08-create-directory-notebook-annotated.png" alt="노트북 왼쪽 raw 메뉴에서 orders 디렉터리 생성" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 8</span>orders 입력 후 Create</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="u1"><span class="mark"></span>
+      <span class="txt"><code class="k">raw</code> 바로 아래에 <code class="k">orders</code>, <code class="k">support</code>가 있다</span></label>
+  </div>
 
   <h3><span class="sn">4-2</span>매장·상품 파일</h3>
   <p><code class="k">raw</code> 행의 <strong>⋮ → Upload to volume → browse → Select files</strong>를 고릅니다. 압축 푼 폴더의 <code class="k">sample_data/raw/</code>에서 <code class="k">stores.csv</code>와 <code class="k">products.csv</code>를 선택하고, <strong>Destination volume</strong>을 확인한 뒤 <strong>Upload</strong>를 누릅니다.</p>
@@ -832,6 +846,10 @@
     <figcaption><span class="fn">화면 9</span>목적지가 raw인지 보고 Upload</figcaption>
   </figure>
   <p>목록이 바로 안 바뀌면 Catalog 패널 위쪽의 <strong>Refresh catalog</strong>를 누릅니다. 업로드 요약 창이 트리를 가리면 닫으세요.</p>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="u2"><span class="mark"></span>
+      <span class="txt"><code class="k">raw</code>에 <code class="k">stores.csv</code>, <code class="k">products.csv</code>가 있다</span></label>
+  </div>
 
   <h3><span class="sn">4-3</span>주문 배치 세 개</h3>
   <p>이번에는 <code class="k">orders</code> 행의 <strong>⋮ → Upload to volume</strong>입니다. <code class="k">sample_data/raw/orders/</code>에서 세 파일을 한 번에 고릅니다. 목적지 끝이 <strong>orders</strong>인지 꼭 보세요.</p>
@@ -841,6 +859,10 @@
     <button type="button" class="zoom" data-full="images/runbook/09-upload-orders-notebook-annotated.png"><img src="images/runbook/thumbnails/09-upload-orders-notebook-annotated.png" alt="노트북에서 orders 디렉터리에 주문 배치 세 개 업로드" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 10</span>목적지 orders 확인 후 Upload</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="u3"><span class="mark"></span>
+      <span class="txt"><code class="k">orders</code>에 주문 배치 CSV 세 개가 있다</span></label>
+  </div>
 
   <h3><span class="sn">4-4</span>용어집</h3>
   <p><code class="k">support</code> 행에서 같은 방법으로 압축 푼 폴더의 <code class="k">sample_data/support/glossary.csv</code>를 올립니다. 이 파일은 13절 AI Search에서 씁니다.</p>
@@ -850,6 +872,10 @@
     <button type="button" class="zoom" data-full="images/runbook/10-upload-glossary-notebook-annotated.png"><img src="images/runbook/thumbnails/10-upload-glossary-notebook-annotated.png" alt="노트북에서 support 디렉터리에 glossary 업로드" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 11</span>목적지 support 확인 후 Upload</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="u4"><span class="mark"></span>
+      <span class="txt"><code class="k">support</code>에 <code class="k">glossary.csv</code>가 있다</span></label>
+  </div>
 
   <h3><span class="sn">4-5</span>여섯 개 다 있는지 확인</h3>
   <p><strong>Refresh catalog</strong>를 누르고 <code class="k">orders</code>와 <code class="k">support</code>를 펼쳐 위의 최종 구조와 비교합니다.</p>
@@ -858,17 +884,6 @@
     <figcaption><span class="fn">화면 12</span>raw 트리에서 CSV 여섯 개 확인</figcaption>
   </figure>
 
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="u1"><span class="mark"></span>
-      <span class="txt"><code class="k">raw</code> 바로 아래에 <code class="k">orders</code>, <code class="k">support</code>가 있다</span></label>
-    <label class="task"><input type="checkbox" data-k="u2"><span class="mark"></span>
-      <span class="txt"><code class="k">raw</code>에 <code class="k">stores.csv</code>, <code class="k">products.csv</code>가 있다</span></label>
-    <label class="task"><input type="checkbox" data-k="u3"><span class="mark"></span>
-      <span class="txt"><code class="k">orders</code>에 주문 배치 CSV 세 개가 있다</span></label>
-    <label class="task"><input type="checkbox" data-k="u4"><span class="mark"></span>
-      <span class="txt"><code class="k">support</code>에 <code class="k">glossary.csv</code>가 있다</span></label>
-  </div>
 </section>
 </div>
 
@@ -950,6 +965,10 @@
     <button type="button" class="zoom" data-full="images/runbook/13-pipeline-settings-entry.jpg"><img src="images/runbook/thumbnails/13-pipeline-settings-entry.jpg" alt="Pipeline 설정 진입 화면" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 14</span>Pipeline 설정</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="p1"><span class="mark"></span>
+      <span class="txt">이름 <code class="k">cafe_medallion_pipeline</code>, Triggered, Serverless를 확인했다</span></label>
+  </div>
 
   <h3><span class="sn">5-3</span>소스 파일과 저장 위치</h3>
   <p>Settings 패널을 아래로 내려 <strong>Legacy pipeline settings</strong>를 엽니다. 여기서 두 가지를 정합니다. 무엇을 실행할지(Source code)와 결과를 어디에 둘지(Destination)입니다.</p>
@@ -967,6 +986,10 @@
     <button type="button" class="zoom" data-full="images/runbook/14-pipeline-source-annotated.png"><img src="images/runbook/thumbnails/14-pipeline-source-annotated.png" alt="Git folder에서 Pipeline 전용 노트북 선택" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 15</span>Pipeline 소스 선택</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="p2"><span class="mark"></span>
+      <span class="txt">Source code에 <code class="k">01_cafe_medallion_pipeline</code> 하나만 있다</span></label>
+  </div>
   <h4 class="sub"><span class="mk">②</span>결과를 저장할 위치 지정</h4>
   <p><strong>Destination</strong>은 아래처럼 채웁니다. 입력 CSV는 <code class="k">cafe_landing</code>에 있고, 결과 데이터셋은 <code class="k">cafe_hands_on</code>에 쌓입니다.</p>
   <div class="qa">
@@ -979,6 +1002,10 @@
     <button type="button" class="zoom" data-full="images/runbook/15-pipeline-settings-annotated.png"><img src="images/runbook/thumbnails/15-pipeline-settings-annotated.png" alt="Pipeline의 소스 경로와 출력 위치 설정" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 16</span>소스 경로와 출력 위치</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="p3"><span class="mark"></span>
+      <span class="txt">Destination을 <code class="k">cafe_training</code> / <code class="k">cafe_hands_on</code>으로 저장했다</span></label>
+  </div>
 
   <h3><span class="sn">5-4</span>실행하고 숫자 맞추기</h3>
   <h4 class="sub"><span class="mk">①</span>실행 상태와 DAG 확인</h4>
@@ -987,6 +1014,10 @@
     <button type="button" class="zoom" data-full="images/runbook/19-pipeline-completed.jpg"><img src="images/runbook/thumbnails/19-pipeline-completed.jpg" alt="Pipeline 실행 성공과 Bronze·Silver·Gold DAG" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 17</span>Pipeline 실행 결과. 아래 Tables의 Output records에 bronze_orders 300, gold_sales 266이 보입니다.</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="p4"><span class="mark"></span>
+      <span class="txt">실행 결과 Completed, 데이터셋 7개가 모두 성공했다</span></label>
+  </div>
 
   <h4 class="sub"><span class="mk">②</span>행 수와 정제 결과 확인</h4>
   <div class="receipts">
@@ -1012,6 +1043,10 @@
     </div>
   </div>
 
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="p5"><span class="mark"></span>
+      <span class="txt">Output records에서 <code class="k">bronze_orders</code> 300, <code class="k">gold_sales</code> 266을 봤다</span></label>
+  </div>
   <h4 class="sub"><span class="mk">③</span>Expectation의 역할 이해</h4>
   <p><code class="k">silver_orders_clean</code>에는 아래 품질 규칙이 선언되어 있습니다. <code class="k">quantity &gt; 0</code>을 만족하지 않는 행은 Silver 결과에서 빠집니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">silver_orders_clean의 품질 규칙</span></div>
@@ -1024,19 +1059,6 @@
     <li><strong>취소 30행</strong>은 Silver에는 남아 있고 Gold에서 뺍니다.</li>
   </ul>
 
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="p1"><span class="mark"></span>
-      <span class="txt">이름 <code class="k">cafe_medallion_pipeline</code>, Triggered, Serverless를 확인했다</span></label>
-    <label class="task"><input type="checkbox" data-k="p2"><span class="mark"></span>
-      <span class="txt">Source code에 <code class="k">01_cafe_medallion_pipeline</code> 하나만 있다</span></label>
-    <label class="task"><input type="checkbox" data-k="p3"><span class="mark"></span>
-      <span class="txt">Destination을 <code class="k">cafe_training</code> / <code class="k">cafe_hands_on</code>으로 저장했다</span></label>
-    <label class="task"><input type="checkbox" data-k="p4"><span class="mark"></span>
-      <span class="txt">실행 결과 Completed, 데이터셋 7개가 모두 성공했다</span></label>
-    <label class="task"><input type="checkbox" data-k="p5"><span class="mark"></span>
-      <span class="txt">Output records에서 <code class="k">bronze_orders</code> 300, <code class="k">gold_sales</code> 266을 봤다</span></label>
-  </div>
 </section>
 </div>
 
@@ -1063,6 +1085,10 @@
     <button type="button" class="zoom" data-full="images/runbook/16-job-pipeline-task-annotated.png"><img src="images/runbook/thumbnails/16-job-pipeline-task-annotated.png" alt="Job의 Pipeline 실행 Task 설정" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 18</span>Pipeline 실행 Task</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="j1"><span class="mark"></span>
+      <span class="txt"><code class="k">run_medallion_pipeline</code> Task를 full refresh 없이 저장했다</span></label>
+  </div>
 
   <h3><span class="sn">6-2</span>검증 Task</h3>
   <h4 class="sub"><span class="mk">①</span>검증 Task 추가</h4>
@@ -1085,6 +1111,10 @@
     <button type="button" class="zoom" data-full="images/runbook/18-job-validation-task-annotated.png"><img src="images/runbook/thumbnails/18-job-validation-task-annotated.png" alt="검증 Task의 Warehouse와 의존성" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 20</span>검증 Task 설정. 완성된 DAG는 run_medallion_pipeline → validate_pipeline입니다.</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="j2"><span class="mark"></span>
+      <span class="txt"><code class="k">validate_pipeline</code>이 앞 Task에 의존하도록 만들었다</span></label>
+  </div>
 
   <h3><span class="sn">6-3</span>실행과 결과</h3>
   <h4 class="sub"><span class="mk">①</span>Job 실행</h4>
@@ -1093,6 +1123,10 @@
     <button type="button" class="zoom" data-full="images/runbook/28-job-succeeded.jpg"><img src="images/runbook/thumbnails/28-job-succeeded.jpg" alt="Pipeline 실행과 SQL 검증 task가 모두 성공한 Job" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 21</span>Job 실행 결과</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="j3"><span class="mark"></span>
+      <span class="txt">Run now 결과 두 Task가 모두 Succeeded다</span></label>
+  </div>
   <h4 class="sub"><span class="mk">②</span>검증 결과 확인</h4>
   <p>검증 Task를 열어 결과 표의 세 행이 모두 PASS인지 봅니다. 행 순서는 달라도 됩니다.</p>
   <div class="tw"><table>
@@ -1107,18 +1141,11 @@
     <button type="button" class="zoom" data-full="images/runbook/29-validation-pass-annotated.png"><img src="images/runbook/thumbnails/29-validation-pass-annotated.png" alt="검증 SQL의 Bronze·Silver·Gold 행 수가 모두 PASS인 결과" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 22</span>행 수 검증 결과</figcaption>
   </figure>
-
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="j1"><span class="mark"></span>
-      <span class="txt"><code class="k">run_medallion_pipeline</code> Task를 full refresh 없이 저장했다</span></label>
-    <label class="task"><input type="checkbox" data-k="j2"><span class="mark"></span>
-      <span class="txt"><code class="k">validate_pipeline</code>이 앞 Task에 의존하도록 만들었다</span></label>
-    <label class="task"><input type="checkbox" data-k="j3"><span class="mark"></span>
-      <span class="txt">Run now 결과 두 Task가 모두 Succeeded다</span></label>
+  <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="j4"><span class="mark"></span>
       <span class="txt">검증 결과 세 행이 모두 PASS다</span></label>
   </div>
+
 </section>
 </div>
 
@@ -1154,12 +1181,20 @@
     </figure>
   </div>
 
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="m1"><span class="mark"></span>
+      <span class="txt">기준선 노트북 결과가 1734580 / 266 / 6520.97…이다</span></label>
+  </div>
   <h3><span class="sn">8</span>설명을 붙이기</h3>
   <p><code class="k" data-c>notebooks/03_metric_view_optimized.sql</code>을 같은 Warehouse에서 Run all 합니다. 계산식은 그대로 두고, Genie가 사람 말을 알아듣도록 표시명·동의어·포맷을 더하는 단계입니다.</p>
   <figure class="shot">
     <button type="button" class="zoom" data-full="images/runbook/22-metric-optimized.jpg"><img src="images/runbook/thumbnails/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 25</span>Metric View 최적화 실행</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="m2"><span class="mark"></span>
+      <span class="txt">최적화 노트북을 Run all 했다</span></label>
+  </div>
   <div class="tw min"><table>
     <thead><tr><th>추가되는 것</th><th>값</th></tr></thead>
     <tbody>
@@ -1175,19 +1210,14 @@
        MEASURE(order_count) AS order_count,
        MEASURE(avg_order_value) AS avg_order_value
 FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="m3"><span class="mark"></span>
+      <span class="txt">조회 SQL로 값이 바뀌지 않았음을 확인했다</span></label>
+  </div>
   <div class="note stop">
     <p>여기서 기준선 노트북(02)을 다시 Run all 하면 방금 붙인 설명이 기준선으로 덮어써집니다. 실수로 돌렸다면 03을 한 번 더 실행하세요.</p>
   </div>
 
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="m1"><span class="mark"></span>
-      <span class="txt">기준선 노트북 결과가 1734580 / 266 / 6520.97…이다</span></label>
-    <label class="task"><input type="checkbox" data-k="m2"><span class="mark"></span>
-      <span class="txt">최적화 노트북을 Run all 했다</span></label>
-    <label class="task"><input type="checkbox" data-k="m3"><span class="mark"></span>
-      <span class="txt">조회 SQL로 값이 바뀌지 않았음을 확인했다</span></label>
-  </div>
 </section>
 </div>
 
@@ -1204,6 +1234,10 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
     <button type="button" class="zoom" data-full="images/runbook/23-genie-select-metric-view-annotated.png"><img src="images/runbook/thumbnails/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 26</span>Genie 연결 자산 선택</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="g1"><span class="mark"></span>
+      <span class="txt">Metric View 하나만 연결해 Genie Agent를 만들었다</span></label>
+  </div>
   <p>이름은 자동으로 붙어 있습니다. <strong>Configure → About → About this agent</strong>의 연필 아이콘에서 아래처럼 바꾸고 <strong>Save</strong>를 누릅니다. Owner와 Agent ID는 알아서 채워집니다.</p>
   <div class="qa">
     <div class="qa-r"><span class="k">Name</span><span class="v">Cafe Sales Genie Agent</span><button type="button" class="copy">복사</button></div>
@@ -1213,6 +1247,10 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
     <button type="button" class="zoom" data-full="images/runbook/24-genie-name.jpg"><img src="images/runbook/thumbnails/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 27</span>Genie 이름과 Warehouse</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="g2"><span class="mark"></span>
+      <span class="txt">이름 <code class="k">Cafe Sales Genie Agent</code>와 기본 Warehouse를 저장했다</span></label>
+  </div>
 
   <p><strong>Configure → Instructions</strong>(구버전은 Configure › Context › Instructions)에 아래 지침 전체를 붙여 넣고 <strong>Save</strong>를 누릅니다. 다른 탭에 갔다 와도 내용이 남아 있으면 저장된 것입니다.</p>
   <div class="snip tall"><div class="snip-top"><span class="snip-lbl">resources/genie_instructions.md</span><button type="button" class="copy">복사</button></div>
@@ -1251,6 +1289,10 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
     <button type="button" class="zoom" data-full="images/runbook/25-genie-instructions-annotated.png"><img src="images/runbook/thumbnails/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 28</span>Genie 지침 입력</figcaption>
   </figure>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="g3"><span class="mark"></span>
+      <span class="txt">Instructions에 지침 전체를 넣고 저장했다</span></label>
+  </div>
 
   <h3><span class="sn">10</span>Example Query 여섯 개</h3>
   <p><strong>Configure → Examples</strong> 탭 오른쪽 위 <strong>Add</strong>에서 추가합니다(구버전은 Configure › Context › Add). 여러 종류가 나오는데 이번에는 <strong>Example Query</strong>만 씁니다. Filter, Measure, Field, Join은 건너뜁니다.</p>
@@ -1301,9 +1343,17 @@ ORDER BY net_sales DESC;</pre><button type="button" class="copy">복사</button>
 FROM cafe_training.cafe_hands_on.cafe_sales_metrics
 GROUP BY store_name
 ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="g4"><span class="mark"></span>
+      <span class="txt">Examples 목록이 All (6)이다</span></label>
+  </div>
 
   <h3>채팅으로 물어보기</h3>
   <p>채팅 화면에서 <code class="k" data-c>전체 기간 순매출은 얼마야?</code>를 입력합니다. <strong>1,734,580원</strong>이 나오면 됩니다.</p>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="g5"><span class="mark"></span>
+      <span class="txt">전체 기간 순매출 질문에 1,734,580원이 나왔다</span></label>
+  </div>
   <p>다음 세 질문은 뜻이 하나로 정해지지 않습니다. Genie가 바로 숫자를 내놓지 않고 <strong>먼저 되물으면 정상</strong>입니다.</p>
   <div class="tw min"><table>
     <thead><tr><th>질문</th><th>기대하는 반응</th></tr></thead>
@@ -1313,22 +1363,11 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
       <tr><td><code class="k" data-c>손님이 가장 많은 매장은 어디야?</code></td><td>고객 데이터가 없다고 말하고 주문수나 판매수량으로 볼지 묻는다</td></tr>
     </tbody>
   </table></div>
-
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="g1"><span class="mark"></span>
-      <span class="txt">Metric View 하나만 연결해 Genie Agent를 만들었다</span></label>
-    <label class="task"><input type="checkbox" data-k="g2"><span class="mark"></span>
-      <span class="txt">이름 <code class="k">Cafe Sales Genie Agent</code>와 기본 Warehouse를 저장했다</span></label>
-    <label class="task"><input type="checkbox" data-k="g3"><span class="mark"></span>
-      <span class="txt">Instructions에 지침 전체를 넣고 저장했다</span></label>
-    <label class="task"><input type="checkbox" data-k="g4"><span class="mark"></span>
-      <span class="txt">Examples 목록이 All (6)이다</span></label>
-    <label class="task"><input type="checkbox" data-k="g5"><span class="mark"></span>
-      <span class="txt">전체 기간 순매출 질문에 1,734,580원이 나왔다</span></label>
+  <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="g6"><span class="mark"></span>
       <span class="txt">모호한 질문 세 개에서 Genie가 되물었다</span></label>
   </div>
+
 </section>
 </div>
 
@@ -1371,6 +1410,10 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <div class="qa"><div class="qa-h"><span class="id">B008</span><span class="t">주말/평일 두 행</span></div>
     <div class="qa-r"><span class="k">Question</span><span class="v">주말과 평일의 순매출을 비교해줘</span><button type="button" class="copy">복사</button></div>
     <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT day_type, MEASURE(net_sales) AS net_sales FROM cafe_training.cafe_hands_on.cafe_sales_metrics GROUP BY day_type ORDER BY net_sales DESC</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="b1"><span class="mark"></span>
+      <span class="txt">Chat Benchmark B001~B008을 등록했다</span></label>
+  </div>
 
   <h4 class="sub">Agent 모드 · B009~B012</h4>
   <p>이번에는 반대로 <strong>SQL Answer를 비우고</strong> Evaluation note를 채웁니다. 정답이 숫자가 아니라 "되물어야 한다" 같은 행동이기 때문입니다.</p>
@@ -1387,11 +1430,19 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <div class="qa"><div class="qa-h"><span class="id">B012</span><span class="t">분석</span></div>
     <div class="qa-r"><span class="k">Question</span><span class="v">최근 매출 추이를 보여줘</span><button type="button" class="copy">복사</button></div>
     <div class="qa-r"><span class="k">Note</span><span class="v">데이터 최대일 2026-07-14 기준 최근 7일을 사용하고 실제 기간을 응답에 밝혀야 한다.</span><button type="button" class="copy">복사</button></div></div>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="b2"><span class="mark"></span>
+      <span class="txt">Agent Benchmark B009~B012를 등록했다</span></label>
+  </div>
 
   <h3><span class="sn">11-3</span>Benchmark 실행</h3>
   <p>두 묶음을 따로 실행합니다.</p>
   <p class="path"><b>CHAT</b><span>B001~B008 선택</span><span>Run selected</span><span>Mode: Chat</span></p>
   <p class="path"><b>AGENT</b><span>B009~B012 선택</span><span>Run selected</span><span>Mode: Agent</span></p>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="b3"><span class="mark"></span>
+      <span class="txt">두 묶음을 각각 Chat, Agent 모드로 실행했다</span></label>
+  </div>
   <p>끝나면 <strong>Evaluations</strong>에서 결과를 보고 여기에 적어 둡니다. 16절과 마무리 화면에서 다시 보여 줍니다.</p>
   <div class="memo">
     <div class="f"><label for="memoEvalName">Evaluation name</label><input type="text" id="memoEvalName" data-k="memoEvalName" placeholder="예: chat-run-1"></div>
@@ -1401,11 +1452,19 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
     <div class="f"><label for="memoGood">Good 문항</label><input type="text" id="memoGood" data-k="memoGood" placeholder="예: B001~B008, B009"></div>
     <div class="f"><label for="memoBad">Bad · Manual Review</label><input type="text" id="memoBad" data-k="memoBad" placeholder="예: B012"></div>
   </div>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="b4"><span class="mark"></span>
+      <span class="txt">Evaluations에서 Accuracy를 보고 위에 적었다</span></label>
+  </div>
 
   <h3><span class="sn">11-4</span>Monitor 확인</h3>
   <p class="path"><b>이동</b><span>Cafe Sales Genie Agent</span><span>Monitor</span></p>
   <p>지금까지 들어온 질문과 응답, 생성 SQL, 평점, 상태가 쌓여 있습니다. Fix it, Request review, Weekly digest 메뉴도 여기 있습니다.</p>
   <p>피드백이 쌓인다고 Instruction이 저절로 바뀌지는 않습니다. 같은 문제가 반복되면 아래 12절 방법으로 직접 고칩니다.</p>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="b5"><span class="mark"></span>
+      <span class="txt">Monitor에서 질문·응답·생성 SQL을 봤다</span></label>
+  </div>
 
   <h3><span class="sn">12</span>Genie 품질 개선</h3>
   <p>Benchmark에서 틀린 문항이 나왔을 때 어디를 고칠지 정하는 방법입니다.</p>
@@ -1468,19 +1527,6 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   </div>
   <p>실패한 문항이 없다면 Instruction을 더 넣을 필요가 없습니다. 지금 Accuracy를 기준선으로 적어 두면 됩니다.</p>
 
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="b1"><span class="mark"></span>
-      <span class="txt">Chat Benchmark B001~B008을 등록했다</span></label>
-    <label class="task"><input type="checkbox" data-k="b2"><span class="mark"></span>
-      <span class="txt">Agent Benchmark B009~B012를 등록했다</span></label>
-    <label class="task"><input type="checkbox" data-k="b3"><span class="mark"></span>
-      <span class="txt">두 묶음을 각각 Chat, Agent 모드로 실행했다</span></label>
-    <label class="task"><input type="checkbox" data-k="b4"><span class="mark"></span>
-      <span class="txt">Evaluations에서 Accuracy를 보고 위에 적었다</span></label>
-    <label class="task"><input type="checkbox" data-k="b5"><span class="mark"></span>
-      <span class="txt">Monitor에서 질문·응답·생성 SQL을 봤다</span></label>
-  </div>
 
   <div class="note ok">
     <span class="lbl">기초 과정 끝</span>
@@ -1616,6 +1662,10 @@ display(results)</pre></div></div>
 - 표 또는 숫자 뒤에 사용한 기간·지표·필터를 짧게 명시합니다.
 - 도구 결과가 없거나 실패하면 실패 원인을 알리고 필요한 조건을 요청합니다.
 - 데이터에 없는 원인이나 고객 행동을 추정하지 않습니다.</pre></div></div>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="a1"><span class="mark"></span>
+      <span class="txt">Playground에 Supervisor 지침과 두 도구를 연결했다</span></label>
+  </div>
   <ol class="do" start="5">
     <li>아래 네 질문을 <strong>각각 새 대화에서</strong> 물어봅니다. 답뿐 아니라 어떤 도구를 어떤 순서로 불렀는지도 봅니다.</li>
   </ol>
@@ -1629,6 +1679,10 @@ display(results)</pre></div></div>
     </tbody>
   </table></div>
   <p>도구가 안 보이거나 연결 오류가 나면 강사에게 권한과 기능 활성화 여부를 확인해 달라고 합니다. App으로 내보내려면 Databricks Apps와 Managed MCP Servers preview가 켜져 있어야 합니다.</p>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="a2"><span class="mark"></span>
+      <span class="txt">Playground에서 네 질문이 기대한 도구 흐름대로 동작했다</span></label>
+  </div>
 
   <h3><span class="sn">14-1</span>Playground에서 App으로 내보내기</h3>
   <p class="path"><b>이동</b><span>Playground</span><span>Get code</span><span>Export to Databricks Apps</span></p>
@@ -1650,6 +1704,10 @@ display(results)</pre></div></div>
     </tbody>
   </table></div>
   <p>AI Search Index는 Workspace 버전에 따라 <strong>Vector search index</strong>로 보일 수도 있습니다.</p>
+  <div class="checks inline">
+    <label class="task"><input type="checkbox" data-k="a3"><span class="mark"></span>
+      <span class="txt"><code class="k">agent-cafe-supervisor</code> App을 만들고 Resource 세 개를 연결했다</span></label>
+  </div>
 
   <h3><span class="sn">14-3</span>환경 변수 확인</h3>
   <p><code class="k">resources/app.yaml.example</code>의 키가 14-2의 Resource key와 같아야 합니다.</p>
@@ -1667,18 +1725,11 @@ display(results)</pre></div></div>
 
   <h3><span class="sn">14-4</span>App 실행과 확인</h3>
   <p>App 상태가 <code class="k">Running</code>이 되면 Playground에서 했던 네 질문을 App에서 다시 입력합니다. 도구 흐름이 위 표와 같아야 합니다.</p>
-
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="a1"><span class="mark"></span>
-      <span class="txt">Playground에 Supervisor 지침과 두 도구를 연결했다</span></label>
-    <label class="task"><input type="checkbox" data-k="a2"><span class="mark"></span>
-      <span class="txt">Playground에서 네 질문이 기대한 도구 흐름대로 동작했다</span></label>
-    <label class="task"><input type="checkbox" data-k="a3"><span class="mark"></span>
-      <span class="txt"><code class="k">agent-cafe-supervisor</code> App을 만들고 Resource 세 개를 연결했다</span></label>
+  <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="a4"><span class="mark"></span>
       <span class="txt">App이 Running이고 네 질문에 같은 흐름으로 답했다</span></label>
   </div>
+
 </section>
 </div>
 
