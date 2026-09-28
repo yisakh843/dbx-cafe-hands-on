@@ -4,39 +4,45 @@
 
 ## 처음 실습하는 분께
 
-위에서 아래로 순서대로 따라 하시면 됩니다. 단계마다 예상 결과가 나왔는지 확인한 뒤 다음으로 넘어갑니다. 샘플 데이터의 기간은 **2026-07-01~2026-07-14**입니다.
+위에서 아래로 순서대로 따라 하시면 됩니다. 단계마다 예상 결과가 나왔는지 확인한 뒤 다음으로 넘어갑니다. 샘플 데이터의 기간은 **2026-07-01\~2026-07-14**입니다.
 
-| 구간 | 하는 일 | 완료하면 보이는 결과 |
-|---|---|---|
-| 2~4절 | 실습 코드와 CSV 준비 | 개인 Git folder와 CSV 6개가 들어 있는 Volume |
-| 5~6절 | 데이터 정리 및 실행 자동화 | Bronze 300행 → Silver 296행 → Gold 266행 |
-| 7~8절 | 매출 계산 기준 정의 | 순매출 1,734,580원, 주문수 266건 |
-| 9~12절 | 자연어 분석과 답변 평가 | Genie 답변, 예제 SQL, Benchmark 결과 |
-| 13~16절 | 용어 검색과 Agent 앱 연결 | AI Search, Supervisor, App, MLflow Trace |
 
-전체를 모두 진행하면 약 5시간 15분이 걸립니다. 3시간 기초 과정은 12절까지 진행하고, 13~16절은 심화 실습으로 따로 다룹니다. 강사가 안내하는 범위까지 진행합니다.
+| 구간      | 하는 일              | 완료하면 보이는 결과                              |
+| ------- | ----------------- | ---------------------------------------- |
+| 2\~4절   | 실습 코드와 CSV 준비     | 개인 Git folder와 CSV 6개가 들어 있는 Volume      |
+| 5\~6절   | 데이터 정리 및 실행 자동화   | Bronze 300행 → Silver 296행 → Gold 266행    |
+| 7\~8절   | 매출 계산 기준 정의       | 순매출 1,734,580원, 주문수 266건                 |
+| 9\~12절  | 자연어 분석과 답변 평가     | Genie 답변, 예제 SQL, Benchmark 결과           |
+| 13\~16절 | 용어 검색과 Agent 앱 연결 | AI Search, Supervisor, App, MLflow Trace |
+
+
+전체를 모두 진행하면 약 5시간 15분이 걸립니다. 3시간 기초 과정은 12절까지 진행하고, 13\~16절은 심화 실습으로 따로 다룹니다. 강사가 안내하는 범위까지 진행합니다.
 
 ### 빠른 이동
 
-| 구간 | 바로 가기 |
-|---|---|
-| 환경 준비 | [고정 이름](#step-0) · [사전 조건](#step-1) · [저장소 받기](#step-2) · [Catalog 준비](#step-3) · [CSV 업로드](#step-4) |
-| 데이터 파이프라인 | [Pipeline](#step-5) · [Job과 검증](#step-6) |
+
+| 구간                  | 바로 가기                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 환경 준비               | [네이밍 규칙](#step-0) · [사전 조건](#step-1) · [저장소 받기](#step-2) · [Catalog 준비](#step-3) · [CSV 업로드](#step-4)               |
+| 데이터 파이프라인           | [Pipeline](#step-5) · [Job과 검증](#step-6)                                                                           |
 | Metric View · Genie | [기준선](#step-7) · [최적화](#step-8) · [Genie 생성](#step-9) · [예제](#step-10) · [Benchmark](#step-11) · [품질 개선](#step-12) |
-| 심화 실습 | [AI Search](#step-13) · [Apps](#step-14) · [MLflow](#step-15) · [통합 검증](#step-16) |
-| 마무리 | [강사용 배포](#step-17) · [최종 확인표](#step-18) |
+| 심화 실습               | [AI Search](#step-13) · [Apps](#step-14) · [MLflow](#step-15) · [통합 검증](#step-16)                                  |
+| 마무리                 | [강사용 배포](#step-17) · [최종 확인표](#step-18)                                                                            |
+
 
 ### 화면과 경로 읽는 법
 
 아래는 Databricks Free Edition의 홈 화면입니다(2026-09-21 기준).
 
-실습에서는 왼쪽 메뉴의 Workspace, Catalog, Jobs & Pipelines, Genie Agents, SQL Warehouses, Playground를 주로 사용합니다.
+실습에서는 왼쪽 메뉴의 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents, SQL Warehouses, Playground를 주로 사용합니다.
 
-<a href="images/runbook/00-workspace-home.jpg"><img src="images/runbook/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600"></a>
+<a href="images/runbook/00-workspace-home.jpg"><img src="images/runbook/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600">
+
+</a>
 
 화면 1. 실습에서 사용할 홈 화면
 
-> **화면 안내:** 그림은 Databricks Free Edition에서 직접 촬영한 화면입니다. 캡처에 보이는 계정 이메일과 리소스 ID는 촬영할 때의 값이니, 실습은 본인 계정에서 진행하시면 됩니다. 버튼 이름과 위치는 Workspace 버전에 따라 조금 다를 수 있습니다. 그림을 클릭하면 원래 크기로 볼 수 있습니다. 현재 캡처·검증 범위는 [강사용 확인표](02_screenshot_checklist.md)에 기록되어 있습니다.
+> **화면 안내:** 그림은 Databricks Free Edition에서 직접 촬영한 화면입니다. 캡처에 보이는 계정 이메일과 리소스 ID는 촬영할 때의 값이니, 실습은 본인 계정에서 진행하시면 됩니다. 버튼 이름과 위치는 Workspace 버전에 따라 조금 다를 수 있습니다. 그림을 클릭하면 원래 크기로 볼 수 있습니다. 
 
 - **Workspace**는 코드·노트북을 여는 곳입니다. **Catalog Explorer**는 테이블·Metric View·Volume을 확인하는 곳입니다.
 - **Catalog → Schema → Table/Volume** 순으로 데이터가 정리됩니다. `cafe_training.cafe_hands_on.gold_sales`는 Catalog, Schema, Table 이름을 점으로 연결한 것입니다.
@@ -47,36 +53,44 @@
 
 ### 실행할 파일 구분
 
-| 파일 | 실행 위치와 방법 |
-|---|---|
+
+| 파일                                                                            | 실행 위치와 방법                                     |
+| ----------------------------------------------------------------------------- | --------------------------------------------- |
 | `00_setup.sql`, `02_metric_view_baseline.sql`, `03_metric_view_optimized.sql` | Workspace 노트북에서 SQL Warehouse를 선택하고 `Run all` |
-| `01_cafe_medallion_pipeline.sql` | 5절에서 Pipeline 소스로 등록하고 Pipeline 실행 |
-| `04_pipeline_validate.sql` | 6절에서 Job의 SQL File task로 등록 |
-| `05_create_ai_search.py`, `06_mlflow_monitoring.py` | Python Compute를 연결하고 안내된 셀 순서대로 실행 |
+| `01_cafe_medallion_pipeline.sql`                                              | 5절에서 Pipeline 소스로 등록하고 Pipeline 실행            |
+| `04_pipeline_validate.sql`                                                    | 6절에서 Job의 SQL File task로 등록                   |
+| `05_create_ai_search.py`, `06_mlflow_monitoring.py`                           | Python Compute를 연결하고 안내된 셀 순서대로 실행            |
+
 
 > **오류가 나면:** 어떤 파일·셀에서 어떤 오류 메시지가 나왔는지, 어떤 Compute를 선택했는지 먼저 확인합니다. 앞 단계가 실패한 상태에서는 다음 단계로 넘어가지 말고 강사에게 화면을 보여 주시기 바랍니다.
 
-<a id="step-0"></a>
+<a id="step-0">
 
-## 0. 고정 이름
+</a>
 
-| 대상 | 이름 또는 값 |
-|---|---|
+## 0. 네이밍 규칙
+
+
+| 대상                | 이름 또는 값                                              |
+| ----------------- | ---------------------------------------------------- |
 | GitHub repository | `https://github.com/yisakh843/dbx-cafe-hands-on.git` |
-| Git branch | `main` |
-| Git folder | `dbx-cafe-hands-on` |
-| Catalog | `cafe_training` |
-| Landing Schema | `cafe_landing` |
-| Analytics Schema | `cafe_hands_on` |
-| Volume | `cafe_training.cafe_landing.raw` |
-| Pipeline | `cafe_medallion_pipeline` |
-| Job | `cafe_medallion_job` |
-| Pipeline task | `run_medallion_pipeline` |
-| Validation task | `validate_pipeline` |
-| Metric View | `cafe_training.cafe_hands_on.cafe_sales_metrics` |
-| Genie Agent | `Cafe Sales Genie Agent` |
+| Git branch        | `main`                                               |
+| Git folder        | `dbx-cafe-hands-on`                                  |
+| Catalog           | `cafe_training`                                      |
+| Landing Schema    | `cafe_landing`                                       |
+| Analytics Schema  | `cafe_hands_on`                                      |
+| Volume            | `cafe_training.cafe_landing.raw`                     |
+| Pipeline          | `cafe_medallion_pipeline`                            |
+| Job               | `cafe_medallion_job`                                 |
+| Pipeline task     | `run_medallion_pipeline`                             |
+| Validation task   | `validate_pipeline`                                  |
+| Metric View       | `cafe_training.cafe_hands_on.cafe_sales_metrics`     |
+| Genie Agent       | `Cafe Sales Genie Agent`                             |
 
-<a id="step-1"></a>
+
+<a id="step-1">
+
+</a>
 
 ## 1. 사전 조건
 
@@ -94,9 +108,11 @@
 - `cafe_hands_on` Schema `CREATE TABLE`
 - Genie Agent 생성·편집 권한
 
-Catalog는 3절의 setup 노트북에서 만듭니다. 만들거나 실행하다가 실패하면 본인의 Free Edition Workspace에 로그인되어 있는지 확인하고, 오류 메시지를 강사에게 보여 주시기 바랍니다. 13~16절 심화 실습은 강사가 Free Edition에서 필요한 기능과 모델을 쓸 수 있는지 미리 확인한 뒤 진행합니다.
+Catalog는 3절의 setup 노트북에서 만듭니다. 만들거나 실행하다가 실패하면 본인의 Free Edition Workspace에 로그인되어 있는지 확인하고, 오류 메시지를 강사에게 보여 주시기 바랍니다. 13\~16절 심화 실습은 강사가 Free Edition에서 필요한 기능과 모델을 쓸 수 있는지 미리 확인한 뒤 진행합니다.
 
-<a id="step-2"></a>
+<a id="step-2">
+
+</a>
 
 ## 2. GitHub 저장소를 Git folder로 받기
 
@@ -104,21 +120,27 @@ Catalog는 3절의 setup 노트북에서 만듭니다. 만들거나 실행하다
 
 **이동:** `Workspace → Home(개인 폴더) → Create → Git folder`
 
-<a href="images/runbook/01-create-menu-annotated.png"><img src="images/runbook/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720"></a>
+<a href="images/runbook/01-create-menu-annotated.png"><img src="images/runbook/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720">
+
+</a>
 
 화면 2. Git folder 생성 메뉴
 
 입력값:
 
-| 항목 | 값 |
-|---|---|
+
+| 항목                 | 값                                                    |
+| ------------------ | ---------------------------------------------------- |
 | Git repository URL | `https://github.com/yisakh843/dbx-cafe-hands-on.git` |
-| Provider | GitHub |
-| Git folder name | `dbx-cafe-hands-on` |
+| Provider           | GitHub                                               |
+| Git folder name    | `dbx-cafe-hands-on`                                  |
+
 
 위 값을 입력한 뒤 **Create Git folder**를 누릅니다.
 
-<a href="images/runbook/02-create-git-folder-annotated.png"><img src="images/runbook/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720"></a>
+<a href="images/runbook/02-create-git-folder-annotated.png"><img src="images/runbook/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720">
+
+</a>
 
 화면 3. 저장소 연결 정보
 
@@ -137,7 +159,9 @@ Catalog는 3절의 setup 노트북에서 만듭니다. 만들거나 실행하다
 - `resources/`
 - `sample_data/`
 
-<a href="images/runbook/03-git-folder-ready.jpg"><img src="images/runbook/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720"></a>
+<a href="images/runbook/03-git-folder-ready.jpg"><img src="images/runbook/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720">
+
+</a>
 
 화면 4. Clone 완료와 main 브랜치
 
@@ -176,30 +200,30 @@ git clone https://github.com/yisakh843/dbx-cafe-hands-on.git
 
 ### 2-5. 실습 중 열어볼 참고 파일
 
-<details>
+<details class="orca-details">
 <summary>전체 참고 파일 목록 펼치기</summary>
 
-| 시점 | 열어볼 파일 | 용도 |
-|---|---|---|
-| 시작 | `docs/01_hands_on_runbook.md` | 전체 실행 절차 |
-| 시작 | `docs/00_start_here.md` | Catalog·Schema·Volume 준비 |
-| 시작 | `README.md` | 저장소 구조와 실행 순서 |
-| Pipeline | `notebooks/01_cafe_medallion_pipeline.sql` | Bronze·Silver·Gold 소스 확인 |
-| Pipeline 검증 | `notebooks/04_pipeline_validate.sql` | Job 검증 SQL 확인 |
-| 기대값 확인 | `sample_data/support/expected_results.csv` | 행 수와 지표 기대값 확인 |
-| 데이터 설명 | `sample_data/support/data_dictionary.csv` | 컬럼과 업무 의미 확인 |
-| Metric View | `notebooks/02_metric_view_baseline.sql` | 기준선 정의 확인 |
-| Metric View | `notebooks/03_metric_view_optimized.sql` | 설명·동의어·포맷 확인 |
-| Genie 지침 | `resources/genie_instructions.md` | 일반 지침 입력 |
-| Genie 질문 | `resources/genie_questions.md` | 기본·분석·다의어 질문 |
-| Genie 예제 | `sample_data/support/genie_example_queries.csv` | Example Query 입력 SQL |
-| Genie 평가 | `sample_data/support/genie_benchmarks.csv` | Benchmark 질문과 정답 |
-| AI Search | `sample_data/support/glossary.csv` | 용어집 원본 |
-| Agent 평가 | `sample_data/support/agent_evaluation.csv` | Agent 평가 질문 |
-| Apps | `resources/supervisor_prompt.md` | Supervisor 지침 |
-| Apps | `resources/app.yaml.example` | App 설정 예시 |
-| Apps | `resources/app_resource_binding.example.yml` | App 리소스 연결 예시 |
-| MLflow | `notebooks/06_mlflow_monitoring.py` | Trace·평가 확인 |
+| 시점          | 열어볼 파일                                          | 용도                       |
+| ----------- | ----------------------------------------------- | ------------------------ |
+| 시작          | `docs/01_hands_on_runbook.md`                   | 전체 실행 절차                 |
+| 시작          | `docs/00_start_here.md`                         | Catalog·Schema·Volume 준비 |
+| 시작          | `README.md`                                     | 저장소 구조와 실행 순서            |
+| Pipeline    | `notebooks/01_cafe_medallion_pipeline.sql`      | Bronze·Silver·Gold 소스 확인 |
+| Pipeline 검증 | `notebooks/04_pipeline_validate.sql`            | Job 검증 SQL 확인            |
+| 기대값 확인      | `sample_data/support/expected_results.csv`      | 행 수와 지표 기대값 확인           |
+| 데이터 설명      | `sample_data/support/data_dictionary.csv`       | 컬럼과 업무 의미 확인             |
+| Metric View | `notebooks/02_metric_view_baseline.sql`         | 기준선 정의 확인                |
+| Metric View | `notebooks/03_metric_view_optimized.sql`        | 설명·동의어·포맷 확인             |
+| Genie 지침    | `resources/genie_instructions.md`               | 일반 지침 입력                 |
+| Genie 질문    | `resources/genie_questions.md`                  | 기본·분석·다의어 질문             |
+| Genie 예제    | `sample_data/support/genie_example_queries.csv` | Example Query 입력 SQL     |
+| Genie 평가    | `sample_data/support/genie_benchmarks.csv`      | Benchmark 질문과 정답         |
+| AI Search   | `sample_data/support/glossary.csv`              | 용어집 원본                   |
+| Agent 평가    | `sample_data/support/agent_evaluation.csv`      | Agent 평가 질문              |
+| Apps        | `resources/supervisor_prompt.md`                | Supervisor 지침            |
+| Apps        | `resources/app.yaml.example`                    | App 설정 예시                |
+| Apps        | `resources/app_resource_binding.example.yml`    | App 리소스 연결 예시            |
+| MLflow      | `notebooks/06_mlflow_monitoring.py`             | Trace·평가 확인              |
 
 </details>
 
@@ -212,7 +236,9 @@ git clone https://github.com/yisakh843/dbx-cafe-hands-on.git
 
 샘플 데이터, 데이터 사전, 기대 결과, Genie 질문·Benchmark 구성을 한눈에 볼 수 있습니다. 실행 결과가 예상과 다를 때 `expected_results.csv`와 함께 비교해 봅니다.
 
-<a id="step-3"></a>
+<a id="step-3">
+
+</a>
 
 ## 3. Catalog, Schema, Volume 준비
 
@@ -226,9 +252,11 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 2. 교육용 Warehouse를 고릅니다. Free Edition의 기본 Warehouse 이름은 `Serverless Starter Warehouse`입니다.
 3. **SQL Warehouse**가 선택되어 있고 Warehouse 이름이 맞는지 확인한 뒤 **Start and attach**(이미 실행 중이면 **Attach**)를 누릅니다.
 
-아래는 **Serverless → More…**에서 **SQL Warehouse**를 선택하면 나타나는 연결 창입니다.
+아래는 **Serverless → More…** 메뉴에서 **SQL Warehouse**를 선택하면 나타나는 연결 창입니다.
 
-<a href="images/runbook/04-attach-warehouse-annotated.png"><img src="images/runbook/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720"></a>
+<a href="images/runbook/04-attach-warehouse-annotated.png"><img src="images/runbook/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720">
+
+</a>
 
 화면 5. SQL Warehouse 연결
 
@@ -236,7 +264,9 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 상단에 Warehouse 이름이 보이면 **Run all**을 눌러 전체를 실행합니다. 셀 왼쪽의 실행 버튼은 그 셀 하나만 실행하므로 혼동하지 않도록 주의합니다.
 
-<a href="images/runbook/05-setup-run-all-annotated.png"><img src="images/runbook/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720"></a>
+<a href="images/runbook/05-setup-run-all-annotated.png"><img src="images/runbook/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720">
+
+</a>
 
 화면 6. Setup 노트북 전체 실행
 
@@ -252,13 +282,17 @@ cafe_training
 └── cafe_hands_on
 ```
 
-왼쪽에서 **cafe_training → cafe_landing → Volumes → raw**를 엽니다. 아직 파일을 올리기 전이라 목록은 비어 있습니다.
+왼쪽에서 **cafe\_training → cafe\_landing → Volumes → raw**를 엽니다. 아직 파일을 올리기 전이라 목록은 비어 있습니다.
 
-<a href="images/runbook/06-volume.jpg"><img src="images/runbook/06-volume.jpg" alt="Catalog Explorer에서 raw Volume 확인" width="720"></a>
+<a href="images/runbook/06-volume.jpg"><img src="images/runbook/06-volume.jpg" alt="Catalog Explorer에서 raw Volume 확인" width="720">
+
+</a>
 
 화면 7. raw Volume 위치
 
-<a id="step-4"></a>
+<a id="step-4">
+
+</a>
 
 ## 4. CSV를 Volume에 업로드
 
@@ -268,7 +302,9 @@ cafe_training
 
 `raw` Volume의 **Create directory**로 `orders`를 만듭니다. 파일 목록 위 경로에서 `raw`로 돌아온 뒤, 같은 방법으로 `support`를 만듭니다.
 
-<a href="images/runbook/08-create-directory.jpg"><img src="images/runbook/08-create-directory.jpg" alt="Volume 디렉터리 생성" width="720"></a>
+<a href="images/runbook/08-create-directory.jpg"><img src="images/runbook/08-create-directory.jpg" alt="Volume 디렉터리 생성" width="720">
+
+</a>
 
 화면 8. 디렉터리 생성
 
@@ -278,10 +314,12 @@ cafe_training
 
 `raw`에서 **Upload to this volume → browse → Select files**를 선택합니다. 아래 두 파일을 고르고 **Destination volume**을 확인한 뒤 **Upload**를 누릅니다.
 
-| 항목 | 값 |
-|---|---|
-| 로컬 폴더 | `sample_data/raw/` |
+
+| 항목     | 값                            |
+| ------ | ---------------------------- |
+| 로컬 폴더  | `sample_data/raw/`           |
 | 선택할 파일 | `stores.csv`, `products.csv` |
+
 
 **업로드 목적지:**
 
@@ -289,7 +327,9 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw
 ```
 
-<a href="images/runbook/07-upload-root-annotated.png"><img src="images/runbook/07-upload-root-annotated.png" alt="매장·상품 CSV 업로드 대상 확인" width="720"></a>
+<a href="images/runbook/07-upload-root-annotated.png"><img src="images/runbook/07-upload-root-annotated.png" alt="매장·상품 CSV 업로드 대상 확인" width="720">
+
+</a>
 
 화면 9. 매장·상품 업로드
 
@@ -299,10 +339,12 @@ cafe_training
 
 `orders` 디렉터리를 열고 같은 방법으로 아래 세 파일을 업로드합니다. 목적지 끝이 **orders**인지 확인합니다.
 
-| 항목 | 값 |
-|---|---|
-| 로컬 폴더 | `sample_data/raw/orders/` |
+
+| 항목     | 값                                                                      |
+| ------ | ---------------------------------------------------------------------- |
+| 로컬 폴더  | `sample_data/raw/orders/`                                              |
 | 선택할 파일 | `orders_batch_001.csv`, `orders_batch_002.csv`, `orders_batch_003.csv` |
+
 
 **업로드 목적지:**
 
@@ -310,7 +352,9 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw/orders
 ```
 
-<a href="images/runbook/09-upload-orders-annotated.png"><img src="images/runbook/09-upload-orders-annotated.png" alt="orders 디렉터리에 주문 배치 세 개 업로드" width="720"></a>
+<a href="images/runbook/09-upload-orders-annotated.png"><img src="images/runbook/09-upload-orders-annotated.png" alt="orders 디렉터리에 주문 배치 세 개 업로드" width="720">
+
+</a>
 
 화면 10. 주문 배치 업로드
 
@@ -326,7 +370,9 @@ cafe_training
 /Volumes/cafe_training/cafe_landing/raw/support
 ```
 
-<a href="images/runbook/10-upload-glossary-annotated.png"><img src="images/runbook/10-upload-glossary-annotated.png" alt="support 디렉터리에 glossary 업로드" width="720"></a>
+<a href="images/runbook/10-upload-glossary-annotated.png"><img src="images/runbook/10-upload-glossary-annotated.png" alt="support 디렉터리에 glossary 업로드" width="720">
+
+</a>
 
 화면 11. 용어집 업로드
 
@@ -336,7 +382,9 @@ cafe_training
 
 `raw`로 돌아가 아래 구조와 비교합니다. 업로드 요약이 표시되어 있다면 **6 files uploaded**도 확인합니다.
 
-<a href="images/runbook/11-volume-ready.jpg"><img src="images/runbook/11-volume-ready.jpg" alt="Volume 업로드 완료 목록" width="720"></a>
+<a href="images/runbook/11-volume-ready.jpg"><img src="images/runbook/11-volume-ready.jpg" alt="Volume 업로드 완료 목록" width="720">
+
+</a>
 
 화면 12. Volume 업로드 완료
 
@@ -356,9 +404,11 @@ raw/
 
 ---
 
-**데이터 파이프라인 · 5~6절**
+**데이터 파이프라인 · 5\~6절**
 
-<a id="step-5"></a>
+<a id="step-5">
+
+</a>
 
 ## 5. Lakeflow Pipeline 생성
 
@@ -368,30 +418,36 @@ raw/
 
 여기서는 **ETL pipeline**을 선택합니다. 옆의 **Job**은 6절에서 사용합니다.
 
-<a href="images/runbook/12-jobs-entry.jpg"><img src="images/runbook/12-jobs-entry.jpg" alt="Jobs & Pipelines에서 ETL pipeline 선택" width="800"></a>
+<a href="images/runbook/12-jobs-entry.jpg"><img src="images/runbook/12-jobs-entry.jpg" alt="Jobs & Pipelines에서 ETL pipeline 선택" width="800">
+
+</a>
 
 화면 13. ETL pipeline 진입 메뉴
 
 `ETL pipeline`을 누르면 기본 Pipeline과 빈 소스 파일이 자동으로 만들어집니다. 상단 Pipeline 이름을 `cafe_medallion_pipeline`으로 바꾸고 Enter를 누른 뒤 **Settings**를 엽니다.
 
-Settings에서 **Code assets**와 **Default location for data assets**를 확인합니다. 아래 화면 15~16은 패널을 아래로 내리면 나오는 **Legacy pipeline settings**에서 촬영한 것입니다.
+Settings에서 **Code assets**와 **Default location for data assets**를 확인합니다. 아래 화면 15\~16은 패널을 아래로 내리면 나오는 **Legacy pipeline settings**에서 촬영한 것입니다.
 
-<a href="images/runbook/13-pipeline-settings-entry.jpg"><img src="images/runbook/13-pipeline-settings-entry.jpg" alt="Pipeline 설정 진입 화면" width="720"></a>
+<a href="images/runbook/13-pipeline-settings-entry.jpg"><img src="images/runbook/13-pipeline-settings-entry.jpg" alt="Pipeline 설정 진입 화면" width="720">
+
+</a>
 
 화면 14. Pipeline 설정
 
 Pipeline 설정:
 
-| 항목 | 값 |
-|---|---|
-| Pipeline name | `cafe_medallion_pipeline` |
-| Source file | `notebooks/01_cafe_medallion_pipeline.sql` |
-| Catalog | `cafe_training` |
-| Schema | `cafe_hands_on` |
-| Serverless | On |
-| Product edition | Advanced |
-| Channel | Current (Default Storage 사용 시 Preview로 고정됨) |
-| Pipeline mode | Triggered |
+
+| 항목              | 값                                           |
+| --------------- | ------------------------------------------- |
+| Pipeline name   | `cafe_medallion_pipeline`                   |
+| Source file     | `notebooks/01_cafe_medallion_pipeline.sql`  |
+| Catalog         | `cafe_training`                             |
+| Schema          | `cafe_hands_on`                             |
+| Serverless      | On                                          |
+| Product edition | Advanced                                    |
+| Channel         | Current (Default Storage 사용 시 Preview로 고정됨) |
+| Pipeline mode   | Triggered                                   |
+
 
 Source가 폴더 단위로 표시되면 다음 폴더에서 `01_cafe_medallion_pipeline.sql`을 선택합니다.
 
@@ -399,15 +455,19 @@ Source가 폴더 단위로 표시되면 다음 폴더에서 `01_cafe_medallion_p
 /Workspace/Users/<사용자 이메일>/dbx-cafe-hands-on/notebooks
 ```
 
-자동으로 들어가 있던 `transformations/**` 경로는 지우고 **01_cafe_medallion_pipeline** 하나만 선택합니다. `notebooks` 폴더 전체를 지정하면 setup·Metric View·검증 파일까지 함께 실행되니 꼭 파일 하나만 지정합니다.
+자동으로 들어가 있던 `transformations/**` 경로는 지우고 **01\_cafe\_medallion\_pipeline** 하나만 선택합니다. `notebooks` 폴더 전체를 지정하면 setup·Metric View·검증 파일까지 함께 실행되니 꼭 파일 하나만 지정합니다.
 
-<a href="images/runbook/14-pipeline-source-annotated.png"><img src="images/runbook/14-pipeline-source-annotated.png" alt="Git folder에서 Pipeline 전용 노트북 선택" width="720"></a>
+<a href="images/runbook/14-pipeline-source-annotated.png"><img src="images/runbook/14-pipeline-source-annotated.png" alt="Git folder에서 Pipeline 전용 노트북 선택" width="720">
+
+</a>
 
 화면 15. Pipeline 소스 선택
 
-Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확인하고 **Save**합니다. Free Edition은 Default Storage를 사용하기 때문에 Channel이 **Preview**로 표시되는 것이 정상입니다. Product edition 선택란이 보이지 않으면 그대로 두셔도 됩니다.
+Source code의 **Path**, Destination의 **cafe\_training / cafe\_hands\_on**을 확인하고 **Save**합니다. Free Edition은 Default Storage를 사용하기 때문에 Channel이 **Preview**로 표시되는 것이 정상입니다. Product edition 선택란이 보이지 않으면 그대로 두셔도 됩니다.
 
-<a href="images/runbook/15-pipeline-settings-annotated.png"><img src="images/runbook/15-pipeline-settings-annotated.png" alt="Pipeline의 소스 경로와 출력 위치 설정" width="720"></a>
+<a href="images/runbook/15-pipeline-settings-annotated.png"><img src="images/runbook/15-pipeline-settings-annotated.png" alt="Pipeline의 소스 경로와 출력 위치 설정" width="720">
+
+</a>
 
 화면 16. 소스 경로와 출력 위치
 
@@ -415,19 +475,23 @@ Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확
 
 실행하면 다음 데이터셋이 만들어집니다.
 
-- bronze_stores, bronze_products, bronze_orders
-- silver_stores, silver_products, silver_orders_clean
-- gold_sales
+- bronze\_stores, bronze\_products, bronze\_orders
+- silver\_stores, silver\_products, silver\_orders\_clean
+- gold\_sales
 
 **완료 확인:** 상태가 **Completed**이고 7개 데이터셋이 모두 성공으로 표시됩니다. DAG가 초록색인 것만 보지 말고, 아래 Tables의 Output records에서 `bronze_orders` 300행, `gold_sales` 266행인지도 확인합니다.
 
-<a href="images/runbook/19-pipeline-completed.jpg"><img src="images/runbook/19-pipeline-completed.jpg" alt="Pipeline 실행 성공과 Bronze·Silver·Gold DAG" width="720"></a>
+<a href="images/runbook/19-pipeline-completed.jpg"><img src="images/runbook/19-pipeline-completed.jpg" alt="Pipeline 실행 성공과 Bronze·Silver·Gold DAG" width="720">
+
+</a>
 
 화면 17. Pipeline 실행 결과
 
 Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 만들어진 테이블을 볼 수 있습니다.
 
-<a id="step-6"></a>
+<a id="step-6">
+
+</a>
 
 ## 6. Lakeflow Job 생성
 
@@ -437,16 +501,20 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 만들어진 테이�
 
 ### 6-1. Pipeline 실행 Task
 
-| 항목 | 값 |
-|---|---|
-| Task name | `run_medallion_pipeline` |
-| Task type | Pipeline |
-| Pipeline | `cafe_medallion_pipeline` |
-| Full refresh | Off |
+
+| 항목           | 값                         |
+| ------------ | ------------------------- |
+| Task name    | `run_medallion_pipeline`  |
+| Task type    | Pipeline                  |
+| Pipeline     | `cafe_medallion_pipeline` |
+| Full refresh | Off                       |
+
 
 **Task name**, **Pipeline**을 확인하고 **Trigger a full refresh**는 체크하지 않습니다. **Save task**를 누릅니다.
 
-<a href="images/runbook/16-job-pipeline-task-annotated.png"><img src="images/runbook/16-job-pipeline-task-annotated.png" alt="Job의 Pipeline 실행 Task 설정" width="720"></a>
+<a href="images/runbook/16-job-pipeline-task-annotated.png"><img src="images/runbook/16-job-pipeline-task-annotated.png" alt="Job의 Pipeline 실행 Task 설정" width="720">
+
+</a>
 
 화면 18. Pipeline 실행 Task
 
@@ -454,11 +522,13 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 만들어진 테이�
 
 **Add task → SQL file**을 선택하고 다음 값을 입력합니다. 저장한 뒤 다시 열면 **Type = SQL / SQL task = File**로 표시되는데, 같은 설정입니다.
 
-| 항목 | 값 |
-|---|---|
-| Task name | `validate_pipeline` |
-| Task type | SQL file |
+
+| 항목            | 값                        |
+| ------------- | ------------------------ |
+| Task name     | `validate_pipeline`      |
+| Task type     | SQL file                 |
 | SQL Warehouse | 앞 단계에서 사용한 SQL Warehouse |
+
 
 **SQL 파일:** `notebooks/04_pipeline_validate.sql`
 
@@ -470,21 +540,27 @@ Workspace Source인 경우:
 
 Git provider Source인 경우:
 
-| 항목 | 값 |
-|---|---|
+
+| 항목         | 값                                                    |
+| ---------- | ---------------------------------------------------- |
 | Repository | `https://github.com/yisakh843/dbx-cafe-hands-on.git` |
-| Branch | `main` |
-| Path | `notebooks/04_pipeline_validate.sql` |
+| Branch     | `main`                                               |
+| Path       | `notebooks/04_pipeline_validate.sql`                 |
 
-**Users → 본인 계정 → dbx-cafe-hands-on → notebooks → 04_pipeline_validate.sql**을 선택하고 **Confirm**합니다.
 
-<a href="images/runbook/17-job-sql-file-annotated.png"><img src="images/runbook/17-job-sql-file-annotated.png" alt="Job 검증용 SQL 파일 선택" width="720"></a>
+**Users → 본인 계정 → dbx-cafe-hands-on → notebooks → 04\_pipeline\_validate.sql**을 선택하고 **Confirm**합니다.
+
+<a href="images/runbook/17-job-sql-file-annotated.png"><img src="images/runbook/17-job-sql-file-annotated.png" alt="Job 검증용 SQL 파일 선택" width="720">
+
+</a>
 
 화면 19. 검증 SQL 파일 선택
 
-**SQL warehouse**, **Depends on = run_medallion_pipeline**, **Run if dependencies = All succeeded**를 확인한 뒤 **Create task**를 누릅니다.
+**SQL warehouse**, **Depends on = run\_medallion\_pipeline**, **Run if dependencies = All succeeded**를 확인한 뒤 **Create task**를 누릅니다.
 
-<a href="images/runbook/18-job-validation-task-annotated.png"><img src="images/runbook/18-job-validation-task-annotated.png" alt="검증 Task의 Warehouse와 의존성" width="720"></a>
+<a href="images/runbook/18-job-validation-task-annotated.png"><img src="images/runbook/18-job-validation-task-annotated.png" alt="검증 Task의 Warehouse와 의존성" width="720">
+
+</a>
 
 화면 20. 검증 Task 설정
 
@@ -500,29 +576,37 @@ run_medallion_pipeline
 
 `Save`한 뒤 `Run now`를 클릭합니다. 두 Task가 모두 **Succeeded**가 되면 검증 Task를 열어 결과 표를 확인합니다. 행 순서는 달라도 괜찮습니다.
 
-| 테이블 | 실제 | 기대 | 결과 |
-|---|---:|---:|---|
-| bronze_orders | 300 | 300 | PASS |
-| silver_orders_clean | 296 | 296 | PASS |
-| gold_sales | 266 | 266 | PASS |
+
+| 테이블                   | 실제  | 기대  | 결과   |
+| --------------------- | ---: | ---: | ---- |
+| bronze\_orders        | 300 | 300 | PASS |
+| silver\_orders\_clean | 296 | 296 | PASS |
+| gold\_sales           | 266 | 266 | PASS |
+
 
 > **주의:** Job이 성공으로 끝나도 결과 표의 세 행이 모두 `PASS`인지 꼭 확인해야 합니다. 검증 SQL은 값이 달라도 `FAIL`로 표시만 할 뿐 오류를 내지 않기 때문에, Job 상태만으로는 알 수 없습니다.
 
-<a href="images/runbook/28-job-succeeded.jpg"><img src="images/runbook/28-job-succeeded.jpg" alt="Pipeline 실행과 SQL 검증 task가 모두 성공한 Job" width="720"></a>
+<a href="images/runbook/28-job-succeeded.jpg"><img src="images/runbook/28-job-succeeded.jpg" alt="Pipeline 실행과 SQL 검증 task가 모두 성공한 Job" width="720">
+
+</a>
 
 화면 21. Job 실행 결과
 
 촬영 환경에서는 Pipeline Task 41초, 검증 Task 23초가 걸렸습니다. 소요 시간은 환경에 따라 달라집니다.
 
-<a href="images/runbook/29-validation-pass-annotated.png"><img src="images/runbook/29-validation-pass-annotated.png" alt="검증 SQL의 Bronze·Silver·Gold 행 수가 모두 PASS인 결과" width="720"></a>
+<a href="images/runbook/29-validation-pass-annotated.png"><img src="images/runbook/29-validation-pass-annotated.png" alt="검증 SQL의 Bronze·Silver·Gold 행 수가 모두 PASS인 결과" width="720">
+
+</a>
 
 화면 22. 행 수 검증 결과
 
 ---
 
-**매출 지표와 자연어 분석 · 7~12절**
+**매출 지표와 자연어 분석 · 7\~12절**
 
-<a id="step-7"></a>
+<a id="step-7">
+
+</a>
 
 ## 7. Metric View 기준선 생성
 
@@ -530,40 +614,52 @@ run_medallion_pipeline
 
 마지막 쿼리의 예상값:
 
-| 항목 | 값 |
-|---|---|
-| net_sales | 1,734,580 |
-| order_count | 266 |
-| avg_order_value | 약 6,520.98 |
 
-<a href="images/runbook/20-metric-baseline.jpg"><img src="images/runbook/20-metric-baseline.jpg" alt="Metric View 기준선 생성 노트북" width="720"></a>
+| 항목                | 값          |
+| ----------------- | ---------- |
+| net\_sales        | 1,734,580  |
+| order\_count      | 266        |
+| avg\_order\_value | 약 6,520.98 |
+
+
+<a href="images/runbook/20-metric-baseline.jpg"><img src="images/runbook/20-metric-baseline.jpg" alt="Metric View 기준선 생성 노트북" width="720">
+
+</a>
 
 화면 23. Metric View 기준선 실행
 
 **완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**이면 됩니다. CREATE 문 뒤에 나오는 `No rows returned`는 오류가 아니니 걱정하지 않으셔도 됩니다.
 
-<a href="images/runbook/21-metric-baseline-result.jpg"><img src="images/runbook/21-metric-baseline-result.jpg" alt="Metric View 실제 지표 조회 결과" width="720"></a>
+<a href="images/runbook/21-metric-baseline-result.jpg"><img src="images/runbook/21-metric-baseline-result.jpg" alt="Metric View 실제 지표 조회 결과" width="720">
+
+</a>
 
 화면 24. 기준선 지표 조회 결과
 
-<a id="step-8"></a>
+<a id="step-8">
+
+</a>
 
 ## 8. Metric View 최적화 정의 적용
 
 `notebooks/03_metric_view_optimized.sql`을 같은 SQL Warehouse에서 `Run all`합니다. 기준선 Metric View에 표시명·동의어·포맷을 추가하는 단계입니다.
 
-<a href="images/runbook/22-metric-optimized.jpg"><img src="images/runbook/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720"></a>
+<a href="images/runbook/22-metric-optimized.jpg"><img src="images/runbook/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720">
+
+</a>
 
 화면 25. Metric View 최적화 실행
 
 이 단계에서 추가되는 정보는 다음과 같습니다.
 
-| 항목 | 값 |
-|---|---|
-| 표시명 | 순매출, 주문수, 판매수량, 객단가 |
-| 동의어 | 매출, 실매출, 결제매출, 판매액 등 |
-| 포맷 | 매출·객단가 KRW, 주문수·판매수량 정수 |
-| Materialization | daily_store_category, 하루 1회 |
+
+| 항목              | 값                             |
+| --------------- | ----------------------------- |
+| 표시명             | 순매출, 주문수, 판매수량, 객단가           |
+| 동의어             | 매출, 실매출, 결제매출, 판매액 등          |
+| 포맷              | 매출·객단가 KRW, 주문수·판매수량 정수       |
+| Materialization | daily\_store\_category, 하루 1회 |
+
 
 실행이 끝나면 아래 **조회문만** 새 SQL 셀에 넣고 실행해서 값이 그대로인지 확인합니다.
 
@@ -578,31 +674,39 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 예상값은 `net_sales=1,734,580`, `order_count=266`, `avg_order_value=약 6,520.98`입니다.
 
-<a id="step-9"></a>
+<a id="step-9">
+
+</a>
 
 ## 9. Genie Agent 생성
 
 **이동:** `Genie Agents → New`
 
-**Connect your data**에서 `cafe_sales_metrics`를 검색합니다. 위치가 **cafe_training.cafe_hands_on**인 Metric View 하나만 선택하고 **Create**를 누릅니다.
+**Connect your data**에서 `cafe_sales_metrics`를 검색합니다. 위치가 **cafe\_training.cafe\_hands\_on**인 Metric View 하나만 선택하고 **Create**를 누릅니다.
 
-<a href="images/runbook/23-genie-select-metric-view-annotated.png"><img src="images/runbook/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720"></a>
+<a href="images/runbook/23-genie-select-metric-view-annotated.png"><img src="images/runbook/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720">
+
+</a>
 
 화면 26. Genie 연결 자산 선택
 
 만들고 나면 이름이 자동으로 붙어 있으니 **Configure → About → About this agent의 연필 아이콘**에서 **Name = Cafe Sales Genie Agent**, **Default warehouse = Serverless Starter Warehouse**(실습에 사용한 Warehouse)로 지정하고 **Save**를 누릅니다. Owner와 Agent ID는 자동으로 채워집니다.
 
-<a href="images/runbook/24-genie-name.jpg"><img src="images/runbook/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720"></a>
+<a href="images/runbook/24-genie-name.jpg"><img src="images/runbook/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720">
+
+</a>
 
 화면 27. Genie 이름과 Warehouse
 
-이어서 **Configure → Instructions**(구버전: `Configure > Context > Instructions`)에 [genie_instructions.md](../resources/genie_instructions.md)의 전체 내용(아래 펼치기에도 있음)을 붙여 넣고 **Save**를 누릅니다. 다른 탭에 다녀와도 내용이 남아 있으면 제대로 저장된 것입니다.
+이어서 **Configure → Instructions**(구버전: `Configure > Context > Instructions`)에 [genie\_instructions.md](../resources/genie_instructions.md)의 전체 내용(아래 펼치기에도 있음)을 붙여 넣고 **Save**를 누릅니다. 다른 탭에 다녀와도 내용이 남아 있으면 제대로 저장된 것입니다.
 
-<a href="images/runbook/25-genie-instructions-annotated.png"><img src="images/runbook/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720"></a>
+<a href="images/runbook/25-genie-instructions-annotated.png"><img src="images/runbook/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720">
+
+</a>
 
 화면 28. Genie 지침 입력
 
-<details>
+<details class="orca-details">
 <summary>복사용 Genie 지침 전문 펼치기</summary>
 
 ```text
@@ -641,27 +745,33 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 </details>
 
-<a id="step-10"></a>
+<a id="step-10">
+
+</a>
 
 ## 10. Genie Example Query 등록
 
-**Configure → Examples** 탭 오른쪽 위 **Add**에서 예제를 추가합니다(구버전: `Configure > Context > Add`). 아래 화면은 등록 전 상태(**All (0)**)이며, 6개를 저장하면 목록에 **All (6)**으로 표시됩니다.
+**Configure → Examples** 탭 오른쪽 위 **Add**에서 예제를 추가합니다(구버전: `Configure > Context > Add`). 아래 화면은 등록 전 상태(**All (0)**)이며, 6개를 저장하면 목록에 6개가 표시됩니다(**All (6)**).
 
-<a href="images/runbook/26-genie-examples-annotated.png"><img src="images/runbook/26-genie-examples-annotated.png" alt="Genie 예제 목록과 Add 버튼" width="800"></a>
+<a href="images/runbook/26-genie-examples-annotated.png"><img src="images/runbook/26-genie-examples-annotated.png" alt="Genie 예제 목록과 Add 버튼" width="800">
+
+</a>
 
 화면 29. 예제 등록 메뉴
 
 Add를 누르면 여러 항목이 나오는데(이름은 버전에 따라 다를 수 있습니다), 이번 실습에서는 **Example Query**만 사용합니다.
 
-| 메뉴 | 현재 단계 | 용도 |
-|---|---|---|
-| Example Query | 사용 | 질문과 정답 SQL 등록 |
-| Filter | 사용하지 않음 | 재사용 필터 조건 |
-| Measure | 사용하지 않음 | 별도 지표 계산식 |
-| Field | 사용하지 않음 | 컬럼 설명·동의어 |
-| Join | 사용하지 않음 | 여러 데이터 자산 관계 |
 
-아래 E001~E006(원본: `sample_data/support/genie_example_queries.csv`)의 `Question`과 `SQL`을 각각 하나의 Example Query로 등록합니다.
+| 메뉴            | 현재 단계   | 용도            |
+| ------------- | ------- | ------------- |
+| Example Query | 사용      | 질문과 정답 SQL 등록 |
+| Filter        | 사용하지 않음 | 재사용 필터 조건     |
+| Measure       | 사용하지 않음 | 별도 지표 계산식     |
+| Field         | 사용하지 않음 | 컬럼 설명·동의어     |
+| Join          | 사용하지 않음 | 여러 데이터 자산 관계  |
+
+
+아래 E001\~E006(원본: `sample_data/support/genie_example_queries.csv`)의 `Question`과 `SQL`을 각각 하나의 Example Query로 등록합니다.
 
 ### E001 · 전체 기간 순매출
 
@@ -750,13 +860,17 @@ ORDER BY avg_order_value DESC;
 
 예상 동작:
 
-| 질문·용어 | 예상 동작 |
-|---|---|
-| 인기메뉴 | 매출 기준인지 판매수량 기준인지 질문 |
-| 라떼 | 카페라떼인지 바닐라라떼인지 질문 |
-| 손님 | 고객 데이터가 없음을 설명하고 주문수 또는 판매수량을 질문 |
 
-<a id="step-11"></a>
+| 질문·용어 | 예상 동작                            |
+| ----- | -------------------------------- |
+| 인기메뉴  | 매출 기준인지 판매수량 기준인지 질문             |
+| 라떼    | 카페라떼인지 바닐라라떼인지 질문                |
+| 손님    | 고객 데이터가 없음을 설명하고 주문수 또는 판매수량을 질문 |
+
+
+<a id="step-11">
+
+</a>
 
 ## 11. Genie Benchmark 등록 및 실행
 
@@ -774,43 +888,51 @@ Benchmark는 Genie Agent가 얼마나 정확하게 답하는지 반복해서 측
 
 **이동:** `Cafe Sales Genie Agent → Benchmarks → Add benchmark`
 
-Chat 모드 B001~B008은 다음 값을 입력합니다.
+Chat 모드 B001\~B008은 다음 값을 입력합니다.
 
-| 항목 | 값 |
-|---|---|
-| Question | CSV의 question 열 |
-| SQL Answer | CSV의 sql_answer 열 |
-| Evaluation note | 비워 둠 |
+
+| 항목              | 값                  |
+| --------------- | ------------------ |
+| Question        | CSV의 question 열    |
+| SQL Answer      | CSV의 sql\_answer 열 |
+| Evaluation note | 비워 둠               |
+
 
 Chat Benchmark 질문:
 
-| ID | 질문 |
-|---|---|
-| B001 | 전체 기간 순매출은 얼마야? |
+
+| ID   | 질문                 |
+| ---- | ------------------ |
+| B001 | 전체 기간 순매출은 얼마야?    |
 | B002 | 매장별 매출을 높은 순서로 알려줘 |
 | B003 | 가장 많이 팔린 메뉴 3개 알려줘 |
-| B004 | 카테고리별 순매출을 비교해줘 |
-| B005 | 날짜별 매출 추이를 보여줘 |
+| B004 | 카테고리별 순매출을 비교해줘    |
+| B005 | 날짜별 매출 추이를 보여줘     |
 | B006 | 시간대별 매출과 주문수를 비교해줘 |
-| B007 | 강남점 객단가는 얼마야? |
-| B008 | 주말과 평일의 순매출을 비교해줘 |
+| B007 | 강남점 객단가는 얼마야?      |
+| B008 | 주말과 평일의 순매출을 비교해줘  |
 
-Agent 모드 B009~B012는 다음 값을 입력합니다.
 
-| 항목 | 값 |
-|---|---|
-| Question | CSV의 question 열 |
-| SQL Answer | 비워 둠 |
-| Evaluation note | CSV의 evaluation_note 열 |
+Agent 모드 B009\~B012는 다음 값을 입력합니다.
+
+
+| 항목              | 값                       |
+| --------------- | ----------------------- |
+| Question        | CSV의 question 열         |
+| SQL Answer      | 비워 둠                    |
+| Evaluation note | CSV의 evaluation\_note 열 |
+
 
 Agent Benchmark 입력값:
 
-| ID | Question | Evaluation note |
-|---|---|---|
-| B009 | 인기메뉴가 뭐야? | 매출 기준인지 판매수량 기준인지 질문해야 한다. |
-| B010 | 손님이 가장 많은 매장은 어디야? | 고객 데이터가 없음을 알리고 주문수와 판매수량 중 의미를 확인해야 한다. |
-| B011 | 라떼 매출 알려줘 | 카페라떼와 바닐라라떼 중 어느 상품인지 질문해야 한다. |
-| B012 | 최근 매출 추이를 보여줘 | 데이터 최대일 2026-07-14 기준 최근 7일을 사용하고 실제 기간을 응답에 밝혀야 한다. |
+
+| ID   | Question           | Evaluation note                                      |
+| ---- | ------------------ | ---------------------------------------------------- |
+| B009 | 인기메뉴가 뭐야?          | 매출 기준인지 판매수량 기준인지 질문해야 한다.                           |
+| B010 | 손님이 가장 많은 매장은 어디야? | 고객 데이터가 없음을 알리고 주문수와 판매수량 중 의미를 확인해야 한다.             |
+| B011 | 라떼 매출 알려줘          | 카페라떼와 바닐라라떼 중 어느 상품인지 질문해야 한다.                       |
+| B012 | 최근 매출 추이를 보여줘      | 데이터 최대일 2026-07-14 기준 최근 7일을 사용하고 실제 기간을 응답에 밝혀야 한다. |
+
 
 ### 11-3. Benchmark 실행
 
@@ -848,19 +970,23 @@ Bad 또는 Manual Review 문항:
 
 사용자 피드백이 쌓인다고 Instruction이 저절로 바뀌지는 않습니다. 같은 문제가 반복되는 질문을 찾았다면 12절의 방법으로 직접 수정합니다.
 
-<a id="step-12"></a>
+<a id="step-12">
+
+</a>
 
 ## 12. Genie 품질 최적화 일반 가이드
 
 ### 12-1. 기능별 역할
 
-| 구성 요소 | 넣을 내용 |
-|---|---|
-| Metric View | 필드·측정값의 의미, 표시명, 설명, 동의어, 포맷, 공통 업무 규칙 |
-| Example Query | 자주 사용하는 질문과 검증된 SQL 패턴 |
-| Instruction | 여러 질문에 공통으로 적용되는 해석·응답 원칙 |
-| Benchmark | 정확도와 회귀 테스트를 위한 질문·SQL Answer·Evaluation note |
-| Monitor | 실제 질문, 생성 SQL, 피드백, 반복 오류 |
+
+| 구성 요소         | 넣을 내용                                         |
+| ------------- | --------------------------------------------- |
+| Metric View   | 필드·측정값의 의미, 표시명, 설명, 동의어, 포맷, 공통 업무 규칙        |
+| Example Query | 자주 사용하는 질문과 검증된 SQL 패턴                        |
+| Instruction   | 여러 질문에 공통으로 적용되는 해석·응답 원칙                     |
+| Benchmark     | 정확도와 회귀 테스트를 위한 질문·SQL Answer·Evaluation note |
+| Monitor       | 실제 질문, 생성 SQL, 피드백, 반복 오류                     |
+
 
 ### 12-2. 권장 개선 순서
 
@@ -874,13 +1000,15 @@ Bad 또는 Manual Review 문항:
 
 ### 12-3. 실패 원인별 수정 위치
 
-| 관찰된 문제 | 우선 수정할 위치 |
-|---|---|
-| 용어가 잘못된 필드나 측정값으로 연결됨 | Metric View의 표시명·설명·동의어 |
-| 반복되는 질문 유형의 SQL 패턴이 불안정함 | Example Query |
-| 여러 질문에 공통으로 적용할 해석 규칙이 부족함 | Instruction |
-| 정답 SQL 또는 평가 기준이 잘못됨 | Benchmark의 SQL Answer·Evaluation note |
-| 실제 사용 질문에서 같은 오류가 반복됨 | Monitor에서 원인 확인 후 위 항목 중 하나 수정 |
+
+| 관찰된 문제                     | 우선 수정할 위치                             |
+| -------------------------- | ------------------------------------- |
+| 용어가 잘못된 필드나 측정값으로 연결됨      | Metric View의 표시명·설명·동의어               |
+| 반복되는 질문 유형의 SQL 패턴이 불안정함   | Example Query                         |
+| 여러 질문에 공통으로 적용할 해석 규칙이 부족함 | Instruction                           |
+| 정답 SQL 또는 평가 기준이 잘못됨       | Benchmark의 SQL Answer·Evaluation note |
+| 실제 사용 질문에서 같은 오류가 반복됨      | Monitor에서 원인 확인 후 위 항목 중 하나 수정        |
+
 
 ### 12-4. 생성 SQL 검토와 Add as instruction
 
@@ -924,9 +1052,11 @@ Bad 또는 Manual Review 문항:
 
 ---
 
-> **기초 과정 끝:** 3시간 과정은 여기까지입니다. 수고하셨습니다. [최종 확인표의 기초 실습 항목](#step-18)으로 빠진 것이 없는지 확인해 봅니다. 아래 13~16절은 강사가 안내한 경우에만 진행하는 심화 실습입니다.
+> **기초 과정 끝:** 3시간 과정은 여기까지입니다. 수고하셨습니다. [최종 확인표의 기초 실습 항목](#step-18)으로 빠진 것이 없는지 확인해 봅니다. 아래 13\~16절은 강사가 안내한 경우에만 진행하는 심화 실습입니다.
 
-<a id="step-13"></a>
+<a id="step-13">
+
+</a>
 
 ## 13. AI Search 용어집 구성
 
@@ -934,16 +1064,18 @@ AI Search는 "아메" 같은 약어나 동의어, 여러 뜻을 가진 단어, �
 
 ### 13-1. 고정 이름
 
-| 항목 | 값 |
-|---|---|
-| Source table | `cafe_training.cafe_hands_on.cafe_glossary` |
-| AI Search endpoint | `cafe-ai-search-endpoint` |
-| AI Search index | `cafe_training.cafe_hands_on.cafe_glossary_index` |
-| Primary key | `term_id` |
-| Embedding source | `search_text` |
-| Sync mode | TRIGGERED |
-| Query type | HYBRID |
-| Top results | 3 |
+
+| 항목                 | 값                                                 |
+| ------------------ | ------------------------------------------------- |
+| Source table       | `cafe_training.cafe_hands_on.cafe_glossary`       |
+| AI Search endpoint | `cafe-ai-search-endpoint`                         |
+| AI Search index    | `cafe_training.cafe_hands_on.cafe_glossary_index` |
+| Primary key        | `term_id`                                         |
+| Embedding source   | `search_text`                                     |
+| Sync mode          | TRIGGERED                                         |
+| Query type         | HYBRID                                            |
+| Top results        | 3                                                 |
+
 
 ### 13-2. 원본 파일 확인
 
@@ -972,12 +1104,14 @@ Python이 재시작되면 설치 셀은 다시 실행하지 말고 그다음 위
 
 위젯 기본값:
 
-| 항목 | 값 |
-|---|---|
-| Catalog | `cafe_training` |
-| Schema | `cafe_hands_on` |
-| AI Search endpoint | `cafe-ai-search-endpoint` |
-| Embedding model | databricks-qwen3-embedding-0-6b |
+
+| 항목                 | 값                               |
+| ------------------ | ------------------------------- |
+| Catalog            | `cafe_training`                 |
+| Schema             | `cafe_hands_on`                 |
+| AI Search endpoint | `cafe-ai-search-endpoint`       |
+| Embedding model    | databricks-qwen3-embedding-0-6b |
+
 
 ### 13-4. Delta 테이블 확인
 
@@ -987,12 +1121,14 @@ Python이 재시작되면 설치 셀은 다시 실행하지 말고 그다음 위
 
 Catalog Explorer에서 다음을 확인합니다.
 
-| 항목 | 값 |
-|---|---|
-| 행 수 | 19 |
-| Primary key | `term_id` |
-| 검색 텍스트 | search_text |
-| Change Data Feed | 활성화 |
+
+| 항목               | 값            |
+| ---------------- | ------------ |
+| 행 수              | 19           |
+| Primary key      | `term_id`    |
+| 검색 텍스트           | search\_text |
+| Change Data Feed | 활성화          |
+
 
 ### 13-5. Endpoint와 Index 확인
 
@@ -1002,13 +1138,15 @@ Endpoint 생성 셀을 실행한 뒤 `AI Search → Endpoints → cafe-ai-search
 
 Endpoint가 `ONLINE`이 되면 Index 생성 셀을 실행합니다.
 
-| 항목 | 값 |
-|---|---|
-| Index | `cafe_training.cafe_hands_on.cafe_glossary_index` |
-| Source | `cafe_training.cafe_hands_on.cafe_glossary` |
-| Primary key | `term_id` |
-| Embedding source | `search_text` |
-| Sync mode | TRIGGERED |
+
+| 항목               | 값                                                 |
+| ---------------- | ------------------------------------------------- |
+| Index            | `cafe_training.cafe_hands_on.cafe_glossary_index` |
+| Source           | `cafe_training.cafe_hands_on.cafe_glossary`       |
+| Primary key      | `term_id`                                         |
+| Embedding source | `search_text`                                     |
+| Sync mode        | TRIGGERED                                         |
+
 
 ### 13-6. Triggered Sync와 검색 실행
 
@@ -1041,26 +1179,30 @@ display(results)
 
 예상 검색 규칙:
 
-| 질문·용어 | 예상 동작 |
-|---|---|
-| 아메 | 아메리카노 |
-| 피크타임 | 시간대별 순매출 비교 |
-| 라떼 | 카페라떼 또는 바닐라라떼 중 선택 필요 |
-| 손님수 | 고객 데이터 없음, 주문수 또는 판매수량 제안 |
-| 최근 | 데이터 최대일 기준 직전 7일 |
-| 주말 | 토요일과 일요일 |
+
+| 질문·용어 | 예상 동작                     |
+| ----- | ------------------------- |
+| 아메    | 아메리카노                     |
+| 피크타임  | 시간대별 순매출 비교               |
+| 라떼    | 카페라떼 또는 바닐라라떼 중 선택 필요     |
+| 손님수   | 고객 데이터 없음, 주문수 또는 판매수량 제안 |
+| 최근    | 데이터 최대일 기준 직전 7일          |
+| 주말    | 토요일과 일요일                  |
+
 
 ### 13-7. AI Search 완료 기준
 
-- cafe_glossary 테이블 생성
+- cafe\_glossary 테이블 생성
 - 행 수 19개
 - cafe-ai-search-endpoint 상태 ONLINE
-- cafe_glossary_index 상태 ONLINE
+- cafe\_glossary\_index 상태 ONLINE
 - Triggered Sync 완료
 - Hybrid 검색 결과 Top 3 확인
 - 아메·피크타임·라떼·손님수 검색 규칙 확인
 
-<a id="step-14"></a>
+<a id="step-14">
+
+</a>
 
 ## 14. Databricks Apps 구성
 
@@ -1072,22 +1214,26 @@ App으로 내보내기 전에, Playground에서 Supervisor가 질문에 맞는 �
 
 Playground에 아래처럼 **Choose an option to get started**와 모델 배포 안내만 보이면 아직 사용할 모델이 없는 상태입니다. 강사가 모델 endpoint와 접근 권한을 먼저 준비해야 모델·System prompt·Tools를 입력할 수 있습니다.
 
-<a href="images/runbook/27-playground-prerequisites.jpg"><img src="images/runbook/27-playground-prerequisites.jpg" alt="사용 가능한 모델 설정이 필요한 Playground 시작 화면" width="720"></a>
+<a href="images/runbook/27-playground-prerequisites.jpg"><img src="images/runbook/27-playground-prerequisites.jpg" alt="사용 가능한 모델 설정이 필요한 Playground 시작 화면" width="720">
+
+</a>
 
 화면 30. Playground 사전 준비 화면
 
-1. 왼쪽 **AI/ML > Playground**를 엽니다.
+1. 왼쪽 **AI/ML &gt; Playground**를 엽니다.
 2. 강사가 지정한 모델 중 `Tools enabled` 모델을 선택합니다.
 3. System prompt에 `resources/supervisor_prompt.md`의 전체 내용을 붙여 넣습니다.
 4. `Tools > + Add tool`에서 Genie에 연결할 관리형 MCP 도구를 선택하고 `Cafe Sales Genie Agent`를 연결합니다. AI Search 도구에는 `cafe_training.cafe_hands_on.cafe_glossary_index`를 연결합니다. 도구 선택 화면은 Workspace마다 조금 다를 수 있습니다.
 5. 아래 질문을 하나씩 새 대화에서 테스트합니다. 답변 내용뿐 아니라 어떤 도구를 어떤 순서로 불렀는지도 함께 확인합니다.
 
-| 입력 질문 | 확인할 동작 |
-|---|---|
-| `매장별 순매출을 비교해줘` | Genie로 매장별 매출 조회 |
-| `아메 매출 알려줘` | AI Search로 용어 확인 후 Genie 조회 |
-| `라떼 매출 알려줘` | AI Search 결과를 바탕으로 상품을 되묻기 |
-| `손님 수가 가장 많은 매장은?` | 고객 데이터가 없음을 설명하고 대체 지표 제안 |
+
+| 입력 질문              | 확인할 동작                      |
+| ------------------ | --------------------------- |
+| `매장별 순매출을 비교해줘`    | Genie로 매장별 매출 조회            |
+| `아메 매출 알려줘`        | AI Search로 용어 확인 후 Genie 조회 |
+| `라떼 매출 알려줘`        | AI Search 결과를 바탕으로 상품을 되묻기  |
+| `손님 수가 가장 많은 매장은?` | 고객 데이터가 없음을 설명하고 대체 지표 제안   |
+
 
 도구가 보이지 않거나 연결 오류가 나면 강사에게 권한과 기능 활성화 여부를 확인해 달라고 요청합니다. 네 질문이 모두 예상대로 동작하면 Export로 넘어갑니다. 참고로 App으로 내보내려면 Databricks Apps와 Managed MCP Servers preview가 켜져 있어야 합니다. 이 문서에서 말하는 Supervisor는 질문에 따라 두 도구를 골라 부르는 Agent를 가리킵니다.
 
@@ -1099,11 +1245,13 @@ Playground의 Supervisor 구성 화면에서 다음을 선택합니다.
 
 입력값:
 
-| 항목 | 값 |
-|---|---|
-| App name | `agent-cafe-supervisor` |
-| App description | 카페 매출 Genie와 용어집 AI Search를 연결한 Supervisor Agent |
-| MLflow experiment | `cafe-supervisor-agent` |
+
+| 항목                | 값                                                |
+| ----------------- | ------------------------------------------------ |
+| App name          | `agent-cafe-supervisor`                          |
+| App description   | 카페 매출 Genie와 용어집 AI Search를 연결한 Supervisor Agent |
+| MLflow experiment | `cafe-supervisor-agent`                          |
+
 
 `Export`가 끝나면 만들어진 App을 엽니다.
 
@@ -1115,11 +1263,13 @@ App 설정에서 `Settings → Resources`를 엽니다.
 
 Export할 때 자동으로 추가된 리소스를 확인하고, 빠진 것이 있으면 추가합니다.
 
-| Resource type | 대상 | Resource key | 권한 |
-|---|---|---|---|
-| Genie Agent | `Cafe Sales Genie Agent` | `cafe_genie` | Can run |
-| AI Search index | `cafe_training.cafe_hands_on.cafe_glossary_index` | `cafe_glossary_index` | Can select |
-| MLflow experiment | `cafe-supervisor-agent` | `cafe_experiment` | Can edit 이상 |
+
+| Resource type     | 대상                                                | Resource key          | 권한          |
+| ----------------- | ------------------------------------------------- | --------------------- | ----------- |
+| Genie Agent       | `Cafe Sales Genie Agent`                          | `cafe_genie`          | Can run     |
+| AI Search index   | `cafe_training.cafe_hands_on.cafe_glossary_index` | `cafe_glossary_index` | Can select  |
+| MLflow experiment | `cafe-supervisor-agent`                           | `cafe_experiment`     | Can edit 이상 |
+
 
 AI Search Index는 Workspace 버전에 따라 `AI Search index` 또는 `Vector search index`로 표시됩니다.
 
@@ -1154,16 +1304,20 @@ App에서 다음 질문을 하나씩 입력해 봅니다.
 
 예상 흐름:
 
-| 질문 유형 | 도구 호출 흐름 |
-|---|---|
-| 표준 질문 | Supervisor → Genie Agent |
-| 별칭 질문 | Supervisor → AI Search → Genie Agent |
-| 다의어 질문 | Supervisor → AI Search → 사용자 명확화 |
-| 미지원 개념 | Supervisor → AI Search → 대체 지표 안내 |
+
+| 질문 유형  | 도구 호출 흐름                             |
+| ------ | ------------------------------------ |
+| 표준 질문  | Supervisor → Genie Agent             |
+| 별칭 질문  | Supervisor → AI Search → Genie Agent |
+| 다의어 질문 | Supervisor → AI Search → 사용자 명확화     |
+| 미지원 개념 | Supervisor → AI Search → 대체 지표 안내    |
+
 
 질문마다 답변과 도구 호출 순서가 위와 같은지 확인합니다.
 
-<a id="step-15"></a>
+<a id="step-15">
+
+</a>
 
 ## 15. MLflow Trace·평가·모니터링
 
@@ -1222,12 +1376,14 @@ Trace에서 다음 항목을 확인합니다.
 
 질문별 예상 Tool 경로:
 
-| 질문 | Tool 경로 |
-|---|---|
-| 매장별 순매출 | genie |
-| 아메 매출 | ai_search → genie |
-| 라떼 매출 | ai_search |
-| 손님 수 | ai_search |
+
+| 질문      | Tool 경로            |
+| ------- | ------------------ |
+| 매장별 순매출 | genie              |
+| 아메 매출   | ai\_search → genie |
+| 라떼 매출   | ai\_search         |
+| 손님 수    | ai\_search         |
+
 
 ### 15-5. 기본 Scorer 평가
 
@@ -1295,7 +1451,9 @@ print(safety_monitor)
 - MLflow UI에서 Trace와 Evaluation 확인
 - Production Monitoring은 Preview일 때만 선택 실행
 
-<a id="step-16"></a>
+<a id="step-16">
+
+</a>
 
 ## 16. 최종 통합 검증
 
@@ -1303,14 +1461,16 @@ print(safety_monitor)
 
 ### 16-1. 데이터와 의미 계층 확인
 
-| 항목 | 기대값 |
-|---|---:|
-| bronze_orders | 300 |
-| silver_orders_clean | 296 |
-| gold_sales | 266 |
-| net_sales | 1,734,580 |
-| order_count | 266 |
-| avg_order_value | 약 6,520.98 |
+
+| 항목                    | 기대값        |
+| --------------------- | ----------: |
+| bronze\_orders        | 300        |
+| silver\_orders\_clean | 296        |
+| gold\_sales           | 266        |
+| net\_sales            | 1,734,580  |
+| order\_count          | 266        |
+| avg\_order\_value     | 약 6,520.98 |
+
 
 확인 대상:
 
@@ -1319,26 +1479,30 @@ print(safety_monitor)
 
 ### 16-2. Genie 상태 확인
 
-| 항목 | 값 |
-|---|---|
-| Genie Agent | Cafe Sales Genie Agent |
-| 연결 자산 | cafe_training.cafe_hands_on.cafe_sales_metrics 하나 |
-| Example Query | 6개 |
-| Chat Benchmark | 8개 |
-| Agent Benchmark | 4개 |
-| Evaluations | 최소 1회 |
-| Monitor | 질문·응답·생성 SQL 확인 |
+
+| 항목              | 값                                                      |
+| --------------- | ------------------------------------------------------ |
+| Genie Agent     | Cafe Sales Genie Agent                                 |
+| 연결 자산           | cafe\_training.cafe\_hands\_on.cafe\_sales\_metrics 하나 |
+| Example Query   | 6개                                                     |
+| Chat Benchmark  | 8개                                                     |
+| Agent Benchmark | 4개                                                     |
+| Evaluations     | 최소 1회                                                  |
+| Monitor         | 질문·응답·생성 SQL 확인                                        |
+
 
 ### 16-3. AI Search 상태 확인
 
-| 항목 | 값 |
-|---|---|
-| Source table | `cafe_training.cafe_hands_on.cafe_glossary` |
-| 행 수 | 19 |
-| Endpoint | cafe-ai-search-endpoint / ONLINE |
-| Index | cafe_training.cafe_hands_on.cafe_glossary_index / ONLINE |
-| Sync | TRIGGERED 완료 |
-| Query type | HYBRID |
+
+| 항목           | 값                                                             |
+| ------------ | ------------------------------------------------------------- |
+| Source table | `cafe_training.cafe_hands_on.cafe_glossary`                   |
+| 행 수          | 19                                                            |
+| Endpoint     | cafe-ai-search-endpoint / ONLINE                              |
+| Index        | cafe\_training.cafe\_hands\_on.cafe\_glossary\_index / ONLINE |
+| Sync         | TRIGGERED 완료                                                  |
+| Query type   | HYBRID                                                        |
+
 
 ### 16-4. App 통합 질문 실행
 
@@ -1351,25 +1515,29 @@ App에서 다음 4개 질문을 각각 새 대화로 입력합니다.
 
 질문별 기대 결과:
 
-| 질문 | 기대 Tool 경로 | 기대 결과 |
-|---|---|---|
-| Q1 | Genie | 매장별 순매출 표 |
-| Q2 | AI Search → Genie | `아메`를 `아메리카노`로 해석한 매출 결과 |
-| Q3 | AI Search | 카페라떼·바닐라라떼 중 선택 질문 |
-| Q4 | AI Search | 고객 데이터 부재와 주문수·판매수량 대안 안내 |
+
+| 질문  | 기대 Tool 경로        | 기대 결과                     |
+| --- | ----------------- | ------------------------- |
+| Q1  | Genie             | 매장별 순매출 표                 |
+| Q2  | AI Search → Genie | `아메`를 `아메리카노`로 해석한 매출 결과  |
+| Q3  | AI Search         | 카페라떼·바닐라라떼 중 선택 질문        |
+| Q4  | AI Search         | 고객 데이터 부재와 주문수·판매수량 대안 안내 |
+
 
 결과가 예상과 다르면 App의 답변 → 도구 호출 → AI Search 검색 결과 → Genie가 만든 SQL 순서로 원인을 찾아봅니다.
 
 ### 16-5. MLflow 통합 확인
 
-MLflow Experiment에서 Q1~Q4 Trace를 확인합니다.
+MLflow Experiment에서 Q1\~Q4 Trace를 확인합니다.
 
-| 질문 | 기대 Tool span |
-|---|---|
-| Q1 | Genie Tool span |
-| Q2 | AI Search Tool span → Genie Tool span |
-| Q3 | AI Search Tool span |
-| Q4 | AI Search Tool span |
+
+| 질문  | 기대 Tool span                          |
+| --- | ------------------------------------- |
+| Q1  | Genie Tool span                       |
+| Q2  | AI Search Tool span → Genie Tool span |
+| Q3  | AI Search Tool span                   |
+| Q4  | AI Search Tool span                   |
+
 
 각 Trace에서 다음 값을 기록합니다.
 
@@ -1402,9 +1570,9 @@ ToolCallCorrectness 결과:
 - 데이터 행 수와 Metric View 지표 확인
 - Genie Example Query·Benchmark·Monitor 확인
 - AI Search Endpoint·Index ONLINE 확인
-- App에서 Q1~Q4 실행
-- Q1~Q4의 기대 Tool 경로 확인
-- MLflow에서 Q1~Q4 Trace 확인
+- App에서 Q1\~Q4 실행
+- Q1\~Q4의 기대 Tool 경로 확인
+- MLflow에서 Q1\~Q4 Trace 확인
 - 세 가지 Scorer 결과 확인
 - 개선할 항목 한 가지 기록
 
@@ -1412,7 +1580,9 @@ ToolCallCorrectness 결과:
 
 **강사용 배포 · 마무리**
 
-<a id="step-17"></a>
+<a id="step-17">
+
+</a>
 
 ## 17. GitHub 반영 및 참가자 배포
 
@@ -1432,16 +1602,18 @@ git push origin <작업 브랜치>    # 이후 PR/MR로 main에 병합
 
 GitHub 반영 후 Databricks Git folder에서 다음을 선택합니다.
 
-- Git folder 메뉴 > Pull 또는 Update
+- Git folder 메뉴 &gt; Pull 또는 Update
 - Branch: main
 
 참가자는 각자의 Free Edition Workspace에서 같은 public repository를 Clone하고, `cafe_training`, `cafe_hands_on` 등 문서의 이름을 그대로 사용합니다. 자세한 준비 절차는 [시작하기](00_start_here.md)에 있습니다.
 
-<a id="step-18"></a>
+<a id="step-18">
+
+</a>
 
 ## 18. 최종 확인표
 
-### 기초 실습 · 2~12절
+### 기초 실습 · 2\~12절
 
 - [ ] Git folder가 `main` 브랜치로 연결됨
 - [ ] Catalog·Schema·Volume 생성 완료
@@ -1458,7 +1630,7 @@ GitHub 반영 후 Databricks Git folder에서 다음을 선택합니다.
 - [ ] Evaluations에서 Accuracy 확인
 - [ ] Monitor에서 질문·응답·생성 SQL 확인
 
-### 심화 실습 · 13~16절
+### 심화 실습 · 13\~16절
 
 - [ ] `cafe_glossary` 테이블과 AI Search Index 생성 완료
 - [ ] AI Search Endpoint와 Index가 `ONLINE`
@@ -1469,3 +1641,4 @@ GitHub 반영 후 Databricks Git folder에서 다음을 선택합니다.
 - [ ] RelevanceToQuery·Safety·ToolCallCorrectness 평가 완료
 - [ ] 순매출 질문 정상 응답
 - [ ] 다의어 질문에서 되묻는 응답 확인
+
