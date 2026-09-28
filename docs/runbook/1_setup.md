@@ -67,11 +67,7 @@
 
 ### 2-3. 로컬 PC로 파일 내려받기
 
-Volume에 올릴 파일은 내 PC에서 선택해야 하므로, 다음 방법 중 하나로 저장소 파일을 PC에 받아 둡니다.
-
-방법 A: GitHub 저장소 화면에서 `Code > Download ZIP`을 선택한 뒤 압축을 해제합니다.
-
-
+Volume에 올릴 파일은 내 PC에서 선택해야 하므로, [GitHub 저장소 화면](https://github.com/yisakh843/dbx-cafe-hands-on)에서 `Code > Download ZIP`을 선택해 저장소 파일을 받은 뒤 압축을 해제합니다.
 
 ---
 
