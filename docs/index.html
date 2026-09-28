@@ -227,12 +227,6 @@
   @media (max-width:720px){.route{grid-template-columns:repeat(2,minmax(0,1fr));}}
   @media (max-width:440px){.route{grid-template-columns:1fr;}}
 
-  .howto{
-    margin:28px 0 0;padding:16px 20px;background:var(--accent-soft);border-left:3px solid var(--accent);
-    font-size:14.5px;color:var(--ink);
-  }
-  .howto ul{margin:0;padding-left:18px;}
-  .howto li{margin:0 0 4px;}
   .lbl{
     display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
     color:var(--ink-3);margin:0 0 8px;font-weight:500;
@@ -465,7 +459,6 @@
   .recap li:last-child{border-bottom:0;}
   .recap li b{font-family:var(--mono);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
   .carry{font-family:var(--mono);color:var(--ink);}
-  .carry:empty::before{content:"아직 안 적음";color:var(--ink-3);font-family:var(--sans);}
 
   .closing{
     margin:8px 0 0;padding:34px 26px;border:1.5px solid var(--ink);background:var(--surface);
@@ -549,6 +542,36 @@
   .step p:has(+ .checks.inline){margin-bottom:12px;}
   .step .checks.inline + .note{margin-top:0;}
 
+  /* ── 누를 수 있는 것이 보이게 ── */
+  code.k[data-c]{padding-right:22px;position:relative;}
+  code.k[data-c]::after{
+    content:"";position:absolute;right:5px;top:50%;width:12px;height:12px;transform:translateY(-50%);
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23687385' stroke-width='1.5'%3E%3Crect x='5.5' y='5.5' width='8' height='8' rx='1.5'/%3E%3Cpath d='M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5H3.5A1.5 1.5 0 0 0 2 3.5V9a1.5 1.5 0 0 0 1.5 1.5h2'/%3E%3C/svg%3E") center/contain no-repeat;opacity:.5;transition:opacity .15s;
+  }
+  code.k[data-c]:hover::after{opacity:1;}
+  .zoom{position:relative;}
+  .zoom::after{
+    content:"";position:absolute;right:10px;bottom:10px;width:32px;height:32px;border-radius:4px;
+    background:rgba(19,26,37,.62) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M9.5 2.5h4v4M6.5 13.5h-4v-4M13.5 2.5 9 7M2.5 13.5 7 9'/%3E%3C/svg%3E") center/16px no-repeat;opacity:.75;transition:opacity .15s,transform .15s;
+  }
+  .zoom:hover::after{opacity:1;transform:scale(1.06);}
+  .memo label .from{
+    font-style:normal;font-family:var(--mono);font-size:10px;color:var(--accent);
+    border:1px solid var(--accent-soft);background:var(--accent-soft);padding:0 5px;border-radius:3px;margin-left:6px;
+  }
+  button.carry{
+    font-family:var(--mono);font-size:15px;color:var(--ink);background:none;border:0;padding:0;text-align:left;cursor:default;
+  }
+  button.carry:empty{cursor:pointer;}
+  button.carry:empty::before{content:"11-3에서 적기 →";font-family:var(--sans);font-size:14px;color:var(--accent);}
+  button.carry:empty:hover::before{text-decoration:underline;}
+  .pager .next.ready{box-shadow:0 0 0 3px var(--accent-soft),0 0 0 4px var(--accent);}
+  .toast{
+    position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:120;
+    background:var(--ink);color:var(--paper);font-size:13.5px;padding:9px 16px;border-radius:4px;
+    max-width:calc(100vw - 40px);box-shadow:0 6px 20px rgba(0,0,0,.18);
+  }
+
   @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
   @media print{
     .bar,.helpbtn,.helpdesk,.pager{display:none!important;}
@@ -618,35 +641,25 @@
   <li class="adv"><b>AI Search · App · MLflow</b>용어집으로 말을 해석하고, 앱으로 내보내고, 답변을 기록·평가합니다.</li>
 </ol>
 
-<div class="howto">
-  <span class="lbl">이 화면 쓰는 법</span>
-  <ul>
-    <li>입력값과 코드는 <strong>복사 버튼</strong>으로 가져갑니다. 표 안의 회색 코드 글씨도 누르면 복사됩니다.</li>
-    <li>스크린샷을 누르면 크게 볼 수 있습니다. 빨간 테두리가 눌러야 할 곳입니다.</li>
-    <li>체크와 메모는 이 브라우저에 저장됩니다. 창을 닫았다 열어도 남아 있습니다.</li>
-    <li>막히면 <strong>오른쪽 아래 도움말</strong>부터 보세요. 그래도 안 되면 손을 들어 주세요.</li>
-  </ul>
-</div>
-
 <section class="step" data-step="0">
   <div class="head"><span class="num">0</span><h2>이름 규칙</h2><span class="dots"></span></div>
   <p>실습 객체는 각자의 Workspace에 만듭니다. 모두 같은 이름을 써도 서로 부딪히지 않으니 아래 이름을 그대로 쓰세요. 뒤 단계의 SQL과 설정이 이 이름을 전제로 되어 있습니다.</p>
   <div class="tw min"><table>
     <thead><tr><th>대상</th><th>이름 또는 값</th></tr></thead>
     <tbody>
-      <tr><td class="key">GitHub repository</td><td><code class="k" data-c>https://github.com/yisakh843/dbx-cafe-hands-on.git</code></td></tr>
-      <tr><td class="key">Git branch</td><td><code class="k" data-c>main</code></td></tr>
-      <tr><td class="key">Git folder</td><td><code class="k" data-c>dbx-cafe-hands-on</code></td></tr>
-      <tr><td class="key">Catalog</td><td><code class="k" data-c>cafe_training</code></td></tr>
-      <tr><td class="key">Landing Schema</td><td><code class="k" data-c>cafe_landing</code></td></tr>
-      <tr><td class="key">Analytics Schema</td><td><code class="k" data-c>cafe_hands_on</code></td></tr>
-      <tr><td class="key">Volume</td><td><code class="k" data-c>cafe_training.cafe_landing.raw</code></td></tr>
-      <tr><td class="key">Pipeline</td><td><code class="k" data-c>cafe_medallion_pipeline</code></td></tr>
-      <tr><td class="key">Job</td><td><code class="k" data-c>cafe_medallion_job</code></td></tr>
-      <tr><td class="key">Pipeline task</td><td><code class="k" data-c>run_medallion_pipeline</code></td></tr>
-      <tr><td class="key">Validation task</td><td><code class="k" data-c>validate_pipeline</code></td></tr>
-      <tr><td class="key">Metric View</td><td><code class="k" data-c>cafe_training.cafe_hands_on.cafe_sales_metrics</code></td></tr>
-      <tr><td class="key">Genie Agent</td><td><code class="k" data-c>Cafe Sales Genie Agent</code></td></tr>
+      <tr><td class="key">GitHub repository</td><td><code class="k" data-c title="눌러서 복사">https://github.com/yisakh843/dbx-cafe-hands-on.git</code></td></tr>
+      <tr><td class="key">Git branch</td><td><code class="k" data-c title="눌러서 복사">main</code></td></tr>
+      <tr><td class="key">Git folder</td><td><code class="k" data-c title="눌러서 복사">dbx-cafe-hands-on</code></td></tr>
+      <tr><td class="key">Catalog</td><td><code class="k" data-c title="눌러서 복사">cafe_training</code></td></tr>
+      <tr><td class="key">Landing Schema</td><td><code class="k" data-c title="눌러서 복사">cafe_landing</code></td></tr>
+      <tr><td class="key">Analytics Schema</td><td><code class="k" data-c title="눌러서 복사">cafe_hands_on</code></td></tr>
+      <tr><td class="key">Volume</td><td><code class="k" data-c title="눌러서 복사">cafe_training.cafe_landing.raw</code></td></tr>
+      <tr><td class="key">Pipeline</td><td><code class="k" data-c title="눌러서 복사">cafe_medallion_pipeline</code></td></tr>
+      <tr><td class="key">Job</td><td><code class="k" data-c title="눌러서 복사">cafe_medallion_job</code></td></tr>
+      <tr><td class="key">Pipeline task</td><td><code class="k" data-c title="눌러서 복사">run_medallion_pipeline</code></td></tr>
+      <tr><td class="key">Validation task</td><td><code class="k" data-c title="눌러서 복사">validate_pipeline</code></td></tr>
+      <tr><td class="key">Metric View</td><td><code class="k" data-c title="눌러서 복사">cafe_training.cafe_hands_on.cafe_sales_metrics</code></td></tr>
+      <tr><td class="key">Genie Agent</td><td><code class="k" data-c title="눌러서 복사">Cafe Sales Genie Agent</code></td></tr>
     </tbody>
   </table></div>
 </section>
@@ -670,7 +683,7 @@
   <h3>왼쪽 메뉴</h3>
   <p>실습에서는 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents, SQL Warehouses, Playground를 주로 씁니다. 아래는 2026-09-21에 찍은 Free Edition 홈 화면입니다.</p>
   <figure class="shot narrow">
-    <button type="button" class="zoom" data-full="images/runbook/00-workspace-home.jpg"><img src="images/runbook/thumbnails/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600" height="551" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/00-workspace-home.jpg"><img src="images/runbook/thumbnails/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600" height="551" loading="lazy"></button>
     <figcaption><span class="fn">화면 1</span>실습에서 쓰는 홈 화면. 캡처 속 이메일과 리소스 ID는 촬영 당시 값입니다. 버튼 위치는 Workspace 버전에 따라 조금 다를 수 있습니다.</figcaption>
   </figure>
   <div class="checks inline">
@@ -719,7 +732,7 @@
   <h3><span class="sn">2-1</span>Git folder 만들기</h3>
   <p class="path"><b>이동</b><span>Workspace</span><span>Home (개인 폴더)</span><span>Create</span><span>Git folder</span></p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/01-create-menu-annotated.png"><img src="images/runbook/thumbnails/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720" height="661" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/01-create-menu-annotated.png"><img src="images/runbook/thumbnails/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720" height="661" loading="lazy"></button>
     <figcaption><span class="fn">화면 2</span>Git folder 생성 메뉴</figcaption>
   </figure>
 
@@ -730,7 +743,7 @@
     <div class="qa-r"><span class="k">Folder</span><span class="v">dbx-cafe-hands-on</span><button type="button" class="copy">복사</button></div>
   </div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/02-create-git-folder-annotated.png"><img src="images/runbook/thumbnails/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720" height="661" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/02-create-git-folder-annotated.png"><img src="images/runbook/thumbnails/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720" height="661" loading="lazy"></button>
     <figcaption><span class="fn">화면 3</span>저장소 연결 정보</figcaption>
   </figure>
 
@@ -740,7 +753,7 @@
 
   <p>폴더 이름 옆 브랜치가 <strong>main</strong>이고 <code class="k">README.md</code> <code class="k">databricks.yml</code> <code class="k">docs/</code> <code class="k">notebooks/</code> <code class="k">resources/</code> <code class="k">sample_data/</code>가 보이면 됩니다. Databricks에서는 노트북의 <code class="k">.sql</code> <code class="k">.py</code> 확장자가 안 보일 수 있습니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/03-git-folder-ready.jpg"><img src="images/runbook/thumbnails/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/03-git-folder-ready.jpg"><img src="images/runbook/thumbnails/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 4</span>Clone 완료와 main 브랜치</figcaption>
   </figure>
   <div class="checks inline">
@@ -754,7 +767,7 @@
   <h3><span class="sn">2-3</span>내 PC로 ZIP 받기</h3>
   <p><a href="https://github.com/yisakh843/dbx-cafe-hands-on" target="_blank" rel="noopener">GitHub 저장소 화면</a>에서 <strong>Code → Download ZIP</strong>을 누르고, 받은 파일의 압축을 풉니다. 4절에서 이 폴더 안의 CSV를 업로드합니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/03a-github-download-zip-annotated.png"><img src="images/runbook/thumbnails/03a-github-download-zip-annotated.png" alt="GitHub 저장소의 Code 메뉴에서 Download ZIP 선택" width="720" height="738" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/03a-github-download-zip-annotated.png"><img src="images/runbook/thumbnails/03a-github-download-zip-annotated.png" alt="GitHub 저장소의 Code 메뉴에서 Download ZIP 선택" width="720" height="738" loading="lazy"></button>
     <figcaption><span class="fn">화면 4-1</span>Code → Download ZIP으로 저장소 내려받기</figcaption>
   </figure>
   <div class="checks inline">
@@ -766,24 +779,24 @@
   <p>setup 노트북 하나를 실행하면 Catalog와 Schema 두 개, CSV를 올릴 Volume이 한꺼번에 만들어집니다.</p>
 
   <h3><span class="sn">3-1</span>SQL Warehouse 연결</h3>
-  <p>Git folder에서 <code class="k" data-c>notebooks/00_setup.sql</code>을 엽니다.</p>
+  <p>Git folder에서 <code class="k" data-c title="눌러서 복사">notebooks/00_setup.sql</code>을 엽니다.</p>
   <div class="note">
     <p>노트북을 열 때 <strong>This file is part of a bundle</strong> 안내가 보이면 닫고 진행합니다. 저장소에 Pipeline·Job을 코드로 배포하는 Bundle 설정이 들어 있어서 뜨는 안내이고, 이 실습에서는 쓰지 않습니다.</p>
   </div>
   <ol class="do">
     <li>노트북 위쪽 Compute 버튼이 <code class="k">Serverless</code>이면 <strong>Serverless → More… → SQL Warehouse</strong>를 고릅니다.</li>
-    <li>교육용 Warehouse를 고릅니다. Free Edition 기본값은 <code class="k" data-c>Serverless Starter Warehouse</code>입니다.</li>
+    <li>교육용 Warehouse를 고릅니다. Free Edition 기본값은 <code class="k" data-c title="눌러서 복사">Serverless Starter Warehouse</code>입니다.</li>
     <li><strong>SQL Warehouse</strong>가 선택됐고 이름이 맞으면 <strong>Start and attach</strong>를 누릅니다. 이미 켜져 있으면 <strong>Attach</strong>입니다.</li>
   </ol>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/04-attach-warehouse-annotated.png"><img src="images/runbook/thumbnails/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720" height="586" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/04-attach-warehouse-annotated.png"><img src="images/runbook/thumbnails/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 5</span>Serverless → More…에서 SQL Warehouse를 고르면 나오는 연결 창</figcaption>
   </figure>
 
   <h3><span class="sn">3-2</span>Setup 실행</h3>
   <p>위쪽에 Warehouse 이름이 보이면 <strong>Run all</strong>을 누릅니다. 셀 왼쪽의 실행 버튼은 그 셀 하나만 돌립니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/05-setup-run-all-annotated.png"><img src="images/runbook/thumbnails/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720" height="586" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/05-setup-run-all-annotated.png"><img src="images/runbook/thumbnails/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 6</span>Setup 노트북 전체 실행</figcaption>
   </figure>
 
@@ -796,7 +809,7 @@
 │       └── raw
 └── cafe_hands_on</pre></div></div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/06-volume-notebook-annotated.png"><img src="images/runbook/thumbnails/06-volume-notebook-annotated.png" alt="노트북 왼쪽 Catalog 패널에서 raw Volume 펼치기" width="720" height="574" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/06-volume-notebook-annotated.png"><img src="images/runbook/thumbnails/06-volume-notebook-annotated.png" alt="노트북 왼쪽 Catalog 패널에서 raw Volume 펼치기" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 7</span>노트북 왼쪽 Catalog 패널의 raw Volume</figcaption>
   </figure>
   <div class="checks inline">
@@ -827,9 +840,9 @@
     └── glossary.csv</pre></div></div>
 
   <h3><span class="sn">4-1</span>디렉터리 두 개 만들기</h3>
-  <p><code class="k">raw</code> 행의 <strong>⋮ → Create directory</strong>에서 <code class="k" data-c>orders</code>를 입력하고 <strong>Create</strong>를 누릅니다. 같은 메뉴로 <code class="k" data-c>support</code>도 만듭니다. 두 폴더 모두 <code class="k">raw</code> 바로 아래에 있어야 합니다.</p>
+  <p><code class="k">raw</code> 행의 <strong>⋮ → Create directory</strong>에서 <code class="k" data-c title="눌러서 복사">orders</code>를 입력하고 <strong>Create</strong>를 누릅니다. 같은 메뉴로 <code class="k" data-c title="눌러서 복사">support</code>도 만듭니다. 두 폴더 모두 <code class="k">raw</code> 바로 아래에 있어야 합니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/08-create-directory-notebook-annotated.png"><img src="images/runbook/thumbnails/08-create-directory-notebook-annotated.png" alt="노트북 왼쪽 raw 메뉴에서 orders 디렉터리 생성" width="720" height="574" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/08-create-directory-notebook-annotated.png"><img src="images/runbook/thumbnails/08-create-directory-notebook-annotated.png" alt="노트북 왼쪽 raw 메뉴에서 orders 디렉터리 생성" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 8</span>orders 입력 후 Create</figcaption>
   </figure>
   <div class="checks inline">
@@ -842,7 +855,7 @@
   <div class="snip"><div class="snip-top"><span class="snip-lbl">목적지</span><button type="button" class="copy">복사</button></div>
     <div class="snip-body"><pre>/Volumes/cafe_training/cafe_landing/raw</pre></div></div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/07-upload-root-notebook-annotated.png"><img src="images/runbook/thumbnails/07-upload-root-notebook-annotated.png" alt="노트북에서 raw를 대상으로 매장·상품 CSV 업로드" width="720" height="574" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/07-upload-root-notebook-annotated.png"><img src="images/runbook/thumbnails/07-upload-root-notebook-annotated.png" alt="노트북에서 raw를 대상으로 매장·상품 CSV 업로드" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 9</span>목적지가 raw인지 보고 Upload</figcaption>
   </figure>
   <p>목록이 바로 안 바뀌면 Catalog 패널 위쪽의 <strong>Refresh catalog</strong>를 누릅니다. 업로드 요약 창이 트리를 가리면 닫으세요.</p>
@@ -856,7 +869,7 @@
   <div class="snip"><div class="snip-top"><span class="snip-lbl">목적지</span><button type="button" class="copy">복사</button></div>
     <div class="snip-body"><pre>/Volumes/cafe_training/cafe_landing/raw/orders</pre></div></div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/09-upload-orders-notebook-annotated.png"><img src="images/runbook/thumbnails/09-upload-orders-notebook-annotated.png" alt="노트북에서 orders 디렉터리에 주문 배치 세 개 업로드" width="720" height="574" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/09-upload-orders-notebook-annotated.png"><img src="images/runbook/thumbnails/09-upload-orders-notebook-annotated.png" alt="노트북에서 orders 디렉터리에 주문 배치 세 개 업로드" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 10</span>목적지 orders 확인 후 Upload</figcaption>
   </figure>
   <div class="checks inline">
@@ -869,7 +882,7 @@
   <div class="snip"><div class="snip-top"><span class="snip-lbl">목적지</span><button type="button" class="copy">복사</button></div>
     <div class="snip-body"><pre>/Volumes/cafe_training/cafe_landing/raw/support</pre></div></div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/10-upload-glossary-notebook-annotated.png"><img src="images/runbook/thumbnails/10-upload-glossary-notebook-annotated.png" alt="노트북에서 support 디렉터리에 glossary 업로드" width="720" height="574" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/10-upload-glossary-notebook-annotated.png"><img src="images/runbook/thumbnails/10-upload-glossary-notebook-annotated.png" alt="노트북에서 support 디렉터리에 glossary 업로드" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 11</span>목적지 support 확인 후 Upload</figcaption>
   </figure>
   <div class="checks inline">
@@ -880,7 +893,7 @@
   <h3><span class="sn">4-5</span>여섯 개 다 있는지 확인</h3>
   <p><strong>Refresh catalog</strong>를 누르고 <code class="k">orders</code>와 <code class="k">support</code>를 펼쳐 위의 최종 구조와 비교합니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/11-volume-ready-notebook-annotated.png"><img src="images/runbook/thumbnails/11-volume-ready-notebook-annotated.png" alt="노트북 왼쪽 Catalog 트리에서 업로드된 CSV 여섯 개 확인" width="720" height="574" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/11-volume-ready-notebook-annotated.png"><img src="images/runbook/thumbnails/11-volume-ready-notebook-annotated.png" alt="노트북 왼쪽 Catalog 트리에서 업로드된 CSV 여섯 개 확인" width="720" height="574" loading="lazy"></button>
     <figcaption><span class="fn">화면 12</span>raw 트리에서 CSV 여섯 개 확인</figcaption>
   </figure>
 
@@ -952,17 +965,17 @@
   <p class="path"><b>이동</b><span>Jobs &amp; Pipelines</span><span>ETL pipeline</span></p>
   <p>옆의 <strong>Job</strong>은 6절에서 씁니다. 지금은 <strong>ETL pipeline</strong>입니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/12-jobs-entry.jpg"><img src="images/runbook/thumbnails/12-jobs-entry.jpg" alt="Jobs &amp; Pipelines에서 ETL pipeline 선택" width="800" height="202" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/12-jobs-entry.jpg"><img src="images/runbook/thumbnails/12-jobs-entry.jpg" alt="Jobs &amp; Pipelines에서 ETL pipeline 선택" width="800" height="202" loading="lazy"></button>
     <figcaption><span class="fn">화면 13</span>ETL pipeline 진입 메뉴</figcaption>
   </figure>
   <p>누르면 기본 Pipeline과 빈 소스 파일이 자동으로 생깁니다.</p>
   <ol class="do">
-    <li>위쪽 Pipeline 이름을 <code class="k" data-c>cafe_medallion_pipeline</code>으로 바꾸고 Enter를 누릅니다.</li>
+    <li>위쪽 Pipeline 이름을 <code class="k" data-c title="눌러서 복사">cafe_medallion_pipeline</code>으로 바꾸고 Enter를 누릅니다.</li>
     <li><strong>Settings</strong>를 열어 <strong>Pipeline mode = Triggered</strong>(한 번 돌고 끝나는 모드), <strong>Compute = Serverless</strong>인지 봅니다.</li>
   </ol>
   <p>화면 14에 보이는 <code class="k">transformations/my_transformation.py</code>는 빈 파일입니다. 다음 단계에서 준비된 SQL 파일을 연결하니 여기에 코드를 붙여 넣을 필요는 없습니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/13-pipeline-settings-entry.jpg"><img src="images/runbook/thumbnails/13-pipeline-settings-entry.jpg" alt="Pipeline 설정 진입 화면" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/13-pipeline-settings-entry.jpg"><img src="images/runbook/thumbnails/13-pipeline-settings-entry.jpg" alt="Pipeline 설정 진입 화면" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 14</span>Pipeline 설정</figcaption>
   </figure>
   <div class="checks inline">
@@ -983,7 +996,7 @@
     <p><strong>파일 하나만</strong> 고르세요. <code class="k">notebooks</code> 폴더 전체를 지정하면 setup·Metric View·검증 파일까지 같이 돌아갑니다. 빈 파일은 소스 목록에서 경로만 빼면 되고, Workspace에서 지울 필요는 없습니다.</p>
   </div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/14-pipeline-source-annotated.png"><img src="images/runbook/thumbnails/14-pipeline-source-annotated.png" alt="Git folder에서 Pipeline 전용 노트북 선택" width="720" height="586" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/14-pipeline-source-annotated.png"><img src="images/runbook/thumbnails/14-pipeline-source-annotated.png" alt="Git folder에서 Pipeline 전용 노트북 선택" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 15</span>Pipeline 소스 선택</figcaption>
   </figure>
   <div class="checks inline">
@@ -999,7 +1012,7 @@
   <h4 class="sub"><span class="mk">③</span>소스와 출력 위치 확인 후 저장</h4>
   <p>Source code에 파일 하나, Catalog와 Schema가 위 값인지 한 번 더 보고 <strong>Save</strong>를 누릅니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/15-pipeline-settings-annotated.png"><img src="images/runbook/thumbnails/15-pipeline-settings-annotated.png" alt="Pipeline의 소스 경로와 출력 위치 설정" width="720" height="586" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/15-pipeline-settings-annotated.png"><img src="images/runbook/thumbnails/15-pipeline-settings-annotated.png" alt="Pipeline의 소스 경로와 출력 위치 설정" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 16</span>소스 경로와 출력 위치</figcaption>
   </figure>
   <div class="checks inline">
@@ -1011,7 +1024,7 @@
   <h4 class="sub"><span class="mk">①</span>실행 상태와 DAG 확인</h4>
   <p><strong>Run pipeline</strong>을 누르고 끝날 때까지 기다립니다. 상태가 <strong>Completed</strong>이고 DAG의 데이터셋 7개가 모두 성공, Silver 세 개가 <code class="k">gold_sales</code>로 이어지면 됩니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/19-pipeline-completed.jpg"><img src="images/runbook/thumbnails/19-pipeline-completed.jpg" alt="Pipeline 실행 성공과 Bronze·Silver·Gold DAG" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/19-pipeline-completed.jpg"><img src="images/runbook/thumbnails/19-pipeline-completed.jpg" alt="Pipeline 실행 성공과 Bronze·Silver·Gold DAG" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 17</span>Pipeline 실행 결과. 아래 Tables의 Output records에 bronze_orders 300, gold_sales 266이 보입니다.</figcaption>
   </figure>
   <div class="checks inline">
@@ -1069,7 +1082,7 @@
   <p>방금은 Pipeline을 손으로 돌렸습니다. 이번에는 <strong>Pipeline 실행 → 행 수 검증</strong>을 Job 하나로 묶어, 누가 돌려도 같은 순서로 돌고 결과를 확인할 수 있게 합니다.</p>
   <p class="path"><b>이동</b><span>Jobs &amp; Pipelines</span><span>Job</span></p>
   <ol class="do">
-    <li>위쪽 Job 이름을 <code class="k" data-c>cafe_medallion_job</code>으로 바꾸고 Enter를 누릅니다.</li>
+    <li>위쪽 Job 이름을 <code class="k" data-c title="눌러서 복사">cafe_medallion_job</code>으로 바꾸고 Enter를 누릅니다.</li>
     <li><strong>Add another task type → ETL Pipeline</strong>으로 첫 Task를 추가합니다.</li>
   </ol>
 
@@ -1082,7 +1095,7 @@
   </div>
   <p><strong>Trigger a full refresh</strong>는 비워 두고 <strong>Save task</strong>를 누릅니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/16-job-pipeline-task-annotated.png"><img src="images/runbook/thumbnails/16-job-pipeline-task-annotated.png" alt="Job의 Pipeline 실행 Task 설정" width="720" height="586" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/16-job-pipeline-task-annotated.png"><img src="images/runbook/thumbnails/16-job-pipeline-task-annotated.png" alt="Job의 Pipeline 실행 Task 설정" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 18</span>Pipeline 실행 Task</figcaption>
   </figure>
   <div class="checks inline">
@@ -1102,13 +1115,13 @@
   <h4 class="sub"><span class="mk">②</span>검증 SQL 파일 연결</h4>
   <p>파일 선택창에서 <strong>Users → 본인 계정 → dbx-cafe-hands-on → notebooks → 04_pipeline_validate.sql</strong>을 고르고 <strong>Confirm</strong>을 누릅니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/17-job-sql-file-annotated.png"><img src="images/runbook/thumbnails/17-job-sql-file-annotated.png" alt="Job 검증용 SQL 파일 선택" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/17-job-sql-file-annotated.png"><img src="images/runbook/thumbnails/17-job-sql-file-annotated.png" alt="Job 검증용 SQL 파일 선택" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 19</span>검증 SQL 파일 선택</figcaption>
   </figure>
   <h4 class="sub"><span class="mk">③</span>실행 순서 설정</h4>
   <p>이어서 순서를 정합니다. <strong>Depends on = run_medallion_pipeline</strong>, <strong>Run if dependencies = All succeeded</strong>로 두고 <strong>Create task</strong>를 누릅니다. Pipeline이 실패하면 검증은 돌지 않습니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/18-job-validation-task-annotated.png"><img src="images/runbook/thumbnails/18-job-validation-task-annotated.png" alt="검증 Task의 Warehouse와 의존성" width="720" height="586" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/18-job-validation-task-annotated.png"><img src="images/runbook/thumbnails/18-job-validation-task-annotated.png" alt="검증 Task의 Warehouse와 의존성" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 20</span>검증 Task 설정. 완성된 DAG는 run_medallion_pipeline → validate_pipeline입니다.</figcaption>
   </figure>
   <div class="checks inline">
@@ -1120,7 +1133,7 @@
   <h4 class="sub"><span class="mk">①</span>Job 실행</h4>
   <p><strong>Save → Run now</strong>를 누르고 두 Task가 모두 <strong>Succeeded</strong>인지 봅니다. 촬영 환경에서는 Pipeline Task 41초, 검증 Task 23초가 걸렸습니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/28-job-succeeded.jpg"><img src="images/runbook/thumbnails/28-job-succeeded.jpg" alt="Pipeline 실행과 SQL 검증 task가 모두 성공한 Job" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/28-job-succeeded.jpg"><img src="images/runbook/thumbnails/28-job-succeeded.jpg" alt="Pipeline 실행과 SQL 검증 task가 모두 성공한 Job" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 21</span>Job 실행 결과</figcaption>
   </figure>
   <div class="checks inline">
@@ -1138,7 +1151,7 @@
     </tbody>
   </table></div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/29-validation-pass-annotated.png"><img src="images/runbook/thumbnails/29-validation-pass-annotated.png" alt="검증 SQL의 Bronze·Silver·Gold 행 수가 모두 PASS인 결과" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/29-validation-pass-annotated.png"><img src="images/runbook/thumbnails/29-validation-pass-annotated.png" alt="검증 SQL의 Bronze·Silver·Gold 행 수가 모두 PASS인 결과" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 22</span>행 수 검증 결과</figcaption>
   </figure>
   <div class="checks inline">
@@ -1156,9 +1169,9 @@
   <p>이제 <code class="k">gold_sales</code> 위에 매출 계산 기준을 올리고, 그 기준으로 답하는 Genie Agent를 만듭니다. "매장별 순매출 알려줘"라고 물었을 때 사람이 SQL로 구한 값과 같은 답이 나오면 성공입니다. 먼저 기준부터 세웁니다.</p>
 
   <h3><span class="sn">7</span>기준선 만들기</h3>
-  <p><code class="k" data-c>notebooks/02_metric_view_baseline.sql</code>을 열고 SQL Warehouse를 확인한 뒤 <strong>Run all</strong>을 누릅니다. Warehouse가 꺼져 있으면 <strong>Start, attach and run</strong>입니다. Metric View <code class="k">cafe_training.cafe_hands_on.cafe_sales_metrics</code>가 만들어집니다.</p>
+  <p><code class="k" data-c title="눌러서 복사">notebooks/02_metric_view_baseline.sql</code>을 열고 SQL Warehouse를 확인한 뒤 <strong>Run all</strong>을 누릅니다. Warehouse가 꺼져 있으면 <strong>Start, attach and run</strong>입니다. Metric View <code class="k">cafe_training.cafe_hands_on.cafe_sales_metrics</code>가 만들어집니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/20-metric-baseline.jpg"><img src="images/runbook/thumbnails/20-metric-baseline.jpg" alt="Metric View 기준선 생성 노트북" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/20-metric-baseline.jpg"><img src="images/runbook/thumbnails/20-metric-baseline.jpg" alt="Metric View 기준선 생성 노트북" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 23</span>Metric View 기준선 실행. CREATE 뒤의 No rows returned는 오류가 아닙니다.</figcaption>
   </figure>
 
@@ -1176,7 +1189,7 @@
       </div>
     </div>
     <figure class="shot" style="margin:0">
-      <button type="button" class="zoom" data-full="images/runbook/21-metric-baseline-result.jpg"><img src="images/runbook/thumbnails/21-metric-baseline-result.jpg" alt="Metric View 실제 지표 조회 결과" width="720" height="587" loading="lazy"></button>
+      <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/21-metric-baseline-result.jpg"><img src="images/runbook/thumbnails/21-metric-baseline-result.jpg" alt="Metric View 실제 지표 조회 결과" width="720" height="587" loading="lazy"></button>
       <figcaption><span class="fn">화면 24</span>기준선 지표 조회 결과</figcaption>
     </figure>
   </div>
@@ -1186,9 +1199,9 @@
       <span class="txt">기준선 노트북 결과가 1734580 / 266 / 6520.97…이다</span></label>
   </div>
   <h3><span class="sn">8</span>설명을 붙이기</h3>
-  <p><code class="k" data-c>notebooks/03_metric_view_optimized.sql</code>을 같은 Warehouse에서 Run all 합니다. 계산식은 그대로 두고, Genie가 사람 말을 알아듣도록 표시명·동의어·포맷을 더하는 단계입니다.</p>
+  <p><code class="k" data-c title="눌러서 복사">notebooks/03_metric_view_optimized.sql</code>을 같은 Warehouse에서 Run all 합니다. 계산식은 그대로 두고, Genie가 사람 말을 알아듣도록 표시명·동의어·포맷을 더하는 단계입니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/22-metric-optimized.jpg"><img src="images/runbook/thumbnails/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/22-metric-optimized.jpg"><img src="images/runbook/thumbnails/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 25</span>Metric View 최적화 실행</figcaption>
   </figure>
   <div class="checks inline">
@@ -1229,9 +1242,9 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
 
   <h3><span class="sn">9</span>Metric View 연결</h3>
   <p class="path"><b>이동</b><span>Genie Agents</span><span>New</span></p>
-  <p><strong>Connect your data</strong>에서 <code class="k" data-c>cafe_sales_metrics</code>를 검색합니다. 위치가 <strong>cafe_training.cafe_hands_on</strong>인 Metric View 하나만 고르고 <strong>Create</strong>를 누릅니다.</p>
+  <p><strong>Connect your data</strong>에서 <code class="k" data-c title="눌러서 복사">cafe_sales_metrics</code>를 검색합니다. 위치가 <strong>cafe_training.cafe_hands_on</strong>인 Metric View 하나만 고르고 <strong>Create</strong>를 누릅니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/23-genie-select-metric-view-annotated.png"><img src="images/runbook/thumbnails/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720" height="586" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/23-genie-select-metric-view-annotated.png"><img src="images/runbook/thumbnails/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720" height="586" loading="lazy"></button>
     <figcaption><span class="fn">화면 26</span>Genie 연결 자산 선택</figcaption>
   </figure>
   <div class="checks inline">
@@ -1244,7 +1257,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
     <div class="qa-r"><span class="k">Warehouse</span><span class="v">Serverless Starter Warehouse</span></div>
   </div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/24-genie-name.jpg"><img src="images/runbook/thumbnails/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/24-genie-name.jpg"><img src="images/runbook/thumbnails/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 27</span>Genie 이름과 Warehouse</figcaption>
   </figure>
   <div class="checks inline">
@@ -1286,7 +1299,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
 - 결과 뒤에 핵심 해석을 간결하게 덧붙인다.
 - 답변은 데이터로 확인할 수 있는 사실과 해석을 구분한다.</pre></div></div>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/25-genie-instructions-annotated.png"><img src="images/runbook/thumbnails/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/25-genie-instructions-annotated.png"><img src="images/runbook/thumbnails/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 28</span>Genie 지침 입력</figcaption>
   </figure>
   <div class="checks inline">
@@ -1297,7 +1310,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
   <h3><span class="sn">10</span>Example Query 여섯 개</h3>
   <p><strong>Configure → Examples</strong> 탭 오른쪽 위 <strong>Add</strong>에서 추가합니다(구버전은 Configure › Context › Add). 여러 종류가 나오는데 이번에는 <strong>Example Query</strong>만 씁니다. Filter, Measure, Field, Join은 건너뜁니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/26-genie-examples-annotated.png"><img src="images/runbook/thumbnails/26-genie-examples-annotated.png" alt="Genie 예제 목록과 Add 버튼" width="800" height="450" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/26-genie-examples-annotated.png"><img src="images/runbook/thumbnails/26-genie-examples-annotated.png" alt="Genie 예제 목록과 Add 버튼" width="800" height="450" loading="lazy"></button>
     <figcaption><span class="fn">화면 29</span>등록 전에는 All (0), 여섯 개를 저장하면 All (6)이 됩니다.</figcaption>
   </figure>
   <p>카드마다 Question과 SQL을 하나의 Example Query로 넣습니다. 원본은 <code class="k">sample_data/support/genie_example_queries.csv</code>입니다.</p>
@@ -1349,7 +1362,7 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   </div>
 
   <h3>채팅으로 물어보기</h3>
-  <p>채팅 화면에서 <code class="k" data-c>전체 기간 순매출은 얼마야?</code>를 입력합니다. <strong>1,734,580원</strong>이 나오면 됩니다.</p>
+  <p>채팅 화면에서 <code class="k" data-c title="눌러서 복사">전체 기간 순매출은 얼마야?</code>를 입력합니다. <strong>1,734,580원</strong>이 나오면 됩니다.</p>
   <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="g5"><span class="mark"></span>
       <span class="txt">전체 기간 순매출 질문에 1,734,580원이 나왔다</span></label>
@@ -1358,9 +1371,9 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <div class="tw min"><table>
     <thead><tr><th>질문</th><th>기대하는 반응</th></tr></thead>
     <tbody>
-      <tr><td><code class="k" data-c>인기메뉴가 뭐야?</code></td><td>매출 기준인지 판매수량 기준인지 묻는다</td></tr>
-      <tr><td><code class="k" data-c>라떼 매출 알려줘</code></td><td>카페라떼인지 바닐라라떼인지 묻는다</td></tr>
-      <tr><td><code class="k" data-c>손님이 가장 많은 매장은 어디야?</code></td><td>고객 데이터가 없다고 말하고 주문수나 판매수량으로 볼지 묻는다</td></tr>
+      <tr><td><code class="k" data-c title="눌러서 복사">인기메뉴가 뭐야?</code></td><td>매출 기준인지 판매수량 기준인지 묻는다</td></tr>
+      <tr><td><code class="k" data-c title="눌러서 복사">라떼 매출 알려줘</code></td><td>카페라떼인지 바닐라라떼인지 묻는다</td></tr>
+      <tr><td><code class="k" data-c title="눌러서 복사">손님이 가장 많은 매장은 어디야?</code></td><td>고객 데이터가 없다고 말하고 주문수나 판매수량으로 볼지 묻는다</td></tr>
     </tbody>
   </table></div>
   <div class="checks inline">
@@ -1379,7 +1392,7 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <p>채점 방식은 <strong>Chat 모드</strong>와 <strong>Agent 모드</strong> 두 가지가 있고, 실행할 때 고릅니다. Chat 모드는 정답 SQL의 결과와 Genie의 결과를 비교하고, Agent 모드는 Evaluation note에 적은 기준으로 채점합니다.</p>
 
   <h3><span class="sn">11-1</span>Benchmark 입력 파일</h3>
-  <p>질문과 정답은 <code class="k" data-c>sample_data/support/genie_benchmarks.csv</code>에 있습니다. 열은 <code class="k">benchmark_id</code> <code class="k">mode</code> <code class="k">category</code> <code class="k">question</code> <code class="k">sql_answer</code> <code class="k">evaluation_note</code> <code class="k">expected_behavior</code>입니다. 아래 카드에 같은 값을 옮겨 두었으니 복사해서 쓰면 됩니다.</p>
+  <p>질문과 정답은 <code class="k" data-c title="눌러서 복사">sample_data/support/genie_benchmarks.csv</code>에 있습니다. 열은 <code class="k">benchmark_id</code> <code class="k">mode</code> <code class="k">category</code> <code class="k">question</code> <code class="k">sql_answer</code> <code class="k">evaluation_note</code> <code class="k">expected_behavior</code>입니다. 아래 카드에 같은 값을 옮겨 두었으니 복사해서 쓰면 됩니다.</p>
 
   <h3><span class="sn">11-2</span>Benchmark 추가</h3>
   <p class="path"><b>이동</b><span>Cafe Sales Genie Agent</span><span>Benchmarks</span><span>Add benchmark</span></p>
@@ -1443,7 +1456,7 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
     <label class="task"><input type="checkbox" data-k="b3"><span class="mark"></span>
       <span class="txt">두 묶음을 각각 Chat, Agent 모드로 실행했다</span></label>
   </div>
-  <p>끝나면 <strong>Evaluations</strong>에서 결과를 보고 여기에 적어 둡니다. 16절과 마무리 화면에서 다시 보여 줍니다.</p>
+  <p>끝나면 <strong>Evaluations</strong>에서 결과를 보고 적어 둡니다.</p>
   <div class="memo">
     <div class="f"><label for="memoEvalName">Evaluation name</label><input type="text" id="memoEvalName" data-k="memoEvalName" placeholder="예: chat-run-1"></div>
     <div class="f"><label for="memoStatus">Execution status</label><input type="text" id="memoStatus" data-k="memoStatus" placeholder="예: Completed"></div>
@@ -1547,9 +1560,9 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <div class="tw min"><table>
     <thead><tr><th>항목</th><th>값</th></tr></thead>
     <tbody>
-      <tr><td class="key">Source table</td><td><code class="k" data-c>cafe_training.cafe_hands_on.cafe_glossary</code></td></tr>
-      <tr><td class="key">Endpoint</td><td><code class="k" data-c>cafe-ai-search-endpoint</code></td></tr>
-      <tr><td class="key">Index</td><td><code class="k" data-c>cafe_training.cafe_hands_on.cafe_glossary_index</code></td></tr>
+      <tr><td class="key">Source table</td><td><code class="k" data-c title="눌러서 복사">cafe_training.cafe_hands_on.cafe_glossary</code></td></tr>
+      <tr><td class="key">Endpoint</td><td><code class="k" data-c title="눌러서 복사">cafe-ai-search-endpoint</code></td></tr>
+      <tr><td class="key">Index</td><td><code class="k" data-c title="눌러서 복사">cafe_training.cafe_hands_on.cafe_glossary_index</code></td></tr>
       <tr><td class="key">Primary key</td><td><code class="k">term_id</code></td></tr>
       <tr><td class="key">Embedding source</td><td><code class="k">search_text</code></td></tr>
       <tr><td class="key">Embedding model</td><td><code class="k">databricks-qwen3-embedding-0-6b</code></td></tr>
@@ -1561,7 +1574,7 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <p>4절에서 올린 <code class="k">/Volumes/cafe_training/cafe_landing/raw/support/glossary.csv</code>가 있어야 합니다. 19행이고, <code class="k">term_id</code> <code class="k">term</code> <code class="k">aliases</code> <code class="k">definition</code> <code class="k">metric_or_field</code> <code class="k">resolution_rule</code> <code class="k">example_question</code> <code class="k">updated_at</code> <code class="k">search_text</code> 컬럼이 있습니다.</p>
 
   <h3><span class="sn">13-3</span>노트북 실행</h3>
-  <p><code class="k" data-c>notebooks/05_create_ai_search.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다.</p>
+  <p><code class="k" data-c title="눌러서 복사">notebooks/05_create_ai_search.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">첫 셀 · 패키지 설치</span></div>
     <div class="snip-body"><pre>%pip install -q --upgrade databricks-ai-search
 dbutils.library.restartPython()</pre></div></div>
@@ -1591,7 +1604,7 @@ dbutils.library.restartPython()</pre></div></div>
     query_type="HYBRID",
 )
 display(results)</pre></div></div>
-  <p><code class="k">query_text</code>를 <code class="k" data-c>라떼 매출</code> <code class="k" data-c>손님수</code> <code class="k" data-c>최근 매출</code> <code class="k" data-c>주말 매출</code>로 바꿔 가며 돌려 봅니다.</p>
+  <p><code class="k">query_text</code>를 <code class="k" data-c title="눌러서 복사">라떼 매출</code> <code class="k" data-c title="눌러서 복사">손님수</code> <code class="k" data-c title="눌러서 복사">최근 매출</code> <code class="k" data-c title="눌러서 복사">주말 매출</code>로 바꿔 가며 돌려 봅니다.</p>
   <div class="tw min"><table>
     <thead><tr><th>검색어</th><th>용어집이 알려 줘야 하는 것</th></tr></thead>
     <tbody>
@@ -1627,7 +1640,7 @@ display(results)</pre></div></div>
   <h3><span class="sn">14-0</span>먼저 Playground에서 Supervisor 구성</h3>
   <p>Playground에 <strong>Choose an option to get started</strong>와 모델 배포 안내만 보이면 쓸 수 있는 모델이 없는 상태입니다. 강사가 모델 endpoint와 권한을 준비해야 다음으로 넘어갈 수 있습니다.</p>
   <figure class="shot">
-    <button type="button" class="zoom" data-full="images/runbook/27-playground-prerequisites.jpg"><img src="images/runbook/thumbnails/27-playground-prerequisites.jpg" alt="사용 가능한 모델 설정이 필요한 Playground 시작 화면" width="720" height="587" loading="lazy"></button>
+    <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/27-playground-prerequisites.jpg"><img src="images/runbook/thumbnails/27-playground-prerequisites.jpg" alt="사용 가능한 모델 설정이 필요한 Playground 시작 화면" width="720" height="587" loading="lazy"></button>
     <figcaption><span class="fn">화면 30</span>Playground 사전 준비 화면</figcaption>
   </figure>
   <ol class="do">
@@ -1673,10 +1686,10 @@ display(results)</pre></div></div>
   <div class="tw min"><table>
     <thead><tr><th>질문</th><th>기대하는 도구 흐름</th><th>기대 결과</th></tr></thead>
     <tbody>
-      <tr><td><code class="k" data-c>매장별 순매출을 비교해줘</code></td><td><span class="route-pill"><i class="g">Genie</i></span></td><td>매장별 매출 표</td></tr>
-      <tr><td><code class="k" data-c>아메 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i class="g">Genie</i></span></td><td>아메리카노로 해석한 매출</td></tr>
-      <tr><td><code class="k" data-c>라떼 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i>되묻기</i></span></td><td>어느 라떼인지 질문</td></tr>
-      <tr><td><code class="k" data-c>손님 수가 가장 많은 매장은?</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i>대체 지표</i></span></td><td>고객 데이터가 없다고 설명하고 대안 제안</td></tr>
+      <tr><td><code class="k" data-c title="눌러서 복사">매장별 순매출을 비교해줘</code></td><td><span class="route-pill"><i class="g">Genie</i></span></td><td>매장별 매출 표</td></tr>
+      <tr><td><code class="k" data-c title="눌러서 복사">아메 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i class="g">Genie</i></span></td><td>아메리카노로 해석한 매출</td></tr>
+      <tr><td><code class="k" data-c title="눌러서 복사">라떼 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i>되묻기</i></span></td><td>어느 라떼인지 질문</td></tr>
+      <tr><td><code class="k" data-c title="눌러서 복사">손님 수가 가장 많은 매장은?</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i>대체 지표</i></span></td><td>고객 데이터가 없다고 설명하고 대안 제안</td></tr>
     </tbody>
   </table></div>
   <p>도구가 안 보이거나 연결 오류가 나면 강사에게 권한과 기능 활성화 여부를 확인해 달라고 합니다. App으로 내보내려면 Databricks Apps와 Managed MCP Servers preview가 켜져 있어야 합니다.</p>
@@ -1699,9 +1712,9 @@ display(results)</pre></div></div>
   <div class="tw min"><table>
     <thead><tr><th>Resource type</th><th>대상</th><th>Resource key</th><th>권한</th></tr></thead>
     <tbody>
-      <tr><td class="key">Genie Agent</td><td>Cafe Sales Genie Agent</td><td><code class="k" data-c>cafe_genie</code></td><td>Can run</td></tr>
-      <tr><td class="key">AI Search index</td><td><code class="k">cafe_glossary_index</code></td><td><code class="k" data-c>cafe_glossary_index</code></td><td>Can select</td></tr>
-      <tr><td class="key">MLflow experiment</td><td>cafe-supervisor-agent</td><td><code class="k" data-c>cafe_experiment</code></td><td>Can edit 이상</td></tr>
+      <tr><td class="key">Genie Agent</td><td>Cafe Sales Genie Agent</td><td><code class="k" data-c title="눌러서 복사">cafe_genie</code></td><td>Can run</td></tr>
+      <tr><td class="key">AI Search index</td><td><code class="k">cafe_glossary_index</code></td><td><code class="k" data-c title="눌러서 복사">cafe_glossary_index</code></td><td>Can select</td></tr>
+      <tr><td class="key">MLflow experiment</td><td>cafe-supervisor-agent</td><td><code class="k" data-c title="눌러서 복사">cafe_experiment</code></td><td>Can edit 이상</td></tr>
     </tbody>
   </table></div>
   <p>AI Search Index는 Workspace 버전에 따라 <strong>Vector search index</strong>로 보일 수도 있습니다.</p>
@@ -1744,7 +1757,7 @@ display(results)</pre></div></div>
   <p>14절에서 App에 넣은 네 질문이 이미 Trace로 남아 있습니다. 아직 안 했다면 App에서 먼저 물어보세요. 전체 평가 질문은 <code class="k">sample_data/support/agent_evaluation.csv</code>에 있습니다.</p>
 
   <h3><span class="sn">15-2</span>MLflow 노트북 실행</h3>
-  <p><code class="k" data-c>notebooks/06_mlflow_monitoring.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다. 재시작 뒤에는 다음 셀부터 진행합니다.</p>
+  <p><code class="k" data-c title="눌러서 복사">notebooks/06_mlflow_monitoring.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다. 재시작 뒤에는 다음 셀부터 진행합니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">첫 셀 · 패키지 설치</span></div>
     <div class="snip-body"><pre>%pip install -q --upgrade "mlflow[databricks]&gt;=3.4.0"
 dbutils.library.restartPython()</pre></div></div>
@@ -1850,10 +1863,10 @@ print(safety_monitor)</pre></div></div>
   <div class="tw min"><table>
     <thead><tr><th></th><th>질문</th><th>기대 Tool 경로</th><th>기대 결과</th></tr></thead>
     <tbody>
-      <tr><td class="id">Q1</td><td><code class="k" data-c>매장별 순매출을 비교해줘</code></td><td><span class="route-pill"><i class="g">Genie</i></span></td><td>매장별 순매출 표</td></tr>
-      <tr><td class="id">Q2</td><td><code class="k" data-c>아메 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i class="g">Genie</i></span></td><td>아메를 아메리카노로 해석한 매출</td></tr>
-      <tr><td class="id">Q3</td><td><code class="k" data-c>라떼 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i></span></td><td>카페라떼·바닐라라떼 중 선택 질문</td></tr>
-      <tr><td class="id">Q4</td><td><code class="k" data-c>손님 수가 가장 많은 매장은?</code></td><td><span class="route-pill"><i class="s">AI Search</i></span></td><td>고객 데이터가 없다는 설명과 주문수·판매수량 대안</td></tr>
+      <tr><td class="id">Q1</td><td><code class="k" data-c title="눌러서 복사">매장별 순매출을 비교해줘</code></td><td><span class="route-pill"><i class="g">Genie</i></span></td><td>매장별 순매출 표</td></tr>
+      <tr><td class="id">Q2</td><td><code class="k" data-c title="눌러서 복사">아메 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i class="g">Genie</i></span></td><td>아메를 아메리카노로 해석한 매출</td></tr>
+      <tr><td class="id">Q3</td><td><code class="k" data-c title="눌러서 복사">라떼 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i></span></td><td>카페라떼·바닐라라떼 중 선택 질문</td></tr>
+      <tr><td class="id">Q4</td><td><code class="k" data-c title="눌러서 복사">손님 수가 가장 많은 매장은?</code></td><td><span class="route-pill"><i class="s">AI Search</i></span></td><td>고객 데이터가 없다는 설명과 주문수·판매수량 대안</td></tr>
     </tbody>
   </table></div>
   <p>결과가 다르면 App의 답변 → 도구 호출 → AI Search 검색 결과 → Genie가 만든 SQL 순서로 거슬러 올라가며 원인을 찾습니다.</p>
@@ -1863,10 +1876,10 @@ print(safety_monitor)</pre></div></div>
   <p>Trace마다 <code class="k">trace_id</code>, 질문, 도구 순서, 상태, latency, 세 Scorer 값을 봅니다.</p>
 
   <h3><span class="sn">16-6</span>최종 결과 기록</h3>
-  <p>결과를 적습니다. 11절에서 적은 Accuracy는 자동으로 불러옵니다.</p>
+  <p>결과를 적습니다.</p>
   <div class="memo">
-    <div class="f"><label>Genie Chat Accuracy</label><span class="carry" data-carry="memoChatAcc"></span></div>
-    <div class="f"><label>Genie Agent Accuracy</label><span class="carry" data-carry="memoAgentAcc"></span></div>
+    <div class="f"><label>Genie Chat Accuracy <em class="from">11-3</em></label><button type="button" class="carry" data-carry="memoChatAcc"></button></div>
+    <div class="f"><label>Genie Agent Accuracy <em class="from">11-3</em></label><button type="button" class="carry" data-carry="memoAgentAcc"></button></div>
     <div class="f"><label for="memoRouting">Supervisor routing</label><input type="text" id="memoRouting" data-k="memoRouting" placeholder="예: Q1~Q4 모두 기대 경로"></div>
     <div class="f"><label for="memoTraces">MLflow Trace 개수</label><input type="text" id="memoTraces" data-k="memoTraces"></div>
     <div class="f"><label for="memoRel">RelevanceToQuery</label><input type="text" id="memoRel" data-k="memoRel"></div>
@@ -1984,6 +1997,8 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
 </div>
 <button type="button" class="helpbtn" id="helpbtn" aria-controls="helpdesk" aria-expanded="false">도움말</button>
 
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
 <!-- ── 확대 보기 ── -->
 <div class="lb" id="lb" hidden role="dialog" aria-label="스크린샷 크게 보기">
   <img id="lbimg" alt="">
@@ -2074,7 +2089,7 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
     if (boxesIn(pane).length) {
       var done = document.createElement("div");
       done.className = "donebar";
-      done.textContent = "이 챕터 확인 항목을 모두 마쳤습니다. 아래 버튼으로 넘어가세요.";
+      done.textContent = "이 챕터를 마쳤습니다.";
       pane.appendChild(done);
     }
     var nav = document.createElement("div"); nav.className = "pager";
@@ -2153,6 +2168,8 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
       if (segs[ch.key]) { segs[ch.key].fill.style.width = (hit / segs[ch.key].total * 100) + "%"; }
       var bar = pane.querySelector(".donebar");
       if (bar) { bar.classList.toggle("on", local.length > 0 && hit === local.length); }
+      var nx = pane.querySelector(".pager .next");
+      if (nx) { nx.classList.toggle("ready", local.length > 0 && hit === local.length); }
       if (!ch.plain) { chipEls[ch.key].classList.toggle("filled", local.length > 0 && hit === local.length); }
     });
     [].forEach.call(document.querySelectorAll(".step"), function (sec) {
@@ -2168,7 +2185,11 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
 
   boxes.forEach(function (b) {
     if (state[b.dataset.k]) { b.checked = true; }
-    b.addEventListener("change", function () { state[b.dataset.k] = b.checked; save(state); paint(); });
+    b.addEventListener("change", function () {
+      state[b.dataset.k] = b.checked;
+      if (b.checked && !state.__savedHint) { state.__savedHint = true; toast("체크한 항목은 이 브라우저에 저장됩니다"); }
+      save(state); paint();
+    });
   });
   fields.forEach(function (f) {
     if (state[f.dataset.k]) { f.value = state[f.dataset.k]; }
@@ -2186,6 +2207,12 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
     btn.classList.add(cls); btn.textContent = text;
     setTimeout(function () { btn.classList.remove(cls); btn.textContent = orig; }, 1600);
   }
+  var toastEl = document.getElementById("toast"), toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.hidden = true; }, 2200);
+  }
   function copyFrom(el, btn) {
     var text = el.textContent;
     var orig = btn ? btn.textContent : "";
@@ -2196,11 +2223,18 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () {
         if (btn) { flash(btn, "done", "복사됨", orig); }
-        else { el.classList.add("copied"); setTimeout(function () { el.classList.remove("copied"); }, 900); }
+        else { el.classList.add("copied"); setTimeout(function () { el.classList.remove("copied"); }, 900); toast("복사했습니다 · " + text); }
       }, fallback);
     } else { fallback(); }
   }
   document.addEventListener("click", function (e) {
+    var carry = e.target.closest("button.carry");
+    if (carry && !carry.textContent) {
+      go("bench");
+      var fld = document.getElementById(carry.dataset.carry);
+      if (fld) { fld.scrollIntoView({ block: "center" }); fld.focus({ preventScroll: true }); }
+      return;
+    }
     var btn = e.target.closest(".copy");
     if (btn) {
       var src = btn.closest(".qa-r") ? btn.closest(".qa-r").querySelector(".v") : btn.closest(".snip").querySelector("pre");
