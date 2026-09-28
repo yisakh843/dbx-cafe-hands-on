@@ -28,13 +28,13 @@
 
 ### 화면과 경로 읽는 법
 
-Databricks Free Edition의 실제 홈 화면(2026-09-21). 왼쪽의 Workspace, Catalog, Jobs & Pipelines, Genie Agents, SQL Warehouses, Playground가 실습의 주요 진입점입니다.
+아래는 Databricks Free Edition의 홈 화면입니다(2026-09-21 촬영). 왼쪽의 Workspace, Catalog, Jobs & Pipelines, Genie Agents, SQL Warehouses, Playground가 실습의 주요 진입점입니다.
 
 ![Databricks 홈과 실습에서 사용할 왼쪽 메뉴](images/runbook/00-workspace-home.jpg)
 
-화면 1. 실습에서 사용할 홈 화면 · [원본 보기](images/runbook/00-workspace-home.jpg)
+화면 1. 실습에서 사용할 홈 화면
 
-> **화면 기준:** Databricks Free Edition에서 직접 촬영한 화면을 사용합니다. 캡처의 계정 이메일과 리소스 ID는 촬영 환경의 값이며, 참가자는 본인 계정에서 실습합니다. 버튼 이름과 배치는 Workspace 버전에 따라 달라질 수 있습니다. 예상값과 실제 실행 결과는 그림 주변의 설명에서 구분합니다. 현재 캡처·검증 범위는 [강사용 확인표](02_screenshot_checklist.md)에 기록되어 있습니다.
+> **화면 기준:** Databricks Free Edition에서 직접 촬영한 화면을 사용합니다. 캡처의 계정 이메일과 리소스 ID는 촬영 환경의 값이며, 참가자는 본인 계정에서 실습합니다. 버튼 이름과 배치는 Workspace 버전에 따라 달라질 수 있습니다. 현재 캡처·검증 범위는 [강사용 확인표](02_screenshot_checklist.md)에 기록되어 있습니다.
 
 - **Workspace**는 코드·노트북을 여는 곳입니다. **Catalog Explorer**는 테이블·Metric View·Volume을 확인하는 곳입니다.
 - **Catalog → Schema → Table/Volume** 순으로 데이터가 정리됩니다. `cafe_training.cafe_hands_on.gold_sales`는 Catalog, Schema, Table 이름을 점으로 연결한 것입니다.
@@ -104,11 +104,9 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 
 `Workspace → Home(개인 폴더) → Create → Git folder`
 
-개인 폴더 우측 위 **Create → Git folder**를 선택합니다.
-
 ![Workspace의 Create 메뉴에서 Git folder 선택](images/runbook/01-create-menu-annotated.png)
 
-화면 2. Git folder 생성 메뉴 · [원본 보기](images/runbook/01-create-menu.jpg)
+화면 2. Git folder 생성 메뉴
 
 입력값:
 
@@ -118,11 +116,11 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 | Provider | GitHub |
 | Git folder name | dbx-cafe-hands-on |
 
-위 값을 입력한 뒤 **Create Git folder**를 누릅니다. 생성 후 브랜치가 `main`인지 확인합니다.
+위 값을 입력한 뒤 **Create Git folder**를 누릅니다.
 
 ![Git 저장소 URL과 폴더 이름 입력](images/runbook/02-create-git-folder-annotated.png)
 
-화면 3. 저장소 연결 정보 · [원본 보기](images/runbook/02-create-git-folder.jpg)
+화면 3. 저장소 연결 정보
 
 생성된 폴더는 다음 형식입니다.
 
@@ -130,7 +128,7 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 /Workspace/Users/<사용자 이메일>/dbx-cafe-hands-on
 ```
 
-다음 구조가 보여야 합니다.
+**완료 확인:** 폴더 이름 옆 브랜치가 **main**이고, 다음 항목이 보입니다. Databricks에서는 노트북의 `.sql`·`.py` 확장자가 생략되어 보일 수 있습니다.
 
 - `README.md`
 - `databricks.yml`
@@ -139,26 +137,17 @@ Databricks Workspace에서 다음 메뉴를 선택합니다.
 - `resources/`
 - `sample_data/`
 
-폴더 이름 옆 **main**과 `docs`, `notebooks`, `resources`, `sample_data`를 확인합니다. Databricks에서는 노트북의 `.sql`·`.py` 확장자가 생략되어 보일 수 있습니다.
-
 ![Clone 완료 후 main 브랜치와 실습 폴더](images/runbook/03-git-folder-ready.jpg)
 
-화면 4. Clone 완료와 main 브랜치 · [원본 보기](images/runbook/03-git-folder-ready.jpg)
+화면 4. Clone 완료와 main 브랜치
 
-### 2-1. 먼저 열어볼 문서
+### 2-1. 함께 열어 둘 문서
 
-Git folder를 만든 직후 다음 가이드부터 엽니다.
+실습에 필요한 이름, 경로, 입력값, 검증값은 모두 이 문서(`docs/01_hands_on_runbook.md`)에 있으므로 실습 내내 열어 둡니다. 배경이 궁금하면 다음 문서를 참고합니다.
 
-`docs/01_hands_on_runbook.md`
-
-함께 확인할 문서:
-
-- `README.md`
-- `docs/00_start_here.md`
-- `HANDS_ON_SESSION_DESIGN.md`
-
-`docs/01_hands_on_runbook.md`에는 현재 실습에 사용하는 이름, 경로, 화면 입력값, 검증값이 모두 정리되어 있습니다.
-Git folder clone이나 GitHub ZIP 다운로드에 이 파일이 포함되어 있는지 확인하고, 실습 중에는 이 문서를 함께 열어 둡니다.
+- `README.md` — 저장소 구조와 실행 순서
+- `docs/00_start_here.md` — Catalog·Schema·Volume 준비
+- `HANDS_ON_SESSION_DESIGN.md` — 세션 설계
 
 ### 2-2. 로컬 PC로 파일 내려받기
 
@@ -176,7 +165,7 @@ Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니�
 
 ### 2-3. 이후 Volume에 업로드할 파일 확인
 
-다음 6개 파일을 이후 3장에서 Volume에 업로드합니다.
+다음 6개 파일을 4절에서 Volume에 업로드합니다.
 
 - `sample_data/raw/stores.csv`
 - `sample_data/raw/products.csv`
@@ -184,7 +173,6 @@ Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니�
 - `sample_data/raw/orders/orders_batch_002.csv`
 - `sample_data/raw/orders/orders_batch_003.csv`
 - `sample_data/support/glossary.csv`
-
 
 ### 2-4. 실습 중 열어볼 참고 파일
 
@@ -235,14 +223,14 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 `notebooks/00_setup.sql`
 
 1. 노트북 상단 Compute 버튼이 `Serverless`이면 **Serverless → More… → SQL Warehouse**를 선택합니다.
-2. 교육용 Warehouse를 고릅니다. 이 Workspace의 이름은 `Serverless Starter Warehouse`입니다.
+2. 교육용 Warehouse를 고릅니다. Free Edition의 기본 Warehouse 이름은 `Serverless Starter Warehouse`입니다.
 3. **SQL Warehouse** 선택과 Warehouse 이름을 확인한 뒤 **Start and attach**(이미 실행 중이면 **Attach**)를 누릅니다.
 
-아래 그림은 **SQL Warehouse를 선택한 뒤 나타나는 연결 창**입니다. `Serverless → More… 메뉴를 여셨을 때 보여집니다.
+아래는 **Serverless → More…**에서 **SQL Warehouse**를 선택하면 나타나는 연결 창입니다.
 
 ![SQL Warehouse 선택 및 연결](images/runbook/04-attach-warehouse-annotated.png)
 
-화면 5. SQL Warehouse 연결 · [원본 보기](images/runbook/04-attach-warehouse.jpg)
+화면 5. SQL Warehouse 연결
 
 ### 3-2. Setup 실행
 
@@ -250,17 +238,11 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 ![Setup 노트북의 Run all과 Warehouse](images/runbook/05-setup-run-all-annotated.png)
 
-화면 6. Setup 노트북 전체 실행 · [원본 보기](images/runbook/05-setup-run-all.jpg)
+화면 6. Setup 노트북 전체 실행
 
 ### 3-3. 생성 객체 확인
 
-생성 객체:
-
-- `cafe_training.cafe_landing`
-- `cafe_training.cafe_hands_on`
-- `cafe_training.cafe_landing.raw`
-
-Catalog Explorer에서 다음 구조를 확인합니다.
+Setup 노트북은 Schema 두 개(`cafe_landing`, `cafe_hands_on`)와 Volume `cafe_training.cafe_landing.raw`를 만듭니다. Catalog Explorer에서 다음 구조를 확인합니다.
 
 ```text
 cafe_training
@@ -274,7 +256,7 @@ cafe_training
 
 ![Catalog Explorer에서 raw Volume 확인](images/runbook/06-volume.jpg)
 
-화면 7. raw Volume 위치 · [원본 보기](images/runbook/06-volume.jpg)
+화면 7. raw Volume 위치
 
 <a id="step-4"></a>
 
@@ -288,7 +270,7 @@ cafe_training
 
 ![Volume 디렉터리 생성](images/runbook/08-create-directory.jpg)
 
-화면 8. 디렉터리 생성 · [원본 보기](images/runbook/08-create-directory.jpg)
+화면 8. 디렉터리 생성
 
 **완료 확인:** `orders`와 `support`가 모두 `raw` 바로 아래에 있습니다.
 
@@ -309,7 +291,7 @@ cafe_training
 
 ![매장·상품 CSV 업로드 대상 확인](images/runbook/07-upload-root-annotated.png)
 
-화면 9. 매장·상품 업로드 · [원본 보기](images/runbook/07-upload-root.jpg)
+화면 9. 매장·상품 업로드
 
 **완료 확인:** `raw`에 `stores.csv`, `products.csv`가 보입니다.
 
@@ -330,7 +312,7 @@ cafe_training
 
 ![orders 디렉터리에 주문 배치 세 개 업로드](images/runbook/09-upload-orders-annotated.png)
 
-화면 10. 주문 배치 업로드 · [원본 보기](images/runbook/09-upload-orders.jpg)
+화면 10. 주문 배치 업로드
 
 **완료 확인:** `orders` 안에 주문 배치 CSV 세 개가 보입니다.
 
@@ -346,7 +328,7 @@ cafe_training
 
 ![support 디렉터리에 glossary 업로드](images/runbook/10-upload-glossary-annotated.png)
 
-화면 11. 용어집 업로드 · [원본 보기](images/runbook/10-upload-glossary.jpg)
+화면 11. 용어집 업로드
 
 **완료 확인:** `support` 안에 `glossary.csv`가 보입니다.
 
@@ -356,7 +338,7 @@ cafe_training
 
 ![Volume 업로드 완료 목록](images/runbook/11-volume-ready.jpg)
 
-화면 12. Volume 업로드 완료 · [원본 보기](images/runbook/11-volume-ready.jpg)
+화면 12. Volume 업로드 완료
 
 ```text
 raw/
@@ -390,15 +372,15 @@ raw/
 
 ![Jobs & Pipelines에서 ETL pipeline 선택](images/runbook/12-jobs-entry.jpg)
 
-화면 13. ETL pipeline 진입 메뉴 · [원본 보기](images/runbook/12-jobs-entry.jpg)
+화면 13. ETL pipeline 진입 메뉴
 
-현재 UI에서는 `ETL pipeline`을 누르면 기본 Pipeline과 빈 소스 파일이 생성됩니다. 상단 Pipeline 이름을 `cafe_medallion_pipeline`으로 바꾸고 Enter를 누릅니다. **Settings**에서 설정합니다. 이 가이드의 소스 파일 선택 화면은 Settings 하단의 **Legacy pipeline settings**에서 촬영했습니다.
+현재 UI에서는 `ETL pipeline`을 누르면 기본 Pipeline과 빈 소스 파일이 생성됩니다. 상단 Pipeline 이름을 `cafe_medallion_pipeline`으로 바꾸고 Enter를 누른 뒤 **Settings**를 엽니다.
 
-Code assets와 Default location for data assets를 확인합니다. 패널을 아래로 스크롤하면 나타나는 **Legacy pipeline settings**는 기존 폼으로 설정하는 진입점입니다(이 캡처 범위 밖).
+Settings에서 **Code assets**와 **Default location for data assets**를 확인합니다. 아래 소스 선택 화면(화면 15~16)은 패널을 아래로 스크롤하면 나오는 **Legacy pipeline settings**에서 촬영했습니다.
 
 ![Pipeline 설정 진입 화면](images/runbook/13-pipeline-settings-entry.jpg)
 
-화면 14. Pipeline 설정 · [원본 보기](images/runbook/13-pipeline-settings-entry.jpg)
+화면 14. Pipeline 설정
 
 Pipeline 설정:
 
@@ -410,7 +392,7 @@ Pipeline 설정:
 | Schema | cafe_hands_on |
 | Serverless | On |
 | Product edition | Advanced |
-| Channel | Current (UI가 Default Storage에 대해 Preview를 요구하면 Preview) |
+| Channel | Current (Default Storage 사용 시 Preview로 고정됨) |
 | Pipeline mode | Triggered |
 
 Source가 폴더 단위로 표시되면 다음 폴더에서 `01_cafe_medallion_pipeline.sql`을 선택합니다.
@@ -419,19 +401,19 @@ Source가 폴더 단위로 표시되면 다음 폴더에서 `01_cafe_medallion_p
 /Workspace/Users/<사용자 이메일>/dbx-cafe-hands-on/notebooks
 ```
 
-**01_cafe_medallion_pipeline** 하나를 선택합니다. `notebooks` 전체를 소스로 지정하면 setup·Metric View·검증 파일까지 함께 실행될 수 있으므로 파일을 지정하세요.
+초기 생성된 `transformations/**` 경로를 지우고 **01_cafe_medallion_pipeline** 하나만 선택합니다. `notebooks` 전체를 소스로 지정하면 setup·Metric View·검증 파일까지 함께 실행되므로 반드시 파일을 지정하세요.
 
 ![Git folder에서 Pipeline 전용 노트북 선택](images/runbook/14-pipeline-source-annotated.png)
 
-화면 15. Pipeline 소스 선택 · [원본 보기](images/runbook/14-pipeline-source.jpg)
+화면 15. Pipeline 소스 선택
 
-Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확인하고 **Save**합니다. 이 Workspace는 Default Storage를 사용해 Channel이 **Preview**로 고정됩니다. Advanced edition 선택란이 없는 Serverless UI에서는 해당 항목을 별도로 찾지 않습니다.
+Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확인하고 **Save**합니다. Free Edition은 Default Storage를 사용하므로 Channel이 **Preview**로 표시됩니다. Serverless UI에 Product edition 선택란이 없으면 따로 찾지 않아도 됩니다.
 
 ![Pipeline의 소스 경로와 출력 위치 설정](images/runbook/15-pipeline-settings-annotated.png)
 
-화면 16. 소스 경로와 출력 위치 · [원본 보기](images/runbook/15-pipeline-settings.jpg)
+화면 16. 소스 경로와 출력 위치
 
-초기 생성된 `transformations/**` 경로를 위의 실습 노트북 경로로 교체합니다. 저장 후 **Run pipeline**을 클릭합니다.
+저장 후 **Run pipeline**을 클릭합니다.
 
 생성 데이터셋:
 
@@ -439,13 +421,13 @@ Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확
 - silver_stores, silver_products, silver_orders_clean
 - gold_sales
 
-실제 실행에서 **Completed**, 7개 데이터셋의 성공 표시, `bronze_orders` 300행과 `gold_sales` 266행을 확인했습니다. 초록색 DAG만 보지 말고 아래 Tables의 Output records도 확인합니다.
+**완료 확인:** 상태가 **Completed**이고 7개 데이터셋이 모두 성공입니다. 초록색 DAG만 보지 말고 아래 Tables의 Output records에서 `bronze_orders` 300행, `gold_sales` 266행도 확인합니다.
 
 ![Pipeline 실행 성공과 Bronze·Silver·Gold DAG](images/runbook/19-pipeline-completed.jpg)
 
-화면 17. Pipeline 실행 결과 · [원본 보기](images/runbook/19-pipeline-completed.jpg)
+화면 17. Pipeline 실행 결과
 
-모든 노드가 성공하면 Catalog Explorer에서 `cafe_training.cafe_hands_on`의 위 테이블을 확인합니다.
+Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 위 테이블이 생성되었는지 확인할 수 있습니다.
 
 <a id="step-6"></a>
 
@@ -454,8 +436,6 @@ Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확
 다음 메뉴를 선택합니다.
 
 `Jobs & Pipelines → Job`
-
-**Job 이름:** `cafe_medallion_job`
 
 상단의 자동 생성된 Job 이름을 클릭해 `cafe_medallion_job`으로 바꾸고 Enter를 누릅니다. 첫 화면의 **Add another task type → ETL Pipeline**으로 첫 Task를 추가합니다.
 
@@ -472,7 +452,7 @@ Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확
 
 ![Job의 Pipeline 실행 Task 설정](images/runbook/16-job-pipeline-task-annotated.png)
 
-화면 18. Pipeline 실행 Task · [원본 보기](images/runbook/16-job-pipeline-task.jpg)
+화면 18. Pipeline 실행 Task
 
 ### 6-2. Pipeline 검증 Task
 
@@ -504,19 +484,15 @@ Git provider Source인 경우:
 
 ![Job 검증용 SQL 파일 선택](images/runbook/17-job-sql-file-annotated.png)
 
-화면 19. 검증 SQL 파일 선택 · [원본 보기](images/runbook/17-job-sql-file.jpg)
+화면 19. 검증 SQL 파일 선택
 
 **SQL warehouse**, **Depends on = run_medallion_pipeline**, **Run if dependencies = All succeeded**를 확인한 뒤 **Create task**를 누릅니다.
 
 ![검증 Task의 Warehouse와 의존성](images/runbook/18-job-validation-task-annotated.png)
 
-화면 20. 검증 Task 설정 · [원본 보기](images/runbook/18-job-validation-task.jpg)
+화면 20. 검증 Task 설정
 
-`validate_pipeline`의 Dependency:
-
-`Depends on: run_medallion_pipeline`
-
-Job DAG:
+완성된 Job DAG는 다음과 같습니다.
 
 ```text
 run_medallion_pipeline
@@ -526,7 +502,7 @@ run_medallion_pipeline
 
 ### 6-3. Job 실행과 결과 확인
 
-`Save` 후 `Run now`를 클릭합니다. 예상 결과:
+`Save` 후 `Run now`를 클릭합니다. 두 Task가 모두 **Succeeded**이면 검증 Task를 열어 결과 표를 확인합니다. 행 순서는 달라질 수 있습니다.
 
 | 테이블 | 실제 | 기대 | 결과 |
 |---|---:|---:|---|
@@ -536,19 +512,15 @@ run_medallion_pipeline
 
 > **주의:** Job 상태가 성공이어도 결과 표의 세 행이 모두 `PASS`인지 확인합니다. 제공된 검증 SQL은 값이 다르면 `FAIL`을 표시하지만, 그 자체로 SQL 실행 오류를 발생시키지는 않습니다.
 
-**완료 확인:** 두 Task가 모두 **Succeeded**인지 확인한 뒤, 검증 Task를 열어 결과 표를 확인합니다.
-
 ![Pipeline 실행과 SQL 검증 task가 모두 성공한 Job](images/runbook/28-job-succeeded.jpg)
 
-화면 21. Job 실행 결과 · [원본 보기](images/runbook/28-job-succeeded.jpg)
+화면 21. Job 실행 결과
 
-참고: 실제 실행에서는 Pipeline Task 41초, 검증 Task 23초가 걸렸으며 소요 시간은 환경에 따라 달라집니다.
-
-**완료 확인:** 실제 검증 결과는 **bronze_orders = 300**, **silver_orders_clean = 296**, **gold_sales = 266**이고 모두 **PASS**입니다. 행 순서는 달라질 수 있습니다.
+촬영 환경에서는 Pipeline Task 41초, 검증 Task 23초가 걸렸습니다. 소요 시간은 환경에 따라 달라집니다.
 
 ![검증 SQL의 Bronze·Silver·Gold 행 수가 모두 PASS인 결과](images/runbook/29-validation-pass-annotated.png)
 
-화면 22. 행 수 검증 결과 · [원본 보기](images/runbook/29-validation-pass.jpg)
+화면 22. 행 수 검증 결과
 
 ---
 
@@ -558,11 +530,7 @@ run_medallion_pipeline
 
 ## 7. Metric View 기준선 생성
 
-다음 파일을 SQL Warehouse에서 `Run all`합니다.
-
-`notebooks/02_metric_view_baseline.sql`
-
-**생성 객체:** `cafe_training.cafe_hands_on.cafe_sales_metrics`
+`notebooks/02_metric_view_baseline.sql`을 열고 SQL Warehouse를 확인한 뒤 **Run all**을 누릅니다. Warehouse가 정지 상태라면 **Start, attach and run**을 선택합니다. 이 노트북은 Metric View `cafe_training.cafe_hands_on.cafe_sales_metrics`를 만듭니다.
 
 마지막 쿼리의 예상값:
 
@@ -572,31 +540,25 @@ run_medallion_pipeline
 | order_count | 266 |
 | avg_order_value | 약 6,520.98 |
 
-**02_metric_view_baseline**을 열고 SQL Warehouse를 확인한 뒤 **Run all**을 누릅니다. Warehouse가 정지 상태라면 **Start, attach and run**을 선택합니다.
-
 ![Metric View 기준선 생성 노트북](images/runbook/20-metric-baseline.jpg)
 
-화면 23. Metric View 기준선 실행 · [원본 보기](images/runbook/20-metric-baseline.jpg)
+화면 23. Metric View 기준선 실행
 
-마지막 SELECT의 실제 결과가 **1734580 / 266 / 6520.977443609023**인지 확인합니다. CREATE 문 뒤의 `No rows returned`는 오류가 아닙니다.
+**완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**입니다. CREATE 문 뒤의 `No rows returned`는 오류가 아닙니다.
 
 ![Metric View 실제 지표 조회 결과](images/runbook/21-metric-baseline-result.jpg)
 
-화면 24. 기준선 지표 조회 결과 · [원본 보기](images/runbook/21-metric-baseline-result.jpg)
+화면 24. 기준선 지표 조회 결과
 
 <a id="step-8"></a>
 
 ## 8. Metric View 최적화 정의 적용
 
-다음 파일을 같은 SQL Warehouse에서 `Run all`합니다.
-
-`notebooks/03_metric_view_optimized.sql`
-
-**03_metric_view_optimized**에서 같은 Warehouse로 실행합니다. 표시명·동의어·포맷을 정의하는 SQL입니다.
+`notebooks/03_metric_view_optimized.sql`을 같은 SQL Warehouse에서 `Run all`합니다. 기준선 Metric View에 표시명·동의어·포맷을 더하는 SQL입니다.
 
 ![Metric View 최적화 SQL 실행 화면](images/runbook/22-metric-optimized.jpg)
 
-화면 25. Metric View 최적화 실행 · [원본 보기](images/runbook/22-metric-optimized.jpg)
+화면 25. Metric View 최적화 실행
 
 적용되는 메타데이터:
 
@@ -628,33 +590,23 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 `Genie Agents → New`
 
-**Agent 이름:** `Cafe Sales Genie Agent`
-
-데이터 자산에는 다음 Metric View 하나만 추가합니다.
-
-`cafe_training.cafe_hands_on.cafe_sales_metrics`
-
 **Connect your data**에서 `cafe_sales_metrics`를 검색합니다. 소속이 **cafe_training.cafe_hands_on**인 Metric View 하나만 선택하고 **Create**를 누릅니다.
 
 ![Genie에 연결할 Metric View 선택](images/runbook/23-genie-select-metric-view-annotated.png)
 
-화면 26. Genie 연결 자산 선택 · [원본 보기](images/runbook/23-genie-select-metric-view.jpg)
+화면 26. Genie 연결 자산 선택
 
-생성 후 이름이 자동으로 정해졌다면 **Configure → About → About this agent의 연필 아이콘**에서 이름을 수정합니다. Default warehouse는 실습에 사용한 SQL Warehouse로 지정합니다.
-
-**Name = Cafe Sales Genie Agent**, **Default warehouse = Serverless Starter Warehouse**를 확인하고 **Save**를 누릅니다. Owner와 Agent ID는 각자의 환경에서 자동 지정됩니다.
+생성 후 이름이 자동으로 정해지므로 **Configure → About → About this agent의 연필 아이콘**에서 **Name = Cafe Sales Genie Agent**, **Default warehouse = Serverless Starter Warehouse**(실습에 사용한 Warehouse)로 지정하고 **Save**를 누릅니다. Owner와 Agent ID는 각자의 환경에서 자동 지정됩니다.
 
 ![Genie 이름과 기본 Warehouse 설정](images/runbook/24-genie-name.jpg)
 
-화면 27. Genie 이름과 Warehouse · [원본 보기](images/runbook/24-genie-name.jpg)
+화면 27. Genie 이름과 Warehouse
 
-`Configure > Instructions`의 입력값입니다. 구버전 화면에서는 `Configure > Context > Instructions`로 표시될 수 있습니다. [genie_instructions.md](../resources/genie_instructions.md)의 전체 내용을 붙여 넣고 **Save**를 누릅니다.
-
-오른쪽 **Instructions**에 지침을 입력한 상태입니다. 아래 **Save**를 누른 뒤 다른 탭으로 이동했다 돌아와도 내용이 유지되는지 확인합니다.
+이어서 **Configure → Instructions**(구버전: `Configure > Context > Instructions`)에 [genie_instructions.md](../resources/genie_instructions.md)의 전체 내용(아래 펼치기에도 있음)을 붙여 넣고 **Save**를 누릅니다. 다른 탭으로 이동했다 돌아와도 내용이 유지되는지 확인합니다.
 
 ![Genie 공통 지침 입력 화면](images/runbook/25-genie-instructions-annotated.png)
 
-화면 28. Genie 지침 입력 · [원본 보기](images/runbook/25-genie-instructions.jpg)
+화면 28. Genie 지침 입력
 
 <details>
 <summary>복사용 Genie 지침 전문 펼치기</summary>
@@ -699,13 +651,11 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 ## 10. Genie Example Query 등록
 
-**Configure → Examples → Add**에서 예제를 추가합니다. 구버전 화면에서는 `Configure > Context > Add`로 표시될 수 있습니다.
-
-**Examples** 탭 오른쪽 위 **Add**가 예제 등록의 진입점입니다. 이 캡처는 등록 전 상태로 **All (0)**입니다. 아래 6개를 저장한 뒤 실제 목록에서 확인합니다.
+**Configure → Examples** 탭 오른쪽 위 **Add**에서 예제를 추가합니다(구버전: `Configure > Context > Add`). 아래 화면은 등록 전 상태(**All (0)**)이며, 6개를 저장하면 목록에 **All (6)**으로 표시됩니다.
 
 ![Genie 예제 목록과 Add 버튼](images/runbook/26-genie-examples-annotated.png)
 
-화면 29. 예제 등록 메뉴 · [원본 보기](images/runbook/26-genie-examples.jpg)
+화면 29. 예제 등록 메뉴
 
 추가 항목의 이름은 Workspace 버전에 따라 다를 수 있습니다. 현재는 **Example Query**만 선택합니다.
 
@@ -717,11 +667,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 | Field | 사용하지 않음 | 컬럼 설명·동의어 |
 | Join | 사용하지 않음 | 여러 데이터 자산 관계 |
 
-다음 파일의 6개 항목을 Example Query로 등록합니다.
-
-`sample_data/support/genie_example_queries.csv`
-
-각 항목의 `Question`과 `SQL`을 하나의 Example Query로 입력합니다.
+아래 E001~E006(원본: `sample_data/support/genie_example_queries.csv`)의 `Question`과 `SQL`을 각각 하나의 Example Query로 등록합니다.
 
 ### E001 · 전체 기간 순매출
 
@@ -805,6 +751,8 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics
 GROUP BY store_name
 ORDER BY avg_order_value DESC;
 ```
+
+### 등록 후 채팅 테스트
 
 채팅 화면에서 다음 질문을 테스트합니다.
 
@@ -1150,11 +1098,11 @@ AI Playground에서 검증한 Supervisor Agent를 Databricks Apps로 배포합�
 
 이 단계는 저장소의 [Supervisor 지침](../resources/supervisor_prompt.md)과 [Databricks 공식 Playground 가이드](https://docs.databricks.com/aws/en/getting-started/gen-ai-llm-agent)를 바탕으로 보완한 절차입니다.
 
-이 Workspace에서 확인한 Playground는 **Choose an option to get started**와 모델 배포 안내를 표시합니다. 아직 모델·System prompt·Tools 입력 화면이 아니므로, 강사가 사용할 모델 endpoint와 접근 권한을 먼저 준비해야 합니다. 이 화면은 Supervisor 구성이나 Apps 배포 완료를 뜻하지 않습니다.
+Playground에 아래처럼 **Choose an option to get started**와 모델 배포 안내만 보이면 아직 사용할 모델이 없는 상태입니다. 강사가 모델 endpoint와 접근 권한을 먼저 준비해야 모델·System prompt·Tools를 입력할 수 있습니다.
 
 ![사용 가능한 모델 설정이 필요한 Playground 시작 화면](images/runbook/27-playground-prerequisites.jpg)
 
-화면 30. Playground 사전 준비 화면 · [원본 보기](images/runbook/27-playground-prerequisites.jpg)
+화면 30. Playground 사전 준비 화면
 
 1. 왼쪽 **AI/ML > Playground**를 엽니다.
 2. 강사가 지정한 모델 중 `Tools enabled` 모델을 선택합니다.
