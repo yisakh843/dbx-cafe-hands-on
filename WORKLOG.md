@@ -16,3 +16,4 @@
 - 16:14 runbook 3-3·4절 화면 7~12를 노트북 왼쪽 Catalog 패널 캡처로 교체, 라이트 모드·빨간 테두리·720px 적용 및 실제 CSV 6개 업로드 확인
 - 16:19 runbook 3-1절 Bundle 안내 참고 문단 추가, 4-4절 glossary 선택 위치(압축 푼 폴더) 명시
 - 16:33 runbook 1부 로컬 원본 편집본 반영(Bundle 안내·glossary 문장·서식), 이미지는 최신 노트북 캡처 유지
+- 17:39 실습 가이드 HTML(docs/index.html) 추가: 챕터·진행 체크·복사 버튼·스크린샷 확대·도움말, md runbook 내용 기반

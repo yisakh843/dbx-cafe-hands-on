@@ -1,0 +1,2211 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cafe Hands-on 실습 가이드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --paper:#F3F5F8;
+    --surface:#FFFFFF;
+    --sunk:#E8ECF2;
+    --ink:#131A25;
+    --ink-2:#3D4858;
+    --ink-3:#687385;
+    --rule:#D5DBE4;
+    --rule-2:#B3BCCA;
+    --accent:#2346A6;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#E2E8F8;
+    --ok:#1D7349;
+    --ok-soft:#DFF1E6;
+    --warn:#8A5B00;
+    --warn-soft:#F7EDD6;
+    --stop:#B0372B;
+    --stop-soft:#F9E4E1;
+    --bronze:#94552A;
+    --bronze-soft:#F3E6DA;
+    --silver:#5F6B7A;
+    --silver-soft:#E8EBF0;
+    --gold:#8E6A00;
+    --gold-soft:#F5ECCF;
+    --shade:rgba(10,16,28,.72);
+
+    --sans:'IBM Plex Sans KR',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,'IBM Plex Sans KR',monospace;
+
+    --page-max:860px;
+    --radius:4px;
+    --lead:1.75;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --paper:#0D1117;
+      --surface:#141A23;
+      --sunk:#1B2330;
+      --ink:#E3E8EF;
+      --ink-2:#AEB8C6;
+      --ink-3:#7F8A9B;
+      --rule:#252E3B;
+      --rule-2:#394455;
+      --accent:#86A6F4;
+      --accent-ink:#0A1430;
+      --accent-soft:#18243F;
+      --ok:#6CCB97;
+      --ok-soft:#12291E;
+      --warn:#E0B55C;
+      --warn-soft:#2A2213;
+      --stop:#EE8A7E;
+      --stop-soft:#2E1917;
+      --bronze:#D99A6C;
+      --bronze-soft:#2B1E15;
+      --silver:#A9B4C2;
+      --silver-soft:#1E2530;
+      --gold:#DDBB55;
+      --gold-soft:#2A2412;
+      --shade:rgba(0,0,0,.82);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --paper:#0D1117;
+    --surface:#141A23;
+    --sunk:#1B2330;
+    --ink:#E3E8EF;
+    --ink-2:#AEB8C6;
+    --ink-3:#7F8A9B;
+    --rule:#252E3B;
+    --rule-2:#394455;
+    --accent:#86A6F4;
+    --accent-ink:#0A1430;
+    --accent-soft:#18243F;
+    --ok:#6CCB97;
+    --ok-soft:#12291E;
+    --warn:#E0B55C;
+    --warn-soft:#2A2213;
+    --stop:#EE8A7E;
+    --stop-soft:#2E1917;
+    --bronze:#D99A6C;
+    --bronze-soft:#2B1E15;
+    --silver:#A9B4C2;
+    --silver-soft:#1E2530;
+    --gold:#DDBB55;
+    --gold-soft:#2A2412;
+    --shade:rgba(0,0,0,.82);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{background:var(--paper);}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16px;font-weight:400;line-height:var(--lead);
+    -webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word;
+  }
+  img{max-width:100%;}
+  [hidden]{display:none!important;}
+  a{color:var(--accent);}
+  strong{font-weight:600;color:var(--ink);}
+  .wrap{max-width:var(--page-max);margin:0 auto;padding:0 20px 96px;}
+
+  /* ── 상단 바 ── */
+  .bar{
+    position:sticky;top:env(safe-area-inset-top,0px);z-index:60;
+    background:var(--surface);border-bottom:1px solid var(--rule);
+  }
+  .bar .row{
+    max-width:var(--page-max);margin:0 auto;padding:10px 20px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .bar .brand{
+    font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink);flex:none;
+  }
+  .track{display:flex;gap:3px;flex:1;height:5px;min-width:60px;}
+  .seg{display:block;background:var(--sunk);overflow:hidden;border-radius:1px;}
+  .segfill{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease;}
+  .seggap{flex:none;width:10px;}
+  .cnt{font-family:var(--mono);font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums;flex:none;}
+  .ghost{
+    font-family:var(--sans);font-size:12px;color:var(--ink-3);background:none;
+    border:1px solid var(--rule);border-radius:var(--radius);
+    padding:4px 9px;cursor:pointer;white-space:nowrap;line-height:16px;flex:none;
+  }
+  .ghost:hover{border-color:var(--accent);color:var(--accent);}
+  .ghost.on{border-color:var(--accent);color:var(--accent);}
+  .ghost.armed{border-color:var(--stop);color:var(--stop);}
+  .btns{display:flex;gap:6px;flex:none;}
+  button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible{
+    outline:2px solid var(--accent);outline-offset:2px;
+  }
+
+  .chips{
+    max-width:var(--page-max);margin:0 auto;padding:0 20px 10px;
+    display:flex;flex-wrap:wrap;gap:6px;row-gap:5px;align-items:center;
+  }
+  .chipbreak{flex:0 0 100%;height:0;}
+  .parttag{
+    flex:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+    color:var(--ink-3);padding:0 4px 0 0;white-space:nowrap;
+  }
+  .chip{
+    font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-3);
+    background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+    padding:5px 11px;cursor:pointer;white-space:nowrap;
+    display:flex;align-items:center;gap:7px;line-height:1.3;
+  }
+  .chip:hover{border-color:var(--rule-2);color:var(--ink-2);}
+  .chip .tick{
+    width:14px;height:14px;border-radius:3px;flex:none;border:1.4px solid var(--rule-2);
+    display:flex;align-items:center;justify-content:center;font-size:10px;color:transparent;line-height:1;
+  }
+  .chip.filled{color:var(--ink);border-color:var(--rule-2);}
+  .chip.filled .tick{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+  .chip.active{background:var(--ink);border-color:var(--ink);color:var(--paper);}
+  .chip.active .tick{border-color:var(--paper);}
+  .chip.active.filled .tick{background:var(--paper);border-color:var(--paper);color:var(--ink);}
+  .chip.plain .tick{display:none;}
+  @media (max-width:640px){
+    .bar .brand{display:none;}
+    .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;}
+    .chips::-webkit-scrollbar{display:none;}
+    .chipbreak{display:none;}
+    .parttag{padding-left:8px;}
+  }
+
+  /* ── pane ── */
+  .pane{display:none;}
+  .pane.showing{display:block;}
+  body.show-all .pane{display:block;}
+  body.show-all .pane + .pane{border-top:1px solid var(--rule);margin-top:72px;}
+  body.show-all .pager{display:none;}
+
+  .donebar{
+    display:none;border-left:3px solid var(--ok);background:var(--ok-soft);
+    padding:13px 18px;margin:28px 0 0;font-size:14.5px;color:var(--ink);
+  }
+  .donebar.on{display:block;}
+  .pager{
+    display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;
+    margin-top:52px;padding-top:20px;border-top:1px solid var(--rule);
+  }
+  .pager button{
+    font-family:var(--sans);font-size:14px;font-weight:600;border-radius:var(--radius);
+    padding:9px 18px;cursor:pointer;line-height:1.3;
+  }
+  .pager .prev{background:none;color:var(--ink-3);border:1px solid var(--rule);}
+  .pager .prev:hover{border-color:var(--accent);color:var(--accent);}
+  .pager .next{background:var(--accent);color:var(--accent-ink);border:0;margin-left:auto;}
+  .pager .next:hover{filter:brightness(1.1);}
+
+  /* ── hero ── */
+  header.top{padding:56px 0 8px;}
+  .kicker{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin:0 0 18px;
+  }
+  h1{
+    font-weight:700;font-size:clamp(30px,5.6vw,46px);line-height:1.2;letter-spacing:-.03em;
+    margin:0 0 20px;text-wrap:balance;
+  }
+  .deck{margin:0;color:var(--ink-2);font-size:17px;max-width:40em;}
+
+  .scenario{
+    display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;align-items:start;
+    margin:44px 0 0;
+  }
+  .scenario h2{font-size:19px;font-weight:700;margin:0 0 12px;letter-spacing:-.02em;}
+  .scenario p{margin:0 0 14px;color:var(--ink-2);}
+  .scenario ul{margin:0 0 14px;padding-left:18px;color:var(--ink-2);}
+  .scenario li{margin:0 0 6px;}
+  @media (max-width:720px){.scenario{grid-template-columns:1fr;}}
+
+  /* ── 영수증 ── */
+  .receipt-wrap{filter:drop-shadow(0 0 .6px var(--rule-2)) drop-shadow(0 2px 3px rgba(16,26,40,.06));}
+  .receipt{
+    background:var(--surface);padding:26px 22px 28px;font-family:var(--mono);font-size:13px;
+    color:var(--ink);line-height:1.6;
+    -webkit-mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/14px 51% repeat-x,
+                 conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/14px 51% repeat-x;
+            mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/14px 51% repeat-x,
+                 conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/14px 51% repeat-x;
+  }
+  .receipt .rh{
+    text-align:center;font-weight:600;letter-spacing:.08em;margin:0 0 2px;font-size:12.5px;
+  }
+  .receipt .rs{text-align:center;color:var(--ink-3);font-size:11.5px;margin:0 0 12px;}
+  .receipt dl{margin:0;border-top:1px dashed var(--rule-2);padding-top:10px;}
+  .receipt dl > div{display:flex;justify-content:space-between;gap:12px;padding:2px 0;}
+  .receipt dt{color:var(--ink-2);}
+  .receipt dd{margin:0;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;}
+  .receipt .minus dd{color:var(--stop);}
+  .receipt .total{
+    border-top:1px dashed var(--rule-2);margin-top:8px;padding-top:9px;font-weight:600;font-size:14px;
+  }
+  .receipt .total dt{color:var(--ink);}
+  .receipt .rf{
+    margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--rule-2);
+    font-family:var(--sans);font-size:12.5px;color:var(--ink-3);line-height:1.55;
+  }
+  .receipts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;margin:0 0 22px;}
+
+  /* ── 만드는 것 ── */
+  .route{list-style:none;margin:40px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;counter-reset:rt;}
+  .route li{
+    counter-increment:rt;border:1px solid var(--rule);background:var(--surface);
+    padding:13px 15px 14px;font-size:13.5px;color:var(--ink-2);line-height:1.55;
+  }
+  .route li::before{
+    content:counter(rt);display:block;font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:3px;
+  }
+  .route li b{display:block;font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+  .route li.adv{border-style:dashed;}
+  .route li.adv::before{content:counter(rt) " · 심화";}
+  @media (max-width:720px){.route{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  @media (max-width:440px){.route{grid-template-columns:1fr;}}
+
+  .howto{
+    margin:28px 0 0;padding:16px 20px;background:var(--accent-soft);border-left:3px solid var(--accent);
+    font-size:14.5px;color:var(--ink);
+  }
+  .howto ul{margin:0;padding-left:18px;}
+  .howto li{margin:0 0 4px;}
+  .lbl{
+    display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-3);margin:0 0 8px;font-weight:500;
+  }
+
+  /* ── step ── */
+  .step{margin:60px 0 0;}
+  .pane > .step:first-child{margin-top:44px;}
+  .step > .head{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:22px;
+  }
+  .num{
+    flex:none;font-family:var(--mono);font-size:26px;font-weight:600;line-height:1;
+    color:var(--accent);letter-spacing:-.03em;font-variant-numeric:tabular-nums;
+  }
+  .num small{font-size:12px;color:var(--ink-3);font-weight:500;margin-left:2px;letter-spacing:0;}
+  .step h2{
+    font-size:clamp(21px,3.4vw,26px);line-height:1.3;letter-spacing:-.025em;font-weight:700;
+    margin:0;flex:1;min-width:180px;text-wrap:balance;
+  }
+  .dots{display:flex;gap:4px;flex:none;}
+  .dots i{width:7px;height:7px;border:1.4px solid var(--rule-2);border-radius:50%;display:block;}
+  .dots i.on{background:var(--accent);border-color:var(--accent);}
+  .step p{margin:0 0 16px;color:var(--ink-2);}
+  h3{
+    font-size:17px;font-weight:700;color:var(--ink);margin:40px 0 12px;letter-spacing:-.015em;line-height:1.45;
+    display:flex;gap:10px;align-items:baseline;
+  }
+  h3 .sn{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--accent);flex:none;}
+  .head + h3,.head + p + h3{margin-top:8px;}
+  .step ol.do,.step ul.do{margin:0 0 18px;padding-left:22px;color:var(--ink-2);}
+  .step ol.do li,.step ul.do li{margin:0 0 7px;padding-left:2px;}
+  .step ol.do li::marker{font-family:var(--mono);font-size:13px;color:var(--accent);}
+
+  /* 이동 경로 */
+  .path{
+    display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;margin:0 0 18px;
+    font-size:13.5px;
+  }
+  .path > b{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--ink-3);
+    font-weight:500;margin-right:10px;
+  }
+  .path span{
+    background:var(--surface);border:1px solid var(--rule);padding:3px 9px;color:var(--ink);font-weight:500;
+    border-radius:var(--radius);
+  }
+  .path span{position:relative;}
+  .path span + span{margin-left:18px;}
+  .path span + span::before{content:"›";position:absolute;left:-13px;top:50%;transform:translateY(-52%);color:var(--ink-3);font-weight:400;}
+
+  code.k{
+    font-family:var(--mono);font-size:.86em;background:var(--sunk);border:1px solid var(--rule);
+    color:var(--ink);padding:1px 6px;border-radius:3px;overflow-wrap:anywhere;
+  }
+  code.k[data-c]{cursor:copy;}
+  code.k[data-c]:hover{border-color:var(--accent);}
+  code.k.copied{background:var(--ok-soft);border-color:var(--ok);}
+
+  /* 복사 카드 */
+  .snip{border:1px solid var(--rule-2);margin:0 0 20px;background:var(--surface);}
+  .snip-top{
+    display:flex;align-items:center;gap:12px;padding:7px 8px 7px 14px;
+    background:var(--sunk);border-bottom:1px solid var(--rule);
+  }
+  .snip-lbl{flex:1;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-2);min-width:0;}
+  .copy{
+    flex:none;font-family:var(--sans);font-size:12.5px;font-weight:600;
+    background:var(--accent);color:var(--accent-ink);border:0;border-radius:3px;
+    padding:5px 14px;cursor:pointer;white-space:nowrap;
+  }
+  .copy:hover{filter:brightness(1.1);}
+  .copy.done{background:var(--ok);color:var(--surface);}
+  .copy.sel{background:var(--warn);color:var(--surface);}
+  .snip-body{padding:14px 16px;overflow-x:auto;}
+  .snip pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre;color:var(--ink);tab-size:2;}
+  .snip.wrapit pre{white-space:pre-wrap;}
+  .snip.tall .snip-body{max-height:340px;overflow:auto;}
+
+  /* 질문+SQL 카드 */
+  .qa{border:1px solid var(--rule);background:var(--surface);margin:0 0 10px;}
+  .qa-h{display:flex;gap:12px;align-items:baseline;padding:10px 14px 0;}
+  .qa-h .id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);flex:none;}
+  .qa-h .t{font-size:13px;color:var(--ink-3);}
+  .qa-r{display:flex;gap:12px;align-items:flex-start;padding:8px 10px 8px 14px;}
+  .qa-r + .qa-r{border-top:1px dashed var(--rule);}
+  .qa-r .k{
+    flex:none;width:74px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+    color:var(--ink-3);padding-top:4px;text-transform:uppercase;
+  }
+  .qa-r .v{flex:1;min-width:0;font-size:15px;color:var(--ink);font-weight:500;padding-top:1px;}
+  .qa-r pre.v{margin:0;font-family:var(--mono);font-size:12.5px;line-height:1.65;font-weight:400;white-space:pre-wrap;overflow-wrap:anywhere;}
+  .qa-r .copy{padding:4px 11px;font-size:12px;background:var(--surface);color:var(--accent);border:1px solid var(--rule-2);}
+  .qa-r .copy:hover{border-color:var(--accent);filter:none;}
+  .qa-r .copy.done{background:var(--ok);color:var(--surface);border-color:var(--ok);}
+  .qa-r .copy.sel{background:var(--warn);color:var(--surface);border-color:var(--warn);}
+  @media (max-width:520px){
+    .qa-r{flex-wrap:wrap;}
+    .qa-r .k{width:100%;padding-top:0;}
+  }
+
+  /* task */
+  .task{
+    display:flex;gap:13px;align-items:flex-start;background:var(--surface);
+    border:1px solid var(--rule);padding:12px 16px;margin:0 0 7px;cursor:pointer;position:relative;
+    transition:border-color .14s,background .14s;
+  }
+  .task:hover{border-color:var(--rule-2);}
+  .task input{position:absolute;opacity:0;width:1px;height:1px;}
+  .task .mark{
+    flex:none;width:20px;height:20px;margin-top:3px;border:1.8px solid var(--rule-2);border-radius:3px;
+    background:var(--surface);display:flex;align-items:center;justify-content:center;
+    transition:background .14s,border-color .14s;
+  }
+  .task .mark::after{
+    content:"";width:10px;height:5px;margin-top:-3px;
+    border-left:2.2px solid var(--accent-ink);border-bottom:2.2px solid var(--accent-ink);
+    transform:rotate(-45deg) scale(0);transition:transform .14s;
+  }
+  .task .txt{flex:1;font-size:15px;line-height:1.62;color:var(--ink);}
+  .task .txt small{display:block;color:var(--ink-3);font-size:13.5px;margin-top:3px;line-height:1.55;}
+  .task.on{background:var(--sunk);}
+  .task.on .mark{background:var(--accent);border-color:var(--accent);}
+  .task.on .mark::after{transform:rotate(-45deg) scale(1);}
+  .task.on .txt{color:var(--ink-3);}
+  .task input:focus-visible ~ .mark{outline:2px solid var(--accent);outline-offset:2px;}
+  .checks{margin:26px 0 0;}
+  .checks > .lbl{color:var(--accent);}
+
+  /* 안내 상자 */
+  .note{
+    border-left:3px solid var(--accent);background:var(--accent-soft);
+    padding:13px 18px;margin:0 0 20px;font-size:14.5px;color:var(--ink);line-height:1.65;
+  }
+  .note .lbl{color:var(--ink-2);margin-bottom:5px;}
+  .note p{margin:0 0 8px;color:var(--ink);}
+  .note p:last-child{margin-bottom:0;}
+  .note.warn{border-left-color:var(--warn);background:var(--warn-soft);}
+  .note.stop{border-left-color:var(--stop);background:var(--stop-soft);}
+  .note.ok{border-left-color:var(--ok);background:var(--ok-soft);}
+
+  /* 표 */
+  .tw{overflow-x:auto;margin:0 0 20px;border:1px solid var(--rule);background:var(--surface);}
+  table{border-collapse:collapse;width:100%;font-size:14px;}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55;color:var(--ink-2);}
+  thead th{background:var(--sunk);color:var(--ink-3);font-size:12px;font-weight:600;white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:0;}
+  td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink);}
+  td.id{font-family:var(--mono);font-size:12.5px;color:var(--accent);white-space:nowrap;}
+  td.key{color:var(--ink);font-weight:500;white-space:nowrap;}
+  .tw.min table{min-width:520px;}
+  .pass{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--ok);background:var(--ok-soft);padding:1px 7px;border-radius:3px;}
+
+  .route-pill{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:var(--mono);font-size:12px;}
+  .route-pill i{font-style:normal;padding:1px 7px;border:1px solid var(--rule-2);border-radius:3px;color:var(--ink);white-space:nowrap;}
+  .route-pill i.g{border-color:var(--accent);color:var(--accent);}
+  .route-pill i.s{border-color:var(--gold);color:var(--gold);}
+  .route-pill em{font-style:normal;color:var(--ink-3);}
+
+  /* 스크린샷 */
+  figure.shot{margin:4px 0 26px;}
+  .zoom{
+    display:block;width:100%;padding:0;border:1px solid var(--rule);background:var(--surface);
+    cursor:zoom-in;line-height:0;border-radius:2px;overflow:hidden;
+  }
+  .zoom:hover{border-color:var(--rule-2);}
+  .zoom img{display:block;width:100%;height:auto;}
+  figure.shot figcaption{margin-top:8px;font-size:13px;color:var(--ink-3);line-height:1.5;}
+  figure.shot figcaption .fn{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);margin-right:8px;font-weight:500;}
+  figure.shot.narrow{max-width:600px;}
+
+  /* 다이어그램 */
+  .diagram{border:1px solid var(--rule);background:var(--surface);padding:20px 18px 14px;margin:0 0 22px;}
+  .diagram .scroll{overflow-x:auto;}
+  .diagram svg{display:block;width:100%;min-width:560px;height:auto;}
+  .diagram .cap{margin:12px 0 0;padding-top:10px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink-2);}
+  .dg-t{font-family:var(--mono);font-size:11px;letter-spacing:.08em;}
+  .dg-n{font-family:var(--mono);font-size:12.5px;font-weight:500;}
+  .dg-b rect{fill:var(--bronze-soft);stroke:var(--bronze);}
+  .dg-s rect{fill:var(--silver-soft);stroke:var(--silver);}
+  .dg-g rect{fill:var(--gold-soft);stroke:var(--gold);}
+  .dg-b text,.dg-s text,.dg-g text{fill:var(--ink);}
+  .dg-src rect{fill:none;stroke:var(--rule-2);stroke-dasharray:4 3;}
+  .dg-src text{fill:var(--ink-2);}
+  .dg-line{stroke:var(--rule-2);fill:none;stroke-width:1.6;}
+  .dg-ah{fill:var(--rule-2);}
+  .t-b{fill:var(--bronze);} .t-s{fill:var(--silver);} .t-g{fill:var(--gold);}
+  .t-3{fill:var(--ink-3);}
+
+  /* 메모 */
+  .memo{display:grid;gap:12px;margin:0 0 20px;padding:16px 18px;border:1px dashed var(--rule-2);background:var(--surface);}
+  .memo .f{display:grid;grid-template-columns:170px minmax(0,1fr);gap:12px;align-items:center;}
+  .memo label{font-family:var(--mono);font-size:12px;color:var(--ink-2);}
+  .memo input[type=text],.memo textarea{
+    width:100%;font-family:var(--sans);font-size:15px;line-height:1.5;color:var(--ink);
+    background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:7px 11px;
+  }
+  .memo textarea{resize:vertical;min-height:64px;}
+  .memo input::placeholder,.memo textarea::placeholder{color:var(--ink-3);}
+  .memo input:focus,.memo textarea:focus{outline:none;border-color:var(--accent);background:var(--surface);}
+  @media (max-width:560px){.memo .f{grid-template-columns:1fr;gap:4px;}}
+
+  /* 접기 */
+  details.fold{border:1px solid var(--rule);background:var(--surface);margin:0 0 8px;}
+  details.fold summary{
+    padding:12px 16px;cursor:pointer;font-size:15px;font-weight:600;color:var(--ink);
+    list-style:none;display:flex;align-items:center;gap:12px;
+  }
+  details.fold summary::-webkit-details-marker{display:none;}
+  details.fold summary::before{content:"+";font-family:var(--mono);font-size:16px;color:var(--accent);width:12px;flex:none;}
+  details.fold[open] summary::before{content:"−";}
+  details.fold[open] summary{border-bottom:1px solid var(--rule);}
+  details.fold .in{padding:14px 16px 16px 40px;font-size:14.5px;color:var(--ink-2);}
+  details.fold .in p{margin:0 0 10px;color:var(--ink-2);}
+  details.fold .in p:last-child{margin-bottom:0;}
+  details.fold .in .snip{margin:4px 0 4px -24px;}
+
+  /* 결과 요약 */
+  .recap{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:0 0 24px;}
+  .recap > div{border:1px solid var(--rule);border-top:3px solid var(--accent);padding:14px 16px 16px;background:var(--surface);}
+  .recap h4{font-size:15px;font-weight:700;margin:0 0 10px;}
+  .recap ul{margin:0;padding:0;list-style:none;font-size:13.5px;color:var(--ink-2);line-height:1.5;}
+  .recap li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dashed var(--rule);}
+  .recap li:last-child{border-bottom:0;}
+  .recap li b{font-family:var(--mono);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .carry{font-family:var(--mono);color:var(--ink);}
+  .carry:empty::before{content:"아직 안 적음";color:var(--ink-3);font-family:var(--sans);}
+
+  .closing{
+    margin:8px 0 0;padding:34px 26px;border:1.5px solid var(--ink);background:var(--surface);
+  }
+  .closing h2{font-size:clamp(24px,4vw,30px);margin:0 0 14px;letter-spacing:-.025em;}
+  .closing p{color:var(--ink-2);margin:0 0 12px;}
+  .closing .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+  .closing .acts a,.closing .acts button{
+    font-family:var(--sans);font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:var(--radius);
+    border:1px solid var(--rule-2);background:var(--surface);color:var(--ink);text-decoration:none;cursor:pointer;
+  }
+  .closing .acts button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+
+  footer{border-top:1px solid var(--rule);}
+  footer .inner{
+    max-width:var(--page-max);margin:0 auto;padding:18px 20px 48px;
+    font-family:var(--mono);font-size:11.5px;color:var(--ink-3);
+    display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:space-between;
+  }
+  footer a{color:var(--ink-2);}
+
+  /* 도움말 */
+  .helpbtn{
+    position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:80;
+    font-family:var(--sans);font-size:13.5px;font-weight:600;background:var(--ink);color:var(--paper);
+    border:0;border-radius:var(--radius);padding:10px 18px;cursor:pointer;
+  }
+  .helpbtn:hover{filter:brightness(1.15);}
+  .helpbtn.on{background:var(--accent);color:var(--accent-ink);}
+  .helpdesk{
+    position:fixed;right:20px;bottom:calc(70px + env(safe-area-inset-bottom,0px));z-index:79;
+    width:min(520px,calc(100vw - 40px));max-height:min(72vh,720px);
+    display:flex;flex-direction:column;background:var(--surface);border:1.5px solid var(--ink);
+  }
+  .hd-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 16px;background:var(--ink);flex:none;}
+  .hd-top b{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper);font-weight:500;}
+  .hd-close{font-family:var(--sans);font-size:12px;font-weight:600;background:none;color:var(--paper);border:1px solid var(--ink-3);border-radius:3px;padding:3px 10px;cursor:pointer;}
+  .hd-body{padding:16px 16px 20px;overflow-y:auto;font-size:14.5px;}
+  .hd-body > p{margin:0 0 14px;color:var(--ink-2);}
+  .hd-body details.fold .in{padding-left:16px;}
+  .hd-body .grp{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--ink-3);margin:18px 0 8px;}
+  @media (max-width:560px){
+    .helpdesk{right:10px;left:10px;width:auto;bottom:calc(62px + env(safe-area-inset-bottom,0px));}
+    .helpbtn{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));}
+  }
+
+  /* 확대 보기 */
+  .lb{
+    position:fixed;inset:0;z-index:100;background:var(--shade);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:10px;
+  }
+  .lb img{max-width:100%;max-height:calc(100% - 60px);object-fit:contain;background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.35);}
+  .lb .lb-bar{display:flex;gap:14px;align-items:center;max-width:100%;}
+  .lb .lb-cap{color:#E8ECF2;font-size:13.5px;}
+  .lb button{font-family:var(--sans);font-size:13px;font-weight:600;background:#fff;color:#131A25;border:0;border-radius:3px;padding:6px 14px;cursor:pointer;flex:none;}
+  body.lb-open{overflow:hidden;}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  @media print{
+    .bar,.helpbtn,.helpdesk,.pager{display:none!important;}
+    .pane{display:block!important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="row">
+    <span class="brand">Cafe Hands-on</span>
+    <span class="track" id="track"></span>
+    <span class="cnt" id="cnt">0 / 0</span>
+    <span class="btns">
+      <button type="button" class="ghost" id="all">전체 보기</button>
+      <button type="button" class="ghost" id="reset">처음부터</button>
+    </span>
+  </div>
+  <nav class="chips" id="chips" aria-label="챕터"></nav>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════════════ 시작 ════════════════════════ -->
+<div class="pane" data-pane="intro">
+<header class="top">
+  <p class="kicker">Databricks Free Edition · Hands-on</p>
+  <h1>카페 주문 CSV에서<br>분석 Agent까지</h1>
+  <p class="deck">3개 매장의 주문 기록을 정리해 매출 기준을 세우고, 말로 물어도 같은 숫자를 돌려주는 Genie Agent를 만듭니다.
+    기초 과정은 12절까지 약 3시간이고, 심화(13~16절)까지 하면 약 5시간 15분 걸립니다.</p>
+</header>
+
+<section class="scenario">
+  <div>
+    <h2>오늘의 상황</h2>
+    <p>강남점·판교점·해운대점을 운영하는 카페 본사입니다. 매장 POS에서 2주치(2026-07-01~07-14) 주문 기록이 CSV 여러 개로 나뉘어 들어옵니다. 이 데이터는 그대로 쓰기 어렵습니다.</p>
+    <ul>
+      <li>파일 사이에 <strong>중복 주문</strong>이 있고, 수량이 0 이하인 행, 비어 있는 할인율, 대소문자가 섞인 상태값도 있습니다.</li>
+      <li><strong>취소 주문</strong>을 넣을지, <strong>할인</strong>을 뺄지에 따라 매출이 달라집니다. 기준이 없으면 사람마다 다른 숫자를 말합니다.</li>
+      <li>현업은 "라떼 매출 알려줘"처럼 말로 묻고 싶어 합니다. 그런데 라떼는 카페라떼와 바닐라라떼 둘 다일 수 있고, "손님 수"는 고객 데이터가 없어 답할 수 없습니다.</li>
+    </ul>
+    <p>오늘 할 일은 이 원천 CSV를 믿을 수 있는 매출 데이터로 정리하고, 계산 기준을 한 곳에 정의한 뒤, 그 기준으로 답하는 Agent를 만드는 것입니다. 답이 맞는지 재는 방법까지 함께 봅니다.</p>
+  </div>
+  <div class="receipt-wrap">
+    <div class="receipt" aria-label="완료 주문 기준 매출 두 가지">
+      <p class="rh">CAFE HQ · 매출 집계</p>
+      <p class="rs">2026-07-01 ~ 07-14 · 완료 주문</p>
+      <dl>
+        <div><dt>할인 전 총매출</dt><dd>1,772,800</dd></div>
+        <div class="minus"><dt>할인</dt><dd>−38,220</dd></div>
+        <div class="total"><dt>할인 후 순매출</dt><dd>1,734,580</dd></div>
+      </dl>
+      <p class="rf">같은 주문에서 "매출"이 두 개 나옵니다. 오늘은 순매출을 기준으로 정합니다.</p>
+    </div>
+  </div>
+</section>
+
+<ol class="route" aria-label="Workspace에서 만드는 것">
+  <li><b>Git folder · Volume</b>실습 코드를 받고 원천 CSV를 올릴 공간을 만듭니다.</li>
+  <li><b>Lakeflow Pipeline</b>Bronze → Silver → Gold로 정리해 <code class="k">gold_sales</code>를 만듭니다.</li>
+  <li><b>Lakeflow Job</b>Pipeline 실행과 행 수 검증을 한 번에 묶습니다.</li>
+  <li><b>Metric View</b>순매출·주문수·객단가 계산식을 한 곳에 정합니다.</li>
+  <li><b>Genie Agent · Benchmark</b>자연어 질문에 SQL로 답하게 하고 정확도를 잽니다.</li>
+  <li class="adv"><b>AI Search · App · MLflow</b>용어집으로 말을 해석하고, 앱으로 내보내고, 답변을 기록·평가합니다.</li>
+</ol>
+
+<div class="howto">
+  <span class="lbl">이 화면 쓰는 법</span>
+  <ul>
+    <li>입력값과 코드는 <strong>복사 버튼</strong>으로 가져갑니다. 표 안의 회색 코드 글씨도 누르면 복사됩니다.</li>
+    <li>스크린샷을 누르면 크게 볼 수 있습니다. 빨간 테두리가 눌러야 할 곳입니다.</li>
+    <li>체크와 메모는 이 브라우저에 저장됩니다. 창을 닫았다 열어도 남아 있습니다.</li>
+    <li>막히면 <strong>오른쪽 아래 도움말</strong>부터 보세요. 그래도 안 되면 손을 들어 주세요.</li>
+  </ul>
+</div>
+
+<section class="step" data-step="0">
+  <div class="head"><span class="num">0</span><h2>이름 규칙</h2><span class="dots"></span></div>
+  <p>실습 객체는 각자의 Workspace에 만듭니다. 모두 같은 이름을 써도 서로 부딪히지 않으니 아래 이름을 그대로 쓰세요. 뒤 단계의 SQL과 설정이 이 이름을 전제로 되어 있습니다.</p>
+  <div class="tw min"><table>
+    <thead><tr><th>대상</th><th>이름 또는 값</th></tr></thead>
+    <tbody>
+      <tr><td class="key">GitHub repository</td><td><code class="k" data-c>https://github.com/yisakh843/dbx-cafe-hands-on.git</code></td></tr>
+      <tr><td class="key">Git branch</td><td><code class="k" data-c>main</code></td></tr>
+      <tr><td class="key">Git folder</td><td><code class="k" data-c>dbx-cafe-hands-on</code></td></tr>
+      <tr><td class="key">Catalog</td><td><code class="k" data-c>cafe_training</code></td></tr>
+      <tr><td class="key">Landing Schema</td><td><code class="k" data-c>cafe_landing</code></td></tr>
+      <tr><td class="key">Analytics Schema</td><td><code class="k" data-c>cafe_hands_on</code></td></tr>
+      <tr><td class="key">Volume</td><td><code class="k" data-c>cafe_training.cafe_landing.raw</code></td></tr>
+      <tr><td class="key">Pipeline</td><td><code class="k" data-c>cafe_medallion_pipeline</code></td></tr>
+      <tr><td class="key">Job</td><td><code class="k" data-c>cafe_medallion_job</code></td></tr>
+      <tr><td class="key">Pipeline task</td><td><code class="k" data-c>run_medallion_pipeline</code></td></tr>
+      <tr><td class="key">Validation task</td><td><code class="k" data-c>validate_pipeline</code></td></tr>
+      <tr><td class="key">Metric View</td><td><code class="k" data-c>cafe_training.cafe_hands_on.cafe_sales_metrics</code></td></tr>
+      <tr><td class="key">Genie Agent</td><td><code class="k" data-c>Cafe Sales Genie Agent</code></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="step" data-step="1">
+  <div class="head"><span class="num">1</span><h2>사전 조건과 화면 읽는 법</h2><span class="dots"></span></div>
+  <p>교육 전에 <strong>본인 계정으로 Databricks Free Edition에 가입하고 Workspace에 로그인</strong>해 둡니다. Catalog는 3절의 setup 노트북이 만듭니다. 그 과정에서 권한 오류가 나면 로그인한 계정이 본인 Free Edition Workspace인지 먼저 확인합니다.</p>
+
+  <details class="fold">
+    <summary>필요한 기능과 권한 목록</summary>
+    <div class="in">
+      <p>Unity Catalog 사용, <code class="k">cafe_training</code>에 대한 <code class="k">USE CATALOG</code>, Schema 생성, Volume 생성·업로드, SQL Warehouse 사용, Serverless Lakeflow Pipeline, Gold 테이블 <code class="k">SELECT</code>, <code class="k">cafe_hands_on</code> Schema의 <code class="k">CREATE TABLE</code>, Genie Agent 생성·편집.</p>
+      <p>13~16절 심화 실습은 Free Edition에서 필요한 기능과 모델을 쓸 수 있는지 강사가 미리 확인한 뒤 진행합니다.</p>
+    </div>
+  </details>
+
+  <h3>왼쪽 메뉴</h3>
+  <p>실습에서는 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents, SQL Warehouses, Playground를 주로 씁니다. 아래는 2026-09-21에 찍은 Free Edition 홈 화면입니다.</p>
+  <figure class="shot narrow">
+    <button type="button" class="zoom" data-full="images/runbook/00-workspace-home.jpg"><img src="images/runbook/thumbnails/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600" height="551" loading="lazy"></button>
+    <figcaption><span class="fn">화면 1</span>실습에서 쓰는 홈 화면. 캡처 속 이메일과 리소스 ID는 촬영 당시 값입니다. 버튼 위치는 Workspace 버전에 따라 조금 다를 수 있습니다.</figcaption>
+  </figure>
+
+  <h3>헷갈리기 쉬운 것</h3>
+  <ul class="do">
+    <li><strong>Workspace</strong>는 코드와 노트북을 여는 곳이고, <strong>Catalog Explorer</strong>는 테이블·Metric View·Volume을 보는 곳입니다.</li>
+    <li><code class="k">cafe_training.cafe_hands_on.gold_sales</code>는 Catalog, Schema, Table 이름을 점으로 이은 것입니다.</li>
+    <li><code class="k">/Workspace/...</code>는 코드 경로, <code class="k">/Volumes/...</code>는 업로드한 데이터 경로입니다.</li>
+    <li><code class="k">&lt;사용자 이메일&gt;</code>은 본인 로그인 이메일로 바꿉니다. 꺾쇠괄호는 빼고 입력합니다.</li>
+    <li>SQL 노트북에는 <strong>SQL Warehouse</strong>를, Python 노트북에는 Python을 실행할 수 있는 Compute를 연결합니다.</li>
+    <li><strong>Pipeline</strong>은 Bronze·Silver·Gold 데이터를 만드는 흐름이고, <strong>Job</strong>은 Pipeline 실행과 검증의 순서를 관리합니다.</li>
+  </ul>
+
+  <h3>파일마다 실행하는 방법이 다릅니다</h3>
+  <div class="tw min"><table>
+    <thead><tr><th>파일</th><th>실행 위치와 방법</th></tr></thead>
+    <tbody>
+      <tr><td><code class="k">00_setup.sql</code> <code class="k">02_metric_view_baseline.sql</code> <code class="k">03_metric_view_optimized.sql</code></td><td>노트북에서 SQL Warehouse를 고르고 <strong>Run all</strong></td></tr>
+      <tr><td><code class="k">01_cafe_medallion_pipeline.sql</code></td><td>5절에서 Pipeline 소스로 등록. 노트북에서 직접 실행하지 않습니다.</td></tr>
+      <tr><td><code class="k">04_pipeline_validate.sql</code></td><td>6절에서 Job의 SQL file task로 등록</td></tr>
+      <tr><td><code class="k">05_create_ai_search.py</code> <code class="k">06_mlflow_monitoring.py</code></td><td>Python Compute를 연결하고 셀 순서대로 실행</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <span class="lbl">오류가 나면</span>
+    <p>어느 파일의 어느 셀에서 어떤 메시지가 나왔는지, 어떤 Compute를 골랐는지 먼저 봅니다. 앞 단계가 실패한 채로 다음 단계로 넘어가지 마세요. 그 화면 그대로 강사에게 보여 주면 됩니다.</p>
+  </div>
+
+  <div class="checks">
+    <span class="lbl">준비 확인</span>
+    <label class="task"><input type="checkbox" data-k="i1"><span class="mark"></span>
+      <span class="txt">Free Edition Workspace에 본인 계정으로 로그인했다</span></label>
+    <label class="task"><input type="checkbox" data-k="i2"><span class="mark"></span>
+      <span class="txt">왼쪽 메뉴에서 Workspace, Catalog, Jobs &amp; Pipelines, Genie Agents 위치를 찾았다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 2 저장소 ════════════════════════ -->
+<div class="pane" data-pane="repo">
+<section class="step">
+  <div class="head"><span class="num">2</span><h2>GitHub 저장소를 Git folder로 받기</h2><span class="dots"></span></div>
+  <p>실습 코드는 GitHub에 있습니다. Workspace에는 Git folder로 연결하고, 내 PC에는 ZIP으로 받습니다. 둘 다 필요합니다. 노트북은 Workspace에서 열고, Volume에 올릴 CSV는 내 PC에서 골라야 하기 때문입니다.</p>
+
+  <h3><span class="sn">2-1</span>Git folder 만들기</h3>
+  <p class="path"><b>이동</b><span>Workspace</span><span>Home (개인 폴더)</span><span>Create</span><span>Git folder</span></p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/01-create-menu-annotated.png"><img src="images/runbook/thumbnails/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720" height="661" loading="lazy"></button>
+    <figcaption><span class="fn">화면 2</span>Git folder 생성 메뉴</figcaption>
+  </figure>
+
+  <p>세 칸을 채우고 <strong>Create Git folder</strong>를 누릅니다.</p>
+  <div class="qa">
+    <div class="qa-r"><span class="k">Repo URL</span><span class="v">https://github.com/yisakh843/dbx-cafe-hands-on.git</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Provider</span><span class="v">GitHub</span></div>
+    <div class="qa-r"><span class="k">Folder</span><span class="v">dbx-cafe-hands-on</span><button type="button" class="copy">복사</button></div>
+  </div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/02-create-git-folder-annotated.png"><img src="images/runbook/thumbnails/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720" height="661" loading="lazy"></button>
+    <figcaption><span class="fn">화면 3</span>저장소 연결 정보</figcaption>
+  </figure>
+
+  <p>폴더는 아래 위치에 생깁니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">Git folder 경로</span></div>
+    <div class="snip-body"><pre>/Workspace/Users/&lt;사용자 이메일&gt;/dbx-cafe-hands-on</pre></div></div>
+
+  <p>폴더 이름 옆 브랜치가 <strong>main</strong>이고 <code class="k">README.md</code> <code class="k">databricks.yml</code> <code class="k">docs/</code> <code class="k">notebooks/</code> <code class="k">resources/</code> <code class="k">sample_data/</code>가 보이면 됩니다. Databricks에서는 노트북의 <code class="k">.sql</code> <code class="k">.py</code> 확장자가 안 보일 수 있습니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/03-git-folder-ready.jpg"><img src="images/runbook/thumbnails/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 4</span>Clone 완료와 main 브랜치</figcaption>
+  </figure>
+
+  <h3><span class="sn">2-2</span>내 PC로 ZIP 받기</h3>
+  <p><a href="https://github.com/yisakh843/dbx-cafe-hands-on" target="_blank" rel="noopener">GitHub 저장소 화면</a>에서 <strong>Code → Download ZIP</strong>을 누르고, 받은 파일의 압축을 풉니다. 4절에서 이 폴더 안의 CSV를 업로드합니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/03a-github-download-zip-annotated.png"><img src="images/runbook/thumbnails/03a-github-download-zip-annotated.png" alt="GitHub 저장소의 Code 메뉴에서 Download ZIP 선택" width="720" height="738" loading="lazy"></button>
+    <figcaption><span class="fn">화면 4-1</span>Code → Download ZIP으로 저장소 내려받기</figcaption>
+  </figure>
+
+  <details class="fold">
+    <summary>참고할 문서</summary>
+    <div class="in">
+      <p>실습에 필요한 이름·경로·입력값·검증값은 모두 이 화면에 있습니다. 배경이 궁금하면 저장소의 <code class="k">README.md</code>(구조와 실행 순서), <code class="k">docs/00_start_here.md</code>(Catalog·Schema·Volume 준비), <code class="k">HANDS_ON_SESSION_DESIGN.md</code>(세션 설계)를 보세요.</p>
+    </div>
+  </details>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="r1"><span class="mark"></span>
+      <span class="txt">Git folder <code class="k">dbx-cafe-hands-on</code>가 생겼고 브랜치가 main이다</span></label>
+    <label class="task"><input type="checkbox" data-k="r2"><span class="mark"></span>
+      <span class="txt">폴더 안에 docs, notebooks, resources, sample_data가 보인다</span></label>
+    <label class="task"><input type="checkbox" data-k="r3"><span class="mark"></span>
+      <span class="txt">내 PC에 ZIP을 받아 압축을 풀었다
+        <small>압축 푼 폴더 안에 <code class="k">sample_data/raw/</code>가 있는지 확인합니다.</small></span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 3 Catalog ════════════════════════ -->
+<div class="pane" data-pane="catalog">
+<section class="step">
+  <div class="head"><span class="num">3</span><h2>Catalog, Schema, Volume 준비</h2><span class="dots"></span></div>
+  <p>setup 노트북 하나를 실행하면 Catalog와 Schema 두 개, CSV를 올릴 Volume이 한꺼번에 만들어집니다.</p>
+
+  <h3><span class="sn">3-1</span>SQL Warehouse 연결</h3>
+  <p>Git folder에서 <code class="k" data-c>notebooks/00_setup.sql</code>을 엽니다.</p>
+  <div class="note">
+    <p>노트북을 열 때 <strong>This file is part of a bundle</strong> 안내가 보이면 닫고 진행합니다. 저장소에 Pipeline·Job을 코드로 배포하는 Bundle 설정이 들어 있어서 뜨는 안내이고, 이 실습에서는 쓰지 않습니다.</p>
+  </div>
+  <ol class="do">
+    <li>노트북 위쪽 Compute 버튼이 <code class="k">Serverless</code>이면 <strong>Serverless → More… → SQL Warehouse</strong>를 고릅니다.</li>
+    <li>교육용 Warehouse를 고릅니다. Free Edition 기본값은 <code class="k" data-c>Serverless Starter Warehouse</code>입니다.</li>
+    <li><strong>SQL Warehouse</strong>가 선택됐고 이름이 맞으면 <strong>Start and attach</strong>를 누릅니다. 이미 켜져 있으면 <strong>Attach</strong>입니다.</li>
+  </ol>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/04-attach-warehouse-annotated.png"><img src="images/runbook/thumbnails/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720" height="586" loading="lazy"></button>
+    <figcaption><span class="fn">화면 5</span>Serverless → More…에서 SQL Warehouse를 고르면 나오는 연결 창</figcaption>
+  </figure>
+
+  <h3><span class="sn">3-2</span>Setup 실행</h3>
+  <p>위쪽에 Warehouse 이름이 보이면 <strong>Run all</strong>을 누릅니다. 셀 왼쪽의 실행 버튼은 그 셀 하나만 돌립니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/05-setup-run-all-annotated.png"><img src="images/runbook/thumbnails/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720" height="586" loading="lazy"></button>
+    <figcaption><span class="fn">화면 6</span>Setup 노트북 전체 실행</figcaption>
+  </figure>
+
+  <h3><span class="sn">3-3</span>만들어진 것 확인</h3>
+  <p>노트북을 연 채로 왼쪽 <strong>Catalog</strong> 탭을 누르고 <strong>cafe_training → cafe_landing → Volumes → raw</strong>를 화살표로 펼칩니다. 아직 파일을 올리기 전이라 <code class="k">raw</code> 아래에 <strong>No data</strong>가 보이면 정상입니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">생성되는 구조</span></div>
+    <div class="snip-body"><pre>cafe_training
+├── cafe_landing
+│   └── Volumes
+│       └── raw
+└── cafe_hands_on</pre></div></div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/06-volume-notebook-annotated.png"><img src="images/runbook/thumbnails/06-volume-notebook-annotated.png" alt="노트북 왼쪽 Catalog 패널에서 raw Volume 펼치기" width="720" height="574" loading="lazy"></button>
+    <figcaption><span class="fn">화면 7</span>노트북 왼쪽 Catalog 패널의 raw Volume</figcaption>
+  </figure>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="c1"><span class="mark"></span>
+      <span class="txt">00_setup 노트북에 SQL Warehouse를 연결했다</span></label>
+    <label class="task"><input type="checkbox" data-k="c2"><span class="mark"></span>
+      <span class="txt">Run all로 전체 셀을 실행했다</span></label>
+    <label class="task"><input type="checkbox" data-k="c3"><span class="mark"></span>
+      <span class="txt">Catalog 패널에서 <code class="k">cafe_landing</code>, <code class="k">cafe_hands_on</code>, <code class="k">raw</code> Volume이 보인다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 4 업로드 ════════════════════════ -->
+<div class="pane" data-pane="upload">
+<section class="step">
+  <div class="head"><span class="num">4</span><h2>CSV를 Volume에 업로드</h2><span class="dots"></span></div>
+  <p>노트북 편집 화면은 그대로 두고 왼쪽 Catalog 트리에서 작업합니다. 폴더 행의 <strong>⋮</strong>를 누르거나 마우스 오른쪽 버튼을 누르면 디렉터리 생성과 업로드 메뉴가 나옵니다.</p>
+  <p class="path"><b>이동</b><span>00_setup 노트북</span><span>Catalog 탭</span><span>cafe_training</span><span>cafe_landing</span><span>Volumes</span><span>raw</span></p>
+
+  <p>올릴 파일은 모두 여섯 개입니다. 끝나면 이런 모양이 됩니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">최종 구조 · /Volumes/cafe_training/cafe_landing/raw</span></div>
+    <div class="snip-body"><pre>raw/
+├── stores.csv
+├── products.csv
+├── orders/
+│   ├── orders_batch_001.csv
+│   ├── orders_batch_002.csv
+│   └── orders_batch_003.csv
+└── support/
+    └── glossary.csv</pre></div></div>
+
+  <h3><span class="sn">4-1</span>디렉터리 두 개 만들기</h3>
+  <p><code class="k">raw</code> 행의 <strong>⋮ → Create directory</strong>에서 <code class="k" data-c>orders</code>를 입력하고 <strong>Create</strong>를 누릅니다. 같은 메뉴로 <code class="k" data-c>support</code>도 만듭니다. 두 폴더 모두 <code class="k">raw</code> 바로 아래에 있어야 합니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/08-create-directory-notebook-annotated.png"><img src="images/runbook/thumbnails/08-create-directory-notebook-annotated.png" alt="노트북 왼쪽 raw 메뉴에서 orders 디렉터리 생성" width="720" height="574" loading="lazy"></button>
+    <figcaption><span class="fn">화면 8</span>orders 입력 후 Create</figcaption>
+  </figure>
+
+  <h3><span class="sn">4-2</span>매장·상품 파일</h3>
+  <p><code class="k">raw</code> 행의 <strong>⋮ → Upload to volume → browse → Select files</strong>를 고릅니다. 압축 푼 폴더의 <code class="k">sample_data/raw/</code>에서 <code class="k">stores.csv</code>와 <code class="k">products.csv</code>를 선택하고, <strong>Destination volume</strong>을 확인한 뒤 <strong>Upload</strong>를 누릅니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">목적지</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre>/Volumes/cafe_training/cafe_landing/raw</pre></div></div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/07-upload-root-notebook-annotated.png"><img src="images/runbook/thumbnails/07-upload-root-notebook-annotated.png" alt="노트북에서 raw를 대상으로 매장·상품 CSV 업로드" width="720" height="574" loading="lazy"></button>
+    <figcaption><span class="fn">화면 9</span>목적지가 raw인지 보고 Upload</figcaption>
+  </figure>
+  <p>목록이 바로 안 바뀌면 Catalog 패널 위쪽의 <strong>Refresh catalog</strong>를 누릅니다. 업로드 요약 창이 트리를 가리면 닫으세요.</p>
+
+  <h3><span class="sn">4-3</span>주문 배치 세 개</h3>
+  <p>이번에는 <code class="k">orders</code> 행의 <strong>⋮ → Upload to volume</strong>입니다. <code class="k">sample_data/raw/orders/</code>에서 세 파일을 한 번에 고릅니다. 목적지 끝이 <strong>orders</strong>인지 꼭 보세요.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">목적지</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre>/Volumes/cafe_training/cafe_landing/raw/orders</pre></div></div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/09-upload-orders-notebook-annotated.png"><img src="images/runbook/thumbnails/09-upload-orders-notebook-annotated.png" alt="노트북에서 orders 디렉터리에 주문 배치 세 개 업로드" width="720" height="574" loading="lazy"></button>
+    <figcaption><span class="fn">화면 10</span>목적지 orders 확인 후 Upload</figcaption>
+  </figure>
+
+  <h3><span class="sn">4-4</span>용어집</h3>
+  <p><code class="k">support</code> 행에서 같은 방법으로 압축 푼 폴더의 <code class="k">sample_data/support/glossary.csv</code>를 올립니다. 이 파일은 13절 AI Search에서 씁니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">목적지</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre>/Volumes/cafe_training/cafe_landing/raw/support</pre></div></div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/10-upload-glossary-notebook-annotated.png"><img src="images/runbook/thumbnails/10-upload-glossary-notebook-annotated.png" alt="노트북에서 support 디렉터리에 glossary 업로드" width="720" height="574" loading="lazy"></button>
+    <figcaption><span class="fn">화면 11</span>목적지 support 확인 후 Upload</figcaption>
+  </figure>
+
+  <h3><span class="sn">4-5</span>여섯 개 다 있는지 확인</h3>
+  <p><strong>Refresh catalog</strong>를 누르고 <code class="k">orders</code>와 <code class="k">support</code>를 펼쳐 위의 최종 구조와 비교합니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/11-volume-ready-notebook-annotated.png"><img src="images/runbook/thumbnails/11-volume-ready-notebook-annotated.png" alt="노트북 왼쪽 Catalog 트리에서 업로드된 CSV 여섯 개 확인" width="720" height="574" loading="lazy"></button>
+    <figcaption><span class="fn">화면 12</span>raw 트리에서 CSV 여섯 개 확인</figcaption>
+  </figure>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="u1"><span class="mark"></span>
+      <span class="txt"><code class="k">raw</code> 바로 아래에 <code class="k">orders</code>, <code class="k">support</code>가 있다</span></label>
+    <label class="task"><input type="checkbox" data-k="u2"><span class="mark"></span>
+      <span class="txt"><code class="k">raw</code>에 <code class="k">stores.csv</code>, <code class="k">products.csv</code>가 있다</span></label>
+    <label class="task"><input type="checkbox" data-k="u3"><span class="mark"></span>
+      <span class="txt"><code class="k">orders</code>에 주문 배치 CSV 세 개가 있다</span></label>
+    <label class="task"><input type="checkbox" data-k="u4"><span class="mark"></span>
+      <span class="txt"><code class="k">support</code>에 <code class="k">glossary.csv</code>가 있다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 5 Pipeline ════════════════════════ -->
+<div class="pane" data-pane="pipeline">
+<section class="step">
+  <div class="head"><span class="num">5</span><h2>Lakeflow Pipeline 만들기</h2><span class="dots"></span></div>
+  <p>Volume의 CSV를 읽어 Bronze·Silver·Gold 데이터셋 7개를 만듭니다. Pipeline은 하나이고, 데이터셋을 만드는 SQL은 <code class="k">notebooks/01_cafe_medallion_pipeline.sql</code>에 이미 있습니다. 이 파일을 Pipeline에 연결하기만 하면 됩니다.</p>
+
+  <div class="diagram">
+    <div class="scroll">
+      <svg viewBox="0 0 680 206" role="img" aria-label="CSV에서 Bronze 세 개, Silver 세 개를 거쳐 gold_sales 하나로 모이는 데이터 흐름">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="7" markerHeight="6" orient="auto-start-reverse">
+            <polygon class="dg-ah" points="0,0 10,4 0,8"/>
+          </marker>
+        </defs>
+        <text class="dg-t t-3" x="0" y="14">SOURCE</text>
+        <text class="dg-t t-b" x="84" y="14">BRONZE · Streaming Table</text>
+        <text class="dg-t t-s" x="300" y="14">SILVER · Materialized View</text>
+        <text class="dg-t t-g" x="528" y="14">GOLD · MV</text>
+
+        <g class="dg-src"><rect x="0.5" y="30.5" width="52" height="38" rx="3"/><text class="dg-n" x="26" y="54" text-anchor="middle">CSV</text></g>
+        <g class="dg-src"><rect x="0.5" y="90.5" width="52" height="38" rx="3"/><text class="dg-n" x="26" y="114" text-anchor="middle">CSV</text></g>
+        <g class="dg-src"><rect x="0.5" y="150.5" width="52" height="38" rx="3"/><text class="dg-n" x="26" y="174" text-anchor="middle">CSV</text></g>
+
+        <g class="dg-b"><rect x="84.5" y="30.5" width="170" height="38" rx="3"/><text class="dg-n" x="169" y="54" text-anchor="middle">bronze_stores</text></g>
+        <g class="dg-b"><rect x="84.5" y="90.5" width="170" height="38" rx="3"/><text class="dg-n" x="169" y="114" text-anchor="middle">bronze_orders</text></g>
+        <g class="dg-b"><rect x="84.5" y="150.5" width="170" height="38" rx="3"/><text class="dg-n" x="169" y="174" text-anchor="middle">bronze_products</text></g>
+
+        <g class="dg-s"><rect x="300.5" y="30.5" width="190" height="38" rx="3"/><text class="dg-n" x="395" y="54" text-anchor="middle">silver_stores</text></g>
+        <g class="dg-s"><rect x="300.5" y="90.5" width="190" height="38" rx="3"/><text class="dg-n" x="395" y="114" text-anchor="middle">silver_orders_clean</text></g>
+        <g class="dg-s"><rect x="300.5" y="150.5" width="190" height="38" rx="3"/><text class="dg-n" x="395" y="174" text-anchor="middle">silver_products</text></g>
+
+        <g class="dg-g"><rect x="548.5" y="90.5" width="130" height="38" rx="3"/><text class="dg-n" x="613" y="114" text-anchor="middle">gold_sales</text></g>
+
+        <line class="dg-line" x1="53" y1="50" x2="82" y2="50" marker-end="url(#ah)"/>
+        <line class="dg-line" x1="53" y1="110" x2="82" y2="110" marker-end="url(#ah)"/>
+        <line class="dg-line" x1="53" y1="170" x2="82" y2="170" marker-end="url(#ah)"/>
+        <line class="dg-line" x1="255" y1="50" x2="298" y2="50" marker-end="url(#ah)"/>
+        <line class="dg-line" x1="255" y1="110" x2="298" y2="110" marker-end="url(#ah)"/>
+        <line class="dg-line" x1="255" y1="170" x2="298" y2="170" marker-end="url(#ah)"/>
+        <path class="dg-line" d="M491 50 H518 V104 H546" marker-end="url(#ah)"/>
+        <line class="dg-line" x1="491" y1="110" x2="546" y2="110" marker-end="url(#ah)"/>
+        <path class="dg-line" d="M491 170 H518 V116 H546" marker-end="url(#ah)"/>
+      </svg>
+    </div>
+    <p class="cap">SQL이 서로를 참조하는 관계를 보고 Lakeflow가 이 순서(DAG)를 알아서 짭니다. Silver와 Gold는 Materialized View입니다.</p>
+  </div>
+
+  <div class="tw min"><table>
+    <thead><tr><th>계층</th><th>데이터셋</th><th>하는 일</th></tr></thead>
+    <tbody>
+      <tr><td class="key">Bronze</td><td><code class="k">bronze_stores</code> <code class="k">bronze_products</code> <code class="k">bronze_orders</code></td><td>CSV를 Streaming Table로 적재하고 원본 파일 경로와 적재 시각을 남깁니다.</td></tr>
+      <tr><td class="key">Silver</td><td><code class="k">silver_stores</code> <code class="k">silver_products</code> <code class="k">silver_orders_clean</code></td><td>타입과 필수값을 정리합니다. 주문은 중복 제거, 빈 할인율 보정, 상태값 표준화를 거치고 품질 규칙(Expectation)에 어긋난 행을 뺍니다.</td></tr>
+      <tr><td class="key">Gold</td><td><code class="k">gold_sales</code></td><td>완료 주문에 매장·상품 정보를 붙이고 순매출·요일·시간대 같은 분석용 값을 계산합니다.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note stop">
+    <p><code class="k">01_cafe_medallion_pipeline.sql</code>은 Pipeline 소스입니다. setup 노트북처럼 SQL Warehouse에서 Run all 하지 않습니다.</p>
+  </div>
+
+  <h3><span class="sn">5-2</span>Pipeline 만들기</h3>
+  <p class="path"><b>이동</b><span>Jobs &amp; Pipelines</span><span>ETL pipeline</span></p>
+  <p>옆의 <strong>Job</strong>은 6절에서 씁니다. 지금은 <strong>ETL pipeline</strong>입니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/12-jobs-entry.jpg"><img src="images/runbook/thumbnails/12-jobs-entry.jpg" alt="Jobs &amp; Pipelines에서 ETL pipeline 선택" width="800" height="202" loading="lazy"></button>
+    <figcaption><span class="fn">화면 13</span>ETL pipeline 진입 메뉴</figcaption>
+  </figure>
+  <p>누르면 기본 Pipeline과 빈 소스 파일이 자동으로 생깁니다.</p>
+  <ol class="do">
+    <li>위쪽 Pipeline 이름을 <code class="k" data-c>cafe_medallion_pipeline</code>으로 바꾸고 Enter를 누릅니다.</li>
+    <li><strong>Settings</strong>를 열어 <strong>Pipeline mode = Triggered</strong>(한 번 돌고 끝나는 모드), <strong>Compute = Serverless</strong>인지 봅니다.</li>
+  </ol>
+  <p>화면 14에 보이는 <code class="k">transformations/my_transformation.py</code>는 빈 파일입니다. 다음 단계에서 준비된 SQL 파일을 연결하니 여기에 코드를 붙여 넣을 필요는 없습니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/13-pipeline-settings-entry.jpg"><img src="images/runbook/thumbnails/13-pipeline-settings-entry.jpg" alt="Pipeline 설정 진입 화면" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 14</span>Pipeline 설정</figcaption>
+  </figure>
+
+  <h3><span class="sn">5-3</span>소스 파일과 저장 위치</h3>
+  <p>Settings 패널을 아래로 내려 <strong>Legacy pipeline settings</strong>를 엽니다. 여기서 두 가지를 정합니다. 무엇을 실행할지(Source code)와 결과를 어디에 둘지(Destination)입니다.</p>
+  <ol class="do">
+    <li><strong>Source code</strong>에 자동 등록된 <code class="k">transformations/**</code> 경로를 지웁니다.</li>
+    <li>아래 폴더에서 <strong>01_cafe_medallion_pipeline</strong> 하나만 고릅니다.</li>
+  </ol>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">소스 폴더</span></div>
+    <div class="snip-body"><pre>/Workspace/Users/&lt;사용자 이메일&gt;/dbx-cafe-hands-on/notebooks</pre></div></div>
+  <div class="note warn">
+    <p><strong>파일 하나만</strong> 고르세요. <code class="k">notebooks</code> 폴더 전체를 지정하면 setup·Metric View·검증 파일까지 같이 돌아갑니다. 빈 파일은 소스 목록에서 경로만 빼면 되고, Workspace에서 지울 필요는 없습니다.</p>
+  </div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/14-pipeline-source-annotated.png"><img src="images/runbook/thumbnails/14-pipeline-source-annotated.png" alt="Git folder에서 Pipeline 전용 노트북 선택" width="720" height="586" loading="lazy"></button>
+    <figcaption><span class="fn">화면 15</span>Pipeline 소스 선택</figcaption>
+  </figure>
+  <p><strong>Destination</strong>은 아래처럼 채웁니다. 입력 CSV는 <code class="k">cafe_landing</code>에 있고, 결과 데이터셋은 <code class="k">cafe_hands_on</code>에 쌓입니다.</p>
+  <div class="qa">
+    <div class="qa-r"><span class="k">Catalog</span><span class="v">cafe_training</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Schema</span><span class="v">cafe_hands_on</span><button type="button" class="copy">복사</button></div>
+  </div>
+  <p>Source code에 파일 하나, Catalog와 Schema가 위 값인지 한 번 더 보고 <strong>Save</strong>를 누릅니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/15-pipeline-settings-annotated.png"><img src="images/runbook/thumbnails/15-pipeline-settings-annotated.png" alt="Pipeline의 소스 경로와 출력 위치 설정" width="720" height="586" loading="lazy"></button>
+    <figcaption><span class="fn">화면 16</span>소스 경로와 출력 위치</figcaption>
+  </figure>
+
+  <h3><span class="sn">5-4</span>실행하고 숫자 맞추기</h3>
+  <p><strong>Run pipeline</strong>을 누르고 끝날 때까지 기다립니다. 상태가 <strong>Completed</strong>이고 DAG의 데이터셋 7개가 모두 성공, Silver 세 개가 <code class="k">gold_sales</code>로 이어지면 됩니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/19-pipeline-completed.jpg"><img src="images/runbook/thumbnails/19-pipeline-completed.jpg" alt="Pipeline 실행 성공과 Bronze·Silver·Gold DAG" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 17</span>Pipeline 실행 결과. 아래 Tables의 Output records에 bronze_orders 300, gold_sales 266이 보입니다.</figcaption>
+  </figure>
+
+  <p>주문 300행이 266행이 되기까지 무엇이 빠졌는지 따라가 봅니다.</p>
+  <div class="receipts">
+    <div class="receipt-wrap">
+      <div class="receipt" aria-label="주문 행 수 정리 내역">
+        <p class="rh">ORDERS · 행 수 정산</p>
+        <p class="rs">cafe_medallion_pipeline</p>
+        <dl>
+          <div><dt>bronze_orders</dt><dd>300</dd></div>
+          <div class="minus"><dt>order_id 중복</dt><dd>−2</dd></div>
+          <div class="minus"><dt>수량 0 이하</dt><dd>−2</dd></div>
+          <div><dt>silver_orders_clean</dt><dd>296</dd></div>
+          <div class="minus"><dt>취소 주문</dt><dd>−30</dd></div>
+          <div class="total"><dt>gold_sales</dt><dd>266</dd></div>
+        </dl>
+        <p class="rf">중복을 뺀 298행은 SQL 안의 중간 결과라 테이블로 남지 않습니다.</p>
+      </div>
+    </div>
+    <div>
+      <p>세 가지는 빠지는 곳이 다릅니다.</p>
+      <ul class="do">
+        <li><strong>중복 2행</strong>은 SQL의 <code class="k">ROW_NUMBER()</code>로 지웁니다.</li>
+        <li><strong>수량 오류 2행</strong>은 아래 Expectation에 걸려 Silver에서 빠집니다.</li>
+        <li><strong>취소 30행</strong>은 Silver에는 남아 있고 Gold에서 뺍니다.</li>
+      </ul>
+      <div class="snip"><div class="snip-top"><span class="snip-lbl">silver_orders_clean의 품질 규칙</span></div>
+        <div class="snip-body"><pre>CONSTRAINT positive_quantity
+  EXPECT (quantity &gt; 0) ON VIOLATION DROP ROW</pre></div></div>
+    </div>
+  </div>
+  <p>Silver 296행을 포함한 세 테이블의 저장된 행 수는 6절 검증 SQL에서 한 번에 확인합니다. 만들어진 데이터셋은 Catalog Explorer의 <code class="k">cafe_training.cafe_hands_on</code>에서도 볼 수 있습니다.</p>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="p1"><span class="mark"></span>
+      <span class="txt">이름 <code class="k">cafe_medallion_pipeline</code>, Triggered, Serverless를 확인했다</span></label>
+    <label class="task"><input type="checkbox" data-k="p2"><span class="mark"></span>
+      <span class="txt">Source code에 <code class="k">01_cafe_medallion_pipeline</code> 하나만 있다</span></label>
+    <label class="task"><input type="checkbox" data-k="p3"><span class="mark"></span>
+      <span class="txt">Destination을 <code class="k">cafe_training</code> / <code class="k">cafe_hands_on</code>으로 저장했다</span></label>
+    <label class="task"><input type="checkbox" data-k="p4"><span class="mark"></span>
+      <span class="txt">실행 결과 Completed, 데이터셋 7개가 모두 성공했다</span></label>
+    <label class="task"><input type="checkbox" data-k="p5"><span class="mark"></span>
+      <span class="txt">Output records에서 <code class="k">bronze_orders</code> 300, <code class="k">gold_sales</code> 266을 봤다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 6 Job ════════════════════════ -->
+<div class="pane" data-pane="job">
+<section class="step">
+  <div class="head"><span class="num">6</span><h2>Lakeflow Job으로 묶기</h2><span class="dots"></span></div>
+  <p>방금은 Pipeline을 손으로 돌렸습니다. 이번에는 <strong>Pipeline 실행 → 행 수 검증</strong>을 Job 하나로 묶어, 누가 돌려도 같은 순서로 돌고 결과를 확인할 수 있게 합니다.</p>
+  <p class="path"><b>이동</b><span>Jobs &amp; Pipelines</span><span>Job</span></p>
+  <ol class="do">
+    <li>위쪽 Job 이름을 <code class="k" data-c>cafe_medallion_job</code>으로 바꾸고 Enter를 누릅니다.</li>
+    <li><strong>Add another task type → ETL Pipeline</strong>으로 첫 Task를 추가합니다.</li>
+  </ol>
+
+  <h3><span class="sn">6-1</span>Pipeline 실행 Task</h3>
+  <div class="qa">
+    <div class="qa-r"><span class="k">Task name</span><span class="v">run_medallion_pipeline</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Type</span><span class="v">Pipeline</span></div>
+    <div class="qa-r"><span class="k">Pipeline</span><span class="v">cafe_medallion_pipeline</span></div>
+    <div class="qa-r"><span class="k">Full refresh</span><span class="v">체크하지 않음</span></div>
+  </div>
+  <p><strong>Trigger a full refresh</strong>는 비워 두고 <strong>Save task</strong>를 누릅니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/16-job-pipeline-task-annotated.png"><img src="images/runbook/thumbnails/16-job-pipeline-task-annotated.png" alt="Job의 Pipeline 실행 Task 설정" width="720" height="586" loading="lazy"></button>
+    <figcaption><span class="fn">화면 18</span>Pipeline 실행 Task</figcaption>
+  </figure>
+
+  <h3><span class="sn">6-2</span>검증 Task</h3>
+  <p><strong>Add task → SQL file</strong>을 고릅니다. 저장한 뒤 다시 열면 Type = SQL, SQL task = File로 보이는데 같은 설정입니다.</p>
+  <div class="qa">
+    <div class="qa-r"><span class="k">Task name</span><span class="v">validate_pipeline</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Type</span><span class="v">SQL file</span></div>
+    <div class="qa-r"><span class="k">File</span><span class="v">notebooks/04_pipeline_validate.sql</span></div>
+    <div class="qa-r"><span class="k">Warehouse</span><span class="v">앞에서 쓴 SQL Warehouse</span></div>
+  </div>
+  <p>파일 선택창에서 <strong>Users → 본인 계정 → dbx-cafe-hands-on → notebooks → 04_pipeline_validate.sql</strong>을 고르고 <strong>Confirm</strong>을 누릅니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/17-job-sql-file-annotated.png"><img src="images/runbook/thumbnails/17-job-sql-file-annotated.png" alt="Job 검증용 SQL 파일 선택" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 19</span>검증 SQL 파일 선택</figcaption>
+  </figure>
+  <p>이어서 순서를 정합니다. <strong>Depends on = run_medallion_pipeline</strong>, <strong>Run if dependencies = All succeeded</strong>로 두고 <strong>Create task</strong>를 누릅니다. Pipeline이 실패하면 검증은 돌지 않습니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/18-job-validation-task-annotated.png"><img src="images/runbook/thumbnails/18-job-validation-task-annotated.png" alt="검증 Task의 Warehouse와 의존성" width="720" height="586" loading="lazy"></button>
+    <figcaption><span class="fn">화면 20</span>검증 Task 설정. 완성된 DAG는 run_medallion_pipeline → validate_pipeline입니다.</figcaption>
+  </figure>
+
+  <h3><span class="sn">6-3</span>실행과 결과</h3>
+  <p><strong>Save → Run now</strong>를 누르고 두 Task가 모두 <strong>Succeeded</strong>인지 봅니다. 촬영 환경에서는 Pipeline Task 41초, 검증 Task 23초가 걸렸습니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/28-job-succeeded.jpg"><img src="images/runbook/thumbnails/28-job-succeeded.jpg" alt="Pipeline 실행과 SQL 검증 task가 모두 성공한 Job" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 21</span>Job 실행 결과</figcaption>
+  </figure>
+  <p>검증 Task를 열어 결과 표의 세 행이 모두 PASS인지 봅니다. 행 순서는 달라도 됩니다.</p>
+  <div class="tw"><table>
+    <thead><tr><th>테이블</th><th class="n">실제</th><th class="n">기대</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr><td><code class="k">bronze_orders</code></td><td class="n">300</td><td class="n">300</td><td><span class="pass">PASS</span></td></tr>
+      <tr><td><code class="k">silver_orders_clean</code></td><td class="n">296</td><td class="n">296</td><td><span class="pass">PASS</span></td></tr>
+      <tr><td><code class="k">gold_sales</code></td><td class="n">266</td><td class="n">266</td><td><span class="pass">PASS</span></td></tr>
+    </tbody>
+  </table></div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/29-validation-pass-annotated.png"><img src="images/runbook/thumbnails/29-validation-pass-annotated.png" alt="검증 SQL의 Bronze·Silver·Gold 행 수가 모두 PASS인 결과" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 22</span>행 수 검증 결과</figcaption>
+  </figure>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="j1"><span class="mark"></span>
+      <span class="txt"><code class="k">run_medallion_pipeline</code> Task를 full refresh 없이 저장했다</span></label>
+    <label class="task"><input type="checkbox" data-k="j2"><span class="mark"></span>
+      <span class="txt"><code class="k">validate_pipeline</code>이 앞 Task에 의존하도록 만들었다</span></label>
+    <label class="task"><input type="checkbox" data-k="j3"><span class="mark"></span>
+      <span class="txt">Run now 결과 두 Task가 모두 Succeeded다</span></label>
+    <label class="task"><input type="checkbox" data-k="j4"><span class="mark"></span>
+      <span class="txt">검증 결과 세 행이 모두 PASS다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 7·8 Metric View ════════════════════════ -->
+<div class="pane" data-pane="metric">
+<section class="step">
+  <div class="head"><span class="num">7<small>·8</small></span><h2>Metric View로 매출 기준 정하기</h2><span class="dots"></span></div>
+  <p>3부에서는 <code class="k">gold_sales</code> 위에 매출 계산 기준을 올리고, 그 기준으로 답하는 Genie Agent를 만듭니다. "매장별 순매출 알려줘"라고 물었을 때 사람이 SQL로 구한 값과 같은 답이 나오면 성공입니다. 먼저 기준부터 세웁니다.</p>
+
+  <h3><span class="sn">7</span>기준선 만들기</h3>
+  <p><code class="k" data-c>notebooks/02_metric_view_baseline.sql</code>을 열고 SQL Warehouse를 확인한 뒤 <strong>Run all</strong>을 누릅니다. Warehouse가 꺼져 있으면 <strong>Start, attach and run</strong>입니다. Metric View <code class="k">cafe_training.cafe_hands_on.cafe_sales_metrics</code>가 만들어집니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/20-metric-baseline.jpg"><img src="images/runbook/thumbnails/20-metric-baseline.jpg" alt="Metric View 기준선 생성 노트북" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 23</span>Metric View 기준선 실행. CREATE 뒤의 No rows returned는 오류가 아닙니다.</figcaption>
+  </figure>
+
+  <div class="receipts">
+    <div class="receipt-wrap">
+      <div class="receipt" aria-label="Metric View 기준선 조회 결과">
+        <p class="rh">cafe_sales_metrics</p>
+        <p class="rs">마지막 SELECT 결과</p>
+        <dl>
+          <div><dt>net_sales</dt><dd>1,734,580</dd></div>
+          <div><dt>order_count</dt><dd>266</dd></div>
+          <div class="total"><dt>avg_order_value</dt><dd>6,520.98</dd></div>
+        </dl>
+        <p class="rf">화면에는 1734580 / 266 / 6520.977443609023으로 나옵니다.</p>
+      </div>
+    </div>
+    <figure class="shot" style="margin:0">
+      <button type="button" class="zoom" data-full="images/runbook/21-metric-baseline-result.jpg"><img src="images/runbook/thumbnails/21-metric-baseline-result.jpg" alt="Metric View 실제 지표 조회 결과" width="720" height="587" loading="lazy"></button>
+      <figcaption><span class="fn">화면 24</span>기준선 지표 조회 결과</figcaption>
+    </figure>
+  </div>
+
+  <h3><span class="sn">8</span>설명을 붙이기</h3>
+  <p><code class="k" data-c>notebooks/03_metric_view_optimized.sql</code>을 같은 Warehouse에서 Run all 합니다. 계산식은 그대로 두고, Genie가 사람 말을 알아듣도록 표시명·동의어·포맷을 더하는 단계입니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/22-metric-optimized.jpg"><img src="images/runbook/thumbnails/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 25</span>Metric View 최적화 실행</figcaption>
+  </figure>
+  <div class="tw min"><table>
+    <thead><tr><th>추가되는 것</th><th>값</th></tr></thead>
+    <tbody>
+      <tr><td class="key">표시명</td><td>순매출, 주문수, 판매수량, 객단가</td></tr>
+      <tr><td class="key">동의어</td><td>매출, 실매출, 결제매출, 판매액 등</td></tr>
+      <tr><td class="key">포맷</td><td>매출·객단가는 KRW, 주문수·판매수량은 정수</td></tr>
+      <tr><td class="key">Materialization</td><td><code class="k">daily_store_category</code>, 하루 1회</td></tr>
+    </tbody>
+  </table></div>
+  <p>끝나면 새 SQL 셀에 아래 조회문만 넣고 돌려서 값이 그대로인지 봅니다. 1,734,580 / 266 / 약 6,520.98이 다시 나오면 됩니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">확인용 조회 SQL</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre>SELECT MEASURE(net_sales) AS net_sales,
+       MEASURE(order_count) AS order_count,
+       MEASURE(avg_order_value) AS avg_order_value
+FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre></div></div>
+  <div class="note stop">
+    <p>여기서 기준선 노트북(02)을 다시 Run all 하면 방금 붙인 설명이 기준선으로 덮어써집니다. 실수로 돌렸다면 03을 한 번 더 실행하세요.</p>
+  </div>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="m1"><span class="mark"></span>
+      <span class="txt">기준선 노트북 결과가 1734580 / 266 / 6520.97…이다</span></label>
+    <label class="task"><input type="checkbox" data-k="m2"><span class="mark"></span>
+      <span class="txt">최적화 노트북을 Run all 했다</span></label>
+    <label class="task"><input type="checkbox" data-k="m3"><span class="mark"></span>
+      <span class="txt">조회 SQL로 값이 바뀌지 않았음을 확인했다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 9·10 Genie ════════════════════════ -->
+<div class="pane" data-pane="genie">
+<section class="step">
+  <div class="head"><span class="num">9<small>·10</small></span><h2>Genie Agent 만들기</h2><span class="dots"></span></div>
+  <p>Metric View 하나만 연결한 Genie Agent를 만들고, 답변 지침과 예제 SQL 여섯 개를 넣은 뒤 채팅으로 물어봅니다.</p>
+
+  <h3><span class="sn">9</span>Metric View 연결</h3>
+  <p class="path"><b>이동</b><span>Genie Agents</span><span>New</span></p>
+  <p><strong>Connect your data</strong>에서 <code class="k" data-c>cafe_sales_metrics</code>를 검색합니다. 위치가 <strong>cafe_training.cafe_hands_on</strong>인 Metric View 하나만 고르고 <strong>Create</strong>를 누릅니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/23-genie-select-metric-view-annotated.png"><img src="images/runbook/thumbnails/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720" height="586" loading="lazy"></button>
+    <figcaption><span class="fn">화면 26</span>Genie 연결 자산 선택</figcaption>
+  </figure>
+  <p>이름은 자동으로 붙어 있습니다. <strong>Configure → About → About this agent</strong>의 연필 아이콘에서 아래처럼 바꾸고 <strong>Save</strong>를 누릅니다. Owner와 Agent ID는 알아서 채워집니다.</p>
+  <div class="qa">
+    <div class="qa-r"><span class="k">Name</span><span class="v">Cafe Sales Genie Agent</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Warehouse</span><span class="v">Serverless Starter Warehouse</span></div>
+  </div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/24-genie-name.jpg"><img src="images/runbook/thumbnails/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 27</span>Genie 이름과 Warehouse</figcaption>
+  </figure>
+
+  <p><strong>Configure → Instructions</strong>(구버전은 Configure › Context › Instructions)에 아래 지침 전체를 붙여 넣고 <strong>Save</strong>를 누릅니다. 다른 탭에 갔다 와도 내용이 남아 있으면 저장된 것입니다.</p>
+  <div class="snip tall"><div class="snip-top"><span class="snip-lbl">resources/genie_instructions.md</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre># 카페 매출 Genie Agent 지침
+
+## 목적과 범위
+
+- 카페 매출 데이터를 사용해 사용자의 질문에 근거 있는 분석 결과를 제공한다.
+- 분석 대상은 연결된 Metric View에 정의된 필드, 측정값, 설명, 동의어로 제한한다.
+- 데이터 자산에 없는 컬럼, 지표, 고객 정보는 임의로 만들지 않는다.
+- 응답은 한국어 존댓말로 작성한다.
+
+## 질문 해석 규칙
+
+- 사용자의 표현을 Metric View의 표시명, 설명, 동의어와 연결해 해석한다.
+- 비슷한 개념이라도 의미가 다른 필드와 측정값은 구분한다. 예: 금액과 수량, 주문 건수와 판매 수량, 총액과 순액.
+- 사용자가 지표를 명확히 지정하지 않으면 Metric View에 정의된 기본 의미를 사용하고, 응답에 적용한 지표를 표시한다.
+- 기간, 비교 기준, 집계 수준 또는 정렬 기준이 결과에 큰 영향을 주는데 질문에 포함되지 않았다면 짧게 되묻는다.
+- 하나의 표현이 여러 필드나 지표로 해석될 수 있으면 가능한 선택지를 제시하고 사용자의 확인을 받는다.
+
+## 데이터 및 계산 규칙
+
+- Metric View에 정의된 측정값과 차원을 우선 사용한다.
+- 이미 정의된 측정값이 있는 경우 원시 컬럼을 임의로 다시 계산하지 않는다.
+- 데이터에 없는 정보나 근거 없는 원인을 추정하지 않는다.
+- 요청한 데이터가 없으면 제공할 수 없다고 명확히 설명하고, 대신 사용할 수 있는 관련 지표나 차원을 제안한다.
+- 필터와 기간을 적용한 경우 실제 적용 조건을 응답에 명시한다.
+
+## 응답 형식
+
+- 수치에는 적절한 단위와 측정값 이름을 표시한다.
+- 비교나 추이 분석은 가능한 경우 표로 제시하고, 정렬 기준과 기간을 함께 표시한다.
+- 결과 뒤에 핵심 해석을 간결하게 덧붙인다.
+- 답변은 데이터로 확인할 수 있는 사실과 해석을 구분한다.</pre></div></div>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/25-genie-instructions-annotated.png"><img src="images/runbook/thumbnails/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 28</span>Genie 지침 입력</figcaption>
+  </figure>
+
+  <h3><span class="sn">10</span>Example Query 여섯 개</h3>
+  <p><strong>Configure → Examples</strong> 탭 오른쪽 위 <strong>Add</strong>에서 추가합니다(구버전은 Configure › Context › Add). 여러 종류가 나오는데 이번에는 <strong>Example Query</strong>만 씁니다. Filter, Measure, Field, Join은 건너뜁니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/26-genie-examples-annotated.png"><img src="images/runbook/thumbnails/26-genie-examples-annotated.png" alt="Genie 예제 목록과 Add 버튼" width="800" height="450" loading="lazy"></button>
+    <figcaption><span class="fn">화면 29</span>등록 전에는 All (0), 여섯 개를 저장하면 All (6)이 됩니다.</figcaption>
+  </figure>
+  <p>카드마다 Question과 SQL을 하나의 Example Query로 넣습니다. 원본은 <code class="k">sample_data/support/genie_example_queries.csv</code>입니다.</p>
+
+  <div class="qa"><div class="qa-h"><span class="id">E001</span><span class="t">전체 기간 순매출</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">전체 기간 순매출은 얼마야?</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL</span><pre class="v">SELECT MEASURE(net_sales) AS net_sales
+FROM cafe_training.cafe_hands_on.cafe_sales_metrics;</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">E002</span><span class="t">매장별 순매출</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">매장별 순매출을 비교해줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL</span><pre class="v">SELECT store_name,
+       MEASURE(net_sales) AS net_sales
+FROM cafe_training.cafe_hands_on.cafe_sales_metrics
+GROUP BY store_name
+ORDER BY net_sales DESC;</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">E003</span><span class="t">판매수량 TOP 3</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">판매수량 기준 TOP 3 메뉴는?</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL</span><pre class="v">SELECT product_name,
+       MEASURE(item_quantity) AS item_quantity
+FROM cafe_training.cafe_hands_on.cafe_sales_metrics
+GROUP BY product_name
+ORDER BY item_quantity DESC
+LIMIT 3;</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">E004</span><span class="t">일자별 순매출</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">일자별 순매출 추이를 보여줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL</span><pre class="v">SELECT order_date,
+       MEASURE(net_sales) AS net_sales
+FROM cafe_training.cafe_hands_on.cafe_sales_metrics
+GROUP BY order_date
+ORDER BY order_date;</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">E005</span><span class="t">시간대별 순매출과 주문수</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">시간대별 순매출과 주문수를 비교해줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL</span><pre class="v">SELECT daypart,
+       MEASURE(net_sales) AS net_sales,
+       MEASURE(order_count) AS order_count
+FROM cafe_training.cafe_hands_on.cafe_sales_metrics
+GROUP BY daypart
+ORDER BY net_sales DESC;</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">E006</span><span class="t">매장별 객단가</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">매장별 객단가가 높은 순서로 보여줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL</span><pre class="v">SELECT store_name,
+       MEASURE(avg_order_value) AS avg_order_value
+FROM cafe_training.cafe_hands_on.cafe_sales_metrics
+GROUP BY store_name
+ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</button></div></div>
+
+  <h3>채팅으로 물어보기</h3>
+  <p>채팅 화면에서 <code class="k" data-c>전체 기간 순매출은 얼마야?</code>를 입력합니다. <strong>1,734,580원</strong>이 나오면 됩니다.</p>
+  <p>다음 세 질문은 뜻이 하나로 정해지지 않습니다. Genie가 바로 숫자를 내놓지 않고 <strong>먼저 되물으면 정상</strong>입니다.</p>
+  <div class="tw min"><table>
+    <thead><tr><th>질문</th><th>기대하는 반응</th></tr></thead>
+    <tbody>
+      <tr><td><code class="k" data-c>인기메뉴가 뭐야?</code></td><td>매출 기준인지 판매수량 기준인지 묻는다</td></tr>
+      <tr><td><code class="k" data-c>라떼 매출 알려줘</code></td><td>카페라떼인지 바닐라라떼인지 묻는다</td></tr>
+      <tr><td><code class="k" data-c>손님이 가장 많은 매장은 어디야?</code></td><td>고객 데이터가 없다고 말하고 주문수나 판매수량으로 볼지 묻는다</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="g1"><span class="mark"></span>
+      <span class="txt">Metric View 하나만 연결해 Genie Agent를 만들었다</span></label>
+    <label class="task"><input type="checkbox" data-k="g2"><span class="mark"></span>
+      <span class="txt">이름 <code class="k">Cafe Sales Genie Agent</code>와 기본 Warehouse를 저장했다</span></label>
+    <label class="task"><input type="checkbox" data-k="g3"><span class="mark"></span>
+      <span class="txt">Instructions에 지침 전체를 넣고 저장했다</span></label>
+    <label class="task"><input type="checkbox" data-k="g4"><span class="mark"></span>
+      <span class="txt">Examples 목록이 All (6)이다</span></label>
+    <label class="task"><input type="checkbox" data-k="g5"><span class="mark"></span>
+      <span class="txt">전체 기간 순매출 질문에 1,734,580원이 나왔다</span></label>
+    <label class="task"><input type="checkbox" data-k="g6"><span class="mark"></span>
+      <span class="txt">모호한 질문 세 개에서 Genie가 되물었다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 11·12 평가 ════════════════════════ -->
+<div class="pane" data-pane="bench">
+<section class="step">
+  <div class="head"><span class="num">11<small>·12</small></span><h2>답이 맞는지 재고 고치기</h2><span class="dots"></span></div>
+  <p>채팅에서 몇 번 맞았다고 믿을 수는 없습니다. <strong>Benchmark</strong>는 테스트 질문을 모아 두고 몇 개를 맞히는지 반복해서 재는 기능입니다. 모드는 실행할 때 고릅니다. <strong>Chat 모드</strong>는 정답 SQL의 결과와 Genie의 결과를 비교하고, <strong>Agent 모드</strong>는 Evaluation note에 적은 기준으로 채점합니다.</p>
+
+  <h3><span class="sn">11-1</span>Chat Benchmark 여덟 개</h3>
+  <p class="path"><b>이동</b><span>Cafe Sales Genie Agent</span><span>Benchmarks</span><span>Add benchmark</span></p>
+  <p>Question과 SQL Answer를 넣고 <strong>Evaluation note는 비워 둡니다.</strong> 원본은 <code class="k">sample_data/support/genie_benchmarks.csv</code>입니다.</p>
+
+  <div class="qa"><div class="qa-h"><span class="id">B001</span><span class="t">순매출 단일 값</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">전체 기간 순매출은 얼마야?</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT MEASURE(net_sales) AS net_sales FROM cafe_training.cafe_hands_on.cafe_sales_metrics</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B002</span><span class="t">매출을 순매출로 해석, 내림차순</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">매장별 매출을 높은 순서로 알려줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT store_name, MEASURE(net_sales) AS net_sales FROM cafe_training.cafe_hands_on.cafe_sales_metrics GROUP BY store_name ORDER BY net_sales DESC</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B003</span><span class="t">판매수량 기준 TOP 3</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">가장 많이 팔린 메뉴 3개 알려줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT product_name, MEASURE(item_quantity) AS item_quantity FROM cafe_training.cafe_hands_on.cafe_sales_metrics GROUP BY product_name ORDER BY item_quantity DESC LIMIT 3</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B004</span><span class="t">카테고리별 순매출</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">카테고리별 순매출을 비교해줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT category, MEASURE(net_sales) AS net_sales FROM cafe_training.cafe_hands_on.cafe_sales_metrics GROUP BY category ORDER BY net_sales DESC</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B005</span><span class="t">날짜 오름차순 추이</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">날짜별 매출 추이를 보여줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT order_date, MEASURE(net_sales) AS net_sales FROM cafe_training.cafe_hands_on.cafe_sales_metrics GROUP BY order_date ORDER BY order_date</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B006</span><span class="t">시간대별 순매출과 주문수</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">시간대별 매출과 주문수를 비교해줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT daypart, MEASURE(net_sales) AS net_sales, MEASURE(order_count) AS order_count FROM cafe_training.cafe_hands_on.cafe_sales_metrics GROUP BY daypart ORDER BY net_sales DESC</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B007</span><span class="t">강남점 평균 주문금액</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">강남점 객단가는 얼마야?</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT store_name, MEASURE(avg_order_value) AS avg_order_value FROM cafe_training.cafe_hands_on.cafe_sales_metrics WHERE store_name = '강남점' GROUP BY store_name</pre><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B008</span><span class="t">주말/평일 두 행</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">주말과 평일의 순매출을 비교해줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">SQL Answer</span><pre class="v">SELECT day_type, MEASURE(net_sales) AS net_sales FROM cafe_training.cafe_hands_on.cafe_sales_metrics GROUP BY day_type ORDER BY net_sales DESC</pre><button type="button" class="copy">복사</button></div></div>
+
+  <h3><span class="sn">11-2</span>Agent Benchmark 네 개</h3>
+  <p>이번에는 반대로 <strong>SQL Answer를 비우고</strong> Evaluation note를 채웁니다. 정답이 숫자가 아니라 "되물어야 한다" 같은 행동이기 때문입니다.</p>
+
+  <div class="qa"><div class="qa-h"><span class="id">B009</span><span class="t">명확화</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">인기메뉴가 뭐야?</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Note</span><span class="v">매출 기준인지 판매수량 기준인지 질문해야 한다.</span><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B010</span><span class="t">명확화</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">손님이 가장 많은 매장은 어디야?</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Note</span><span class="v">고객 데이터가 없음을 알리고 주문수와 판매수량 중 의미를 확인해야 한다.</span><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B011</span><span class="t">명확화</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">라떼 매출 알려줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Note</span><span class="v">카페라떼와 바닐라라떼 중 어느 상품인지 질문해야 한다.</span><button type="button" class="copy">복사</button></div></div>
+  <div class="qa"><div class="qa-h"><span class="id">B012</span><span class="t">분석</span></div>
+    <div class="qa-r"><span class="k">Question</span><span class="v">최근 매출 추이를 보여줘</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Note</span><span class="v">데이터 최대일 2026-07-14 기준 최근 7일을 사용하고 실제 기간을 응답에 밝혀야 한다.</span><button type="button" class="copy">복사</button></div></div>
+
+  <h3><span class="sn">11-3</span>실행하고 기록하기</h3>
+  <p>두 묶음을 따로 실행합니다.</p>
+  <p class="path"><b>CHAT</b><span>B001~B008 선택</span><span>Run selected</span><span>Mode: Chat</span></p>
+  <p class="path"><b>AGENT</b><span>B009~B012 선택</span><span>Run selected</span><span>Mode: Agent</span></p>
+  <p>끝나면 <strong>Evaluations</strong>에서 결과를 보고 여기에 적어 둡니다. 16절과 마무리 화면에서 다시 보여 줍니다.</p>
+  <div class="memo">
+    <div class="f"><label for="memoEvalName">Evaluation name</label><input type="text" id="memoEvalName" data-k="memoEvalName" placeholder="예: chat-run-1"></div>
+    <div class="f"><label for="memoStatus">Execution status</label><input type="text" id="memoStatus" data-k="memoStatus" placeholder="예: Completed"></div>
+    <div class="f"><label for="memoChatAcc">Chat Accuracy</label><input type="text" id="memoChatAcc" data-k="memoChatAcc" placeholder="예: 8/8"></div>
+    <div class="f"><label for="memoAgentAcc">Agent Accuracy</label><input type="text" id="memoAgentAcc" data-k="memoAgentAcc" placeholder="예: 3/4"></div>
+    <div class="f"><label for="memoGood">Good 문항</label><input type="text" id="memoGood" data-k="memoGood" placeholder="예: B001~B008, B009"></div>
+    <div class="f"><label for="memoBad">Bad · Manual Review</label><input type="text" id="memoBad" data-k="memoBad" placeholder="예: B012"></div>
+  </div>
+
+  <h3><span class="sn">11-4</span>Monitor 보기</h3>
+  <p class="path"><b>이동</b><span>Cafe Sales Genie Agent</span><span>Monitor</span></p>
+  <p>지금까지 들어온 질문과 응답, 생성 SQL, 평점, 상태가 쌓여 있습니다. Fix it, Request review, Weekly digest 메뉴도 여기 있습니다. 피드백이 쌓인다고 Instruction이 저절로 바뀌지는 않습니다. 같은 문제가 반복되면 아래 12절 방법으로 직접 고칩니다.</p>
+
+  <h3><span class="sn">12</span>틀린 답을 고치는 순서</h3>
+  <p>실패한 문항이 없다면 지침을 더 넣을 필요가 없습니다. 지금 Accuracy를 기준선으로 적어 두면 됩니다. 실패한 문항이 있으면 <strong>원인에 맞는 곳 한 군데만</strong> 고치고 같은 Benchmark를 다시 돌립니다.</p>
+  <div class="tw min"><table>
+    <thead><tr><th>이런 문제가 보이면</th><th>먼저 고칠 곳</th></tr></thead>
+    <tbody>
+      <tr><td>용어가 엉뚱한 필드나 측정값으로 연결됨</td><td class="key">Metric View의 표시명·설명·동의어</td></tr>
+      <tr><td>자주 나오는 질문 유형의 SQL이 들쭉날쭉함</td><td class="key">Example Query</td></tr>
+      <tr><td>여러 질문에 공통으로 필요한 해석 규칙이 없음</td><td class="key">Instruction</td></tr>
+      <tr><td>정답 SQL이나 채점 기준 자체가 틀림</td><td class="key">Benchmark의 SQL Answer · Evaluation note</td></tr>
+      <tr><td>실제 사용자 질문에서 같은 오류가 반복됨</td><td class="key">Monitor에서 원인을 보고 위 넷 중 하나</td></tr>
+    </tbody>
+  </table></div>
+
+  <details class="fold">
+    <summary>권장 개선 순서 7단계</summary>
+    <div class="in">
+      <ol class="do">
+        <li>Metric View 하나만 연결한 기준선을 실행합니다.</li>
+        <li>필드와 측정값에 표시명·설명·동의어·포맷을 정의합니다.</li>
+        <li>대표 질문의 검증된 SQL을 Example Query로 추가합니다.</li>
+        <li>같은 Benchmark를 다시 돌려 개선 전후 Accuracy를 비교합니다.</li>
+        <li>실패한 질문의 생성 SQL과 SQL Answer를 비교합니다.</li>
+        <li>원인에 맞는 구성 요소 하나만 고칩니다.</li>
+        <li>같은 문항을 다시 돌리고, 다른 문항이 깨지지 않았는지도 봅니다.</li>
+      </ol>
+    </div>
+  </details>
+  <details class="fold">
+    <summary>생성 SQL 확인과 Add as instruction</summary>
+    <div class="in">
+      <p>실패한 응답에서 <strong>… → Show code</strong>를 누르고 생성 SQL, SQL Answer, 실행 결과를 나란히 봅니다.</p>
+      <p>SQL을 고쳐 결과가 맞는 것을 확인했다면 <strong>… → Add as instruction</strong>으로 질문과 SQL을 예제로 저장할 수 있습니다. 확인하지 않은 SQL을 저장하면 틀린 답이 굳어지니 꼭 결과를 본 뒤에 저장하세요.</p>
+    </div>
+  </details>
+  <details class="fold">
+    <summary>Instruction을 쓸 때 지킬 것</summary>
+    <div class="in">
+      <p>질문 하나만을 위한 규칙은 넣지 않습니다. 여러 질문에 두루 적용될 때만 한 줄을 더합니다. 데이터에 없는 정보나 원인을 추정하게 하거나, Metric View에 이미 있는 측정값을 원시 컬럼으로 다시 계산하게 하는 문장도 넣지 않습니다.</p>
+      <p>예를 들면 이런 문장입니다.</p>
+      <div class="snip wrapit"><div class="snip-top"><span class="snip-lbl">Instruction 예시</span><button type="button" class="copy">복사</button></div>
+        <div class="snip-body"><pre>질문에 기간, 비교 기준, 집계 수준 또는 정렬 기준이 명시되지 않아 결과가 달라질 수 있으면 실행 전에 필요한 기준을 짧게 확인한다.</pre></div></div>
+    </div>
+  </details>
+
+  <p style="margin-top:22px">고쳤다면 다시 돌린 결과를 적습니다.</p>
+  <div class="memo">
+    <div class="f"><label for="memoBefore">개선 전 Accuracy</label><input type="text" id="memoBefore" data-k="memoBefore"></div>
+    <div class="f"><label for="memoAfter">개선 후 Accuracy</label><input type="text" id="memoAfter" data-k="memoAfter"></div>
+    <div class="f"><label for="memoFixId">수정한 Benchmark ID</label><input type="text" id="memoFixId" data-k="memoFixId"></div>
+    <div class="f"><label for="memoFixPart">수정한 구성 요소</label><input type="text" id="memoFixPart" data-k="memoFixPart" placeholder="예: Metric View 동의어"></div>
+    <div class="f"><label for="memoRegress">회귀가 생긴 문항</label><input type="text" id="memoRegress" data-k="memoRegress" placeholder="없으면 없음"></div>
+  </div>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="b1"><span class="mark"></span>
+      <span class="txt">Chat Benchmark B001~B008을 등록했다</span></label>
+    <label class="task"><input type="checkbox" data-k="b2"><span class="mark"></span>
+      <span class="txt">Agent Benchmark B009~B012를 등록했다</span></label>
+    <label class="task"><input type="checkbox" data-k="b3"><span class="mark"></span>
+      <span class="txt">두 묶음을 각각 Chat, Agent 모드로 실행했다</span></label>
+    <label class="task"><input type="checkbox" data-k="b4"><span class="mark"></span>
+      <span class="txt">Evaluations에서 Accuracy를 보고 위에 적었다</span></label>
+    <label class="task"><input type="checkbox" data-k="b5"><span class="mark"></span>
+      <span class="txt">Monitor에서 질문·응답·생성 SQL을 봤다</span></label>
+  </div>
+
+  <div class="note ok" style="margin-top:24px">
+    <span class="lbl">기초 과정 끝</span>
+    <p>3시간 과정은 여기까지입니다. 13~16절 심화 실습은 강사가 안내한 경우에만 이어서 진행합니다.</p>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 13 AI Search ════════════════════════ -->
+<div class="pane" data-pane="search">
+<section class="step">
+  <div class="head"><span class="num">13</span><h2>AI Search 용어집</h2><span class="dots"></span></div>
+  <p>Genie는 Metric View에 정의된 말만 압니다. "아메", "피크타임" 같은 현장 용어나 뜻이 여러 개인 단어는 용어집에서 먼저 찾아야 합니다. AI Search로 용어집을 검색할 수 있게 만들어 두면, 14절의 Supervisor가 뜻을 확정한 뒤 Genie에 넘깁니다.</p>
+
+  <div class="tw min"><table>
+    <thead><tr><th>항목</th><th>값</th></tr></thead>
+    <tbody>
+      <tr><td class="key">Source table</td><td><code class="k" data-c>cafe_training.cafe_hands_on.cafe_glossary</code></td></tr>
+      <tr><td class="key">Endpoint</td><td><code class="k" data-c>cafe-ai-search-endpoint</code></td></tr>
+      <tr><td class="key">Index</td><td><code class="k" data-c>cafe_training.cafe_hands_on.cafe_glossary_index</code></td></tr>
+      <tr><td class="key">Primary key</td><td><code class="k">term_id</code></td></tr>
+      <tr><td class="key">Embedding source</td><td><code class="k">search_text</code></td></tr>
+      <tr><td class="key">Embedding model</td><td><code class="k">databricks-qwen3-embedding-0-6b</code></td></tr>
+      <tr><td class="key">Sync · Query</td><td>TRIGGERED · HYBRID · Top 3</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="sn">13-1</span>원본 확인과 노트북 준비</h3>
+  <p>4절에서 올린 <code class="k">/Volumes/cafe_training/cafe_landing/raw/support/glossary.csv</code>가 있어야 합니다. 19행이고, <code class="k">term_id</code> <code class="k">term</code> <code class="k">aliases</code> <code class="k">definition</code> <code class="k">metric_or_field</code> <code class="k">resolution_rule</code> <code class="k">example_question</code> <code class="k">updated_at</code> <code class="k">search_text</code> 컬럼이 있습니다.</p>
+  <p><code class="k" data-c>notebooks/05_create_ai_search.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">첫 셀 · 패키지 설치</span></div>
+    <div class="snip-body"><pre>%pip install -q --upgrade databricks-ai-search
+dbutils.library.restartPython()</pre></div></div>
+  <div class="note warn">
+    <p>Python이 재시작되면 <strong>설치 셀은 다시 돌리지 말고</strong> 그다음 위젯 셀부터 차례로 실행합니다. 위젯 기본값은 위 표와 같습니다.</p>
+  </div>
+
+  <h3><span class="sn">13-2</span>Delta 테이블</h3>
+  <p>용어집 CSV를 읽는 셀과 테이블 생성 셀을 실행합니다. Catalog Explorer에서 <code class="k">cafe_glossary</code>가 <strong>19행</strong>이고, Primary key가 <code class="k">term_id</code>, Change Data Feed가 켜져 있는지 봅니다.</p>
+
+  <h3><span class="sn">13-3</span>Endpoint가 ONLINE이 된 다음 Index</h3>
+  <p>Endpoint 생성 셀을 실행하고 <strong>AI Search → Endpoints → cafe-ai-search-endpoint</strong>에서 상태가 <code class="k">ONLINE</code>이 될 때까지 기다립니다. 그다음 Index 생성 셀을 실행합니다. 순서를 바꾸면 Index 생성이 실패합니다.</p>
+  <p>Index를 만든 뒤 동기화합니다. Catalog Explorer에서 Index가 <code class="k">ONLINE</code>, Indexed rows가 <strong>19</strong>면 됩니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">Triggered Sync</span></div>
+    <div class="snip-body"><pre>index.sync()</pre></div></div>
+
+  <h3><span class="sn">13-4</span>검색해 보기</h3>
+  <p>노트북 마지막 셀이 Hybrid 검색을 합니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">Hybrid 검색</span></div>
+    <div class="snip-body"><pre>results = index.similarity_search(
+    query_text="아메 매출과 피크타임을 알려줘",
+    columns=["term_id", "term", "definition", "resolution_rule"],
+    num_results=3,
+    query_type="HYBRID",
+)
+display(results)</pre></div></div>
+  <p><code class="k">query_text</code>를 <code class="k" data-c>라떼 매출</code> <code class="k" data-c>손님수</code> <code class="k" data-c>최근 매출</code> <code class="k" data-c>주말 매출</code>로 바꿔 가며 돌려 봅니다.</p>
+  <div class="tw min"><table>
+    <thead><tr><th>검색어</th><th>용어집이 알려 줘야 하는 것</th></tr></thead>
+    <tbody>
+      <tr><td class="key">아메</td><td>아메리카노</td></tr>
+      <tr><td class="key">피크타임</td><td>시간대별 순매출 비교</td></tr>
+      <tr><td class="key">라떼</td><td>카페라떼와 바닐라라떼 중 선택 필요</td></tr>
+      <tr><td class="key">손님수</td><td>고객 데이터 없음. 주문수 또는 판매수량 제안</td></tr>
+      <tr><td class="key">최근</td><td>데이터 최대일 기준 직전 7일</td></tr>
+      <tr><td class="key">주말</td><td>토요일과 일요일</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="s1"><span class="mark"></span>
+      <span class="txt"><code class="k">cafe_glossary</code> 테이블이 19행이다</span></label>
+    <label class="task"><input type="checkbox" data-k="s2"><span class="mark"></span>
+      <span class="txt"><code class="k">cafe-ai-search-endpoint</code>가 ONLINE이다</span></label>
+    <label class="task"><input type="checkbox" data-k="s3"><span class="mark"></span>
+      <span class="txt"><code class="k">cafe_glossary_index</code>가 ONLINE이고 Indexed rows가 19다</span></label>
+    <label class="task"><input type="checkbox" data-k="s4"><span class="mark"></span>
+      <span class="txt">Hybrid 검색 Top 3에서 아메·피크타임·라떼·손님수 규칙을 확인했다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 14 App ════════════════════════ -->
+<div class="pane" data-pane="app">
+<section class="step">
+  <div class="head"><span class="num">14</span><h2>Supervisor를 App으로 내보내기</h2><span class="dots"></span></div>
+  <p>Supervisor는 질문을 보고 Genie와 AI Search 중 무엇을 부를지 고르는 Agent입니다. Playground에서 먼저 동작을 확인하고, 그대로 Databricks App으로 내보냅니다. App은 대화 기록(Trace)을 MLflow Experiment에 남깁니다.</p>
+
+  <h3><span class="sn">14-0</span>Playground에서 먼저 확인</h3>
+  <p>Playground에 <strong>Choose an option to get started</strong>와 모델 배포 안내만 보이면 쓸 수 있는 모델이 없는 상태입니다. 강사가 모델 endpoint와 권한을 준비해야 다음으로 넘어갈 수 있습니다.</p>
+  <figure class="shot">
+    <button type="button" class="zoom" data-full="images/runbook/27-playground-prerequisites.jpg"><img src="images/runbook/thumbnails/27-playground-prerequisites.jpg" alt="사용 가능한 모델 설정이 필요한 Playground 시작 화면" width="720" height="587" loading="lazy"></button>
+    <figcaption><span class="fn">화면 30</span>Playground 사전 준비 화면</figcaption>
+  </figure>
+  <ol class="do">
+    <li>왼쪽 <strong>AI/ML › Playground</strong>를 엽니다.</li>
+    <li>강사가 알려 준 모델 중 <code class="k">Tools enabled</code> 표시가 있는 모델을 고릅니다.</li>
+    <li>System prompt에 아래 Supervisor 지침 전체를 붙여 넣습니다.</li>
+    <li><strong>Tools › + Add tool</strong>에서 Genie용 관리형 MCP 도구를 골라 <code class="k">Cafe Sales Genie Agent</code>를 연결하고, AI Search 도구에는 <code class="k">cafe_training.cafe_hands_on.cafe_glossary_index</code>를 연결합니다. 도구 선택 화면은 Workspace마다 조금 다릅니다.</li>
+    <li>아래 네 질문을 <strong>각각 새 대화에서</strong> 물어봅니다. 답뿐 아니라 어떤 도구를 어떤 순서로 불렀는지도 봅니다.</li>
+  </ol>
+  <div class="snip tall"><div class="snip-top"><span class="snip-lbl">resources/supervisor_prompt.md</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre># Cafe Supervisor Agent 시스템 지침
+
+당신은 카페 운영 담당자를 위한 한국어 분석 어시스턴트입니다. 구조화된 매출 분석은 Genie Agent에 위임하고, 회사 용어·약어·다의어는 AI Search 용어집에서 먼저 확인합니다.
+
+## Tool routing
+
+1. 표준 필드와 표준 지표로 답할 수 있는 정량 질문은 바로 Genie Agent를 호출합니다.
+2. `아메`, `피크타임`, `라떼`, `손님수`처럼 별칭·업무용어·다의어가 포함된 질문은 AI Search를 먼저 호출합니다.
+3. AI Search 결과가 하나의 표준 필드나 지표로 확정되면 그 정의를 반영하여 Genie Agent를 호출합니다.
+4. AI Search 결과가 명확화 질문을 요구하면 사용자에게 먼저 되묻고, 답을 받기 전에는 Genie Agent를 호출하지 않습니다.
+5. 직접 SQL을 작성하거나 숫자를 추측하지 않습니다. 모든 정량 수치는 Genie 결과를 근거로 답합니다.
+
+## Business rules
+
+- `매출`의 기본값은 완료 주문의 할인 후 `순매출`입니다.
+- `인기메뉴`는 매출 기준과 판매수량 기준 중 하나를 사용자에게 확인합니다.
+- `라떼`는 카페라떼와 바닐라라떼 중 어느 상품인지 확인합니다.
+- 고객 식별자와 방문객 데이터가 없으므로 `손님수`를 직접 계산하지 않습니다. 주문수 또는 판매수량을 대체 지표로 제안합니다.
+- `최근`은 데이터 최대 일자를 기준으로 직전 7일이며 실제 적용 기간을 응답에 적습니다.
+
+## Answer style
+
+- 한국어 존댓말로 간결하게 답합니다.
+- 표 또는 숫자 뒤에 사용한 기간·지표·필터를 짧게 명시합니다.
+- 도구 결과가 없거나 실패하면 실패 원인을 알리고 필요한 조건을 요청합니다.
+- 데이터에 없는 원인이나 고객 행동을 추정하지 않습니다.</pre></div></div>
+
+  <div class="tw min"><table>
+    <thead><tr><th>질문</th><th>기대하는 도구 흐름</th><th>기대 결과</th></tr></thead>
+    <tbody>
+      <tr><td><code class="k" data-c>매장별 순매출을 비교해줘</code></td><td><span class="route-pill"><i class="g">Genie</i></span></td><td>매장별 매출 표</td></tr>
+      <tr><td><code class="k" data-c>아메 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i class="g">Genie</i></span></td><td>아메리카노로 해석한 매출</td></tr>
+      <tr><td><code class="k" data-c>라떼 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i>되묻기</i></span></td><td>어느 라떼인지 질문</td></tr>
+      <tr><td><code class="k" data-c>손님 수가 가장 많은 매장은?</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i>대체 지표</i></span></td><td>고객 데이터가 없다고 설명하고 대안 제안</td></tr>
+    </tbody>
+  </table></div>
+  <p>도구가 안 보이거나 연결 오류가 나면 강사에게 권한과 기능 활성화 여부를 확인해 달라고 합니다. App으로 내보내려면 Databricks Apps와 Managed MCP Servers preview가 켜져 있어야 합니다.</p>
+
+  <h3><span class="sn">14-1</span>App으로 내보내기</h3>
+  <p class="path"><b>이동</b><span>Playground</span><span>Get code</span><span>Export to Databricks Apps</span></p>
+  <div class="qa">
+    <div class="qa-r"><span class="k">App name</span><span class="v">agent-cafe-supervisor</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Description</span><span class="v">카페 매출 Genie와 용어집 AI Search를 연결한 Supervisor Agent</span><button type="button" class="copy">복사</button></div>
+    <div class="qa-r"><span class="k">Experiment</span><span class="v">cafe-supervisor-agent</span><button type="button" class="copy">복사</button></div>
+  </div>
+  <p>Export가 끝나면 <strong>Apps → agent-cafe-supervisor</strong>를 엽니다.</p>
+
+  <h3><span class="sn">14-2</span>Resource와 환경 변수</h3>
+  <p><strong>Settings → Resources</strong>에서 Export 때 자동으로 들어간 리소스를 보고, 빠진 것이 있으면 추가합니다. 권한은 필요한 만큼만 줍니다.</p>
+  <div class="tw min"><table>
+    <thead><tr><th>Resource type</th><th>대상</th><th>Resource key</th><th>권한</th></tr></thead>
+    <tbody>
+      <tr><td class="key">Genie Agent</td><td>Cafe Sales Genie Agent</td><td><code class="k" data-c>cafe_genie</code></td><td>Can run</td></tr>
+      <tr><td class="key">AI Search index</td><td><code class="k">cafe_glossary_index</code></td><td><code class="k" data-c>cafe_glossary_index</code></td><td>Can select</td></tr>
+      <tr><td class="key">MLflow experiment</td><td>cafe-supervisor-agent</td><td><code class="k" data-c>cafe_experiment</code></td><td>Can edit 이상</td></tr>
+    </tbody>
+  </table></div>
+  <p>AI Search Index는 Workspace 버전에 따라 <strong>Vector search index</strong>로 보일 수도 있습니다. <code class="k">resources/app.yaml.example</code>의 키가 위 Resource key와 같아야 합니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">app.yaml · env</span></div>
+    <div class="snip-body"><pre>env:
+  - name: GENIE_SPACE_ID
+    valueFrom: cafe_genie
+  - name: VECTOR_SEARCH_INDEX
+    valueFrom: cafe_glossary_index
+  - name: MLFLOW_EXPERIMENT_ID
+    valueFrom: cafe_experiment</pre></div></div>
+  <div class="note">
+    <p>화면에서는 Genie Agent라고 부르지만 환경 변수 이름은 <code class="k">GENIE_SPACE_ID</code>로 남아 있는 경우가 있습니다. 예제의 변수 이름은 그대로 둡니다.</p>
+  </div>
+
+  <h3><span class="sn">14-3</span>App에서 다시 물어보기</h3>
+  <p>App 상태가 <code class="k">Running</code>이 되면 Playground에서 했던 네 질문을 App에서 다시 입력합니다. 도구 흐름이 위 표와 같아야 합니다.</p>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="a1"><span class="mark"></span>
+      <span class="txt">Playground에 Supervisor 지침과 두 도구를 연결했다</span></label>
+    <label class="task"><input type="checkbox" data-k="a2"><span class="mark"></span>
+      <span class="txt">Playground에서 네 질문이 기대한 도구 흐름대로 동작했다</span></label>
+    <label class="task"><input type="checkbox" data-k="a3"><span class="mark"></span>
+      <span class="txt"><code class="k">agent-cafe-supervisor</code> App을 만들고 Resource 세 개를 연결했다</span></label>
+    <label class="task"><input type="checkbox" data-k="a4"><span class="mark"></span>
+      <span class="txt">App이 Running이고 네 질문에 같은 흐름으로 답했다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 15 MLflow ════════════════════════ -->
+<div class="pane" data-pane="mlflow">
+<section class="step">
+  <div class="head"><span class="num">15</span><h2>MLflow로 기록하고 평가하기</h2><span class="dots"></span></div>
+  <p>Trace에는 Supervisor가 받은 질문과 답, 모델·Genie·AI Search를 부른 기록, 단계별 걸린 시간이 남습니다. 개발 때는 이 Trace를 Scorer로 평가하고, 운영 때는 같은 Scorer를 Production Monitoring에 그대로 걸 수 있습니다.</p>
+
+  <h3><span class="sn">15-1</span>노트북 준비</h3>
+  <p>14절에서 App에 넣은 네 질문이 이미 Trace로 남아 있습니다. 아직 안 했다면 App에서 먼저 물어보세요. 전체 평가 질문은 <code class="k">sample_data/support/agent_evaluation.csv</code>에 있습니다.</p>
+  <p><code class="k" data-c>notebooks/06_mlflow_monitoring.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다. 재시작 뒤에는 다음 셀부터 진행합니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">첫 셀 · 패키지 설치</span></div>
+    <div class="snip-body"><pre>%pip install -q --upgrade "mlflow[databricks]&gt;=3.4.0"
+dbutils.library.restartPython()</pre></div></div>
+
+  <h3><span class="sn">15-2</span>Experiment 지정</h3>
+  <p>위젯에 App이 쓰는 Experiment 경로를 넣습니다. Export 때 다른 경로를 썼다면 그 경로입니다. 노트북과 App이 같은 Experiment를 봐야 Trace가 보입니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">experiment_path</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre>/Shared/cafe-supervisor-agent</pre></div></div>
+  <p>셀 출력에 <code class="k">MLflow experiment: /Shared/cafe-supervisor-agent</code>가 나오면 됩니다.</p>
+
+  <h3><span class="sn">15-3</span>Trace 조회</h3>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">Trace 조회 셀</span></div>
+    <div class="snip-body"><pre>traces = mlflow.search_traces(max_results=30)
+display(traces)</pre></div></div>
+  <p>입력 질문, 최종 응답, Supervisor 모델 호출, Genie와 AI Search의 Tool span, 상태, 전체와 단계별 latency를 봅니다. 질문별로 거친 도구는 이래야 합니다.</p>
+  <div class="tw min"><table>
+    <thead><tr><th>질문</th><th>Tool 경로</th></tr></thead>
+    <tbody>
+      <tr><td>매장별 순매출</td><td><span class="route-pill"><i class="g">genie</i></span></td></tr>
+      <tr><td>아메 매출</td><td><span class="route-pill"><i class="s">ai_search</i><em>→</em><i class="g">genie</i></span></td></tr>
+      <tr><td>라떼 매출</td><td><span class="route-pill"><i class="s">ai_search</i></span></td></tr>
+      <tr><td>손님 수</td><td><span class="route-pill"><i class="s">ai_search</i></span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3><span class="sn">15-4</span>Scorer 세 개로 평가</h3>
+  <p>평가 셀은 아래 세 Scorer를 씁니다. <code class="k">ToolCallCorrectness</code>는 Trace에 남은 도구 호출을 보고 알맞은 도구를 알맞은 값으로 불렀는지 채점합니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">평가 셀</span></div>
+    <div class="snip-body"><pre>from mlflow.genai.scorers import (
+    RelevanceToQuery,
+    Safety,
+    ToolCallCorrectness,
+)
+
+print(evaluation.metrics)
+display(evaluation.result_df)</pre></div></div>
+
+  <h3><span class="sn">15-5</span>MLflow 화면에서 보기</h3>
+  <p class="path"><b>이동</b><span>AI/ML</span><span>Experiments</span><span>/Shared/cafe-supervisor-agent</span></p>
+  <p><strong>Traces</strong>, <strong>Evaluations</strong>, <strong>Runs</strong> 탭을 봅니다. Trace 하나를 열어 입력·출력·Tool span·latency를 보고, Evaluations에서는 Scorer별 결과와 실패한 질문을 확인합니다.</p>
+
+  <details class="fold">
+    <summary>선택 · 운영 모니터링 걸기</summary>
+    <div class="in">
+      <p>Workspace에 Production Monitoring Preview가 켜져 있을 때만 실행합니다. 들어오는 Trace의 절반(<code class="k">sample_rate: 0.5</code>)을 Safety로 채점합니다.</p>
+      <div class="snip"><div class="snip-top"><span class="snip-lbl">Production Monitoring</span></div>
+        <div class="snip-body"><pre>from mlflow.genai.scorers import Safety, ScorerSamplingConfig
+
+safety_monitor = Safety().register(name="cafe_safety")
+safety_monitor = safety_monitor.start(
+    sampling_config=ScorerSamplingConfig(sample_rate=0.5)
+)
+print(safety_monitor)</pre></div></div>
+    </div>
+  </details>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="f1"><span class="mark"></span>
+      <span class="txt">노트북이 App과 같은 Experiment를 가리킨다</span></label>
+    <label class="task"><input type="checkbox" data-k="f2"><span class="mark"></span>
+      <span class="txt">Trace에서 Genie·AI Search Tool span과 latency를 봤다</span></label>
+    <label class="task"><input type="checkbox" data-k="f3"><span class="mark"></span>
+      <span class="txt">RelevanceToQuery·Safety·ToolCallCorrectness 평가를 돌렸다</span></label>
+    <label class="task"><input type="checkbox" data-k="f4"><span class="mark"></span>
+      <span class="txt">MLflow 화면에서 Trace와 Evaluation을 확인했다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 16 통합 검증 ════════════════════════ -->
+<div class="pane" data-pane="verify">
+<section class="step">
+  <div class="head"><span class="num">16</span><h2>처음부터 끝까지 이어지는지 확인</h2><span class="dots"></span></div>
+  <p>따로따로 확인한 기능이 하나로 이어지는지 봅니다. 질문 하나가 Supervisor → AI Search·Genie → App → MLflow를 거쳐 제대로 처리되면 끝입니다.</p>
+
+  <h3><span class="sn">16-1</span>지금까지 만든 것의 상태</h3>
+  <div class="recap">
+    <div><h4>데이터와 지표</h4><ul>
+      <li>bronze_orders<b>300</b></li>
+      <li>silver_orders_clean<b>296</b></li>
+      <li>gold_sales<b>266</b></li>
+      <li>net_sales<b>1,734,580</b></li>
+      <li>order_count<b>266</b></li>
+      <li>avg_order_value<b>≈ 6,520.98</b></li>
+    </ul></div>
+    <div><h4>Genie</h4><ul>
+      <li>연결 자산<b>Metric View 1개</b></li>
+      <li>Example Query<b>6</b></li>
+      <li>Chat Benchmark<b>8</b></li>
+      <li>Agent Benchmark<b>4</b></li>
+      <li>Evaluations<b>1회 이상</b></li>
+      <li>Monitor<b>SQL 확인</b></li>
+    </ul></div>
+    <div><h4>AI Search</h4><ul>
+      <li>cafe_glossary<b>19행</b></li>
+      <li>Endpoint<b>ONLINE</b></li>
+      <li>Index<b>ONLINE</b></li>
+      <li>Sync<b>TRIGGERED 완료</b></li>
+      <li>Query type<b>HYBRID</b></li>
+    </ul></div>
+  </div>
+
+  <h3><span class="sn">16-2</span>App에서 Q1~Q4</h3>
+  <p>질문마다 <strong>새 대화</strong>를 열어 입력합니다.</p>
+  <div class="tw min"><table>
+    <thead><tr><th></th><th>질문</th><th>Tool 경로 · Trace span</th><th>기대 결과</th></tr></thead>
+    <tbody>
+      <tr><td class="id">Q1</td><td><code class="k" data-c>매장별 순매출을 비교해줘</code></td><td><span class="route-pill"><i class="g">Genie</i></span></td><td>매장별 순매출 표</td></tr>
+      <tr><td class="id">Q2</td><td><code class="k" data-c>아메 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i class="g">Genie</i></span></td><td>아메를 아메리카노로 해석한 매출</td></tr>
+      <tr><td class="id">Q3</td><td><code class="k" data-c>라떼 매출 알려줘</code></td><td><span class="route-pill"><i class="s">AI Search</i></span></td><td>카페라떼·바닐라라떼 중 선택 질문</td></tr>
+      <tr><td class="id">Q4</td><td><code class="k" data-c>손님 수가 가장 많은 매장은?</code></td><td><span class="route-pill"><i class="s">AI Search</i></span></td><td>고객 데이터가 없다는 설명과 주문수·판매수량 대안</td></tr>
+    </tbody>
+  </table></div>
+  <p>결과가 다르면 App의 답변 → 도구 호출 → AI Search 검색 결과 → Genie가 만든 SQL 순서로 거슬러 올라가며 원인을 찾습니다.</p>
+
+  <h3><span class="sn">16-3</span>최종 기록</h3>
+  <p>MLflow Experiment에서 Q1~Q4 Trace를 열고 결과를 적습니다. 11절에서 적은 값은 자동으로 불러옵니다.</p>
+  <div class="memo">
+    <div class="f"><label>Genie Chat Accuracy</label><span class="carry" data-carry="memoChatAcc"></span></div>
+    <div class="f"><label>Genie Agent Accuracy</label><span class="carry" data-carry="memoAgentAcc"></span></div>
+    <div class="f"><label for="memoRouting">Supervisor routing</label><input type="text" id="memoRouting" data-k="memoRouting" placeholder="예: Q1~Q4 모두 기대 경로"></div>
+    <div class="f"><label for="memoTraces">MLflow Trace 개수</label><input type="text" id="memoTraces" data-k="memoTraces"></div>
+    <div class="f"><label for="memoRel">RelevanceToQuery</label><input type="text" id="memoRel" data-k="memoRel"></div>
+    <div class="f"><label for="memoSafety">Safety</label><input type="text" id="memoSafety" data-k="memoSafety"></div>
+    <div class="f"><label for="memoTcc">ToolCallCorrectness</label><input type="text" id="memoTcc" data-k="memoTcc"></div>
+    <div class="f"><label for="memoNext">가장 먼저 고칠 것</label><textarea id="memoNext" data-k="memoNext" placeholder="예: Q3에서 AI Search 결과를 받고도 Genie를 불렀다. Supervisor 지침 4번을 더 분명하게 쓴다."></textarea></div>
+  </div>
+
+  <div class="checks">
+    <span class="lbl">완료 확인</span>
+    <label class="task"><input type="checkbox" data-k="v1"><span class="mark"></span>
+      <span class="txt">데이터 행 수와 Metric View 지표가 기대값과 같다</span></label>
+    <label class="task"><input type="checkbox" data-k="v2"><span class="mark"></span>
+      <span class="txt">App에서 Q1~Q4가 기대한 Tool 경로로 처리됐다</span></label>
+    <label class="task"><input type="checkbox" data-k="v3"><span class="mark"></span>
+      <span class="txt">MLflow에서 Q1~Q4 Trace와 세 Scorer 결과를 봤다</span></label>
+    <label class="task"><input type="checkbox" data-k="v4"><span class="mark"></span>
+      <span class="txt">가장 먼저 고칠 것 한 가지를 적었다</span></label>
+  </div>
+</section>
+</div>
+
+<!-- ════════════════════════ 마무리 ════════════════════════ -->
+<div class="pane" data-pane="done">
+<section class="step">
+  <div class="closing">
+    <h2>수고하셨습니다</h2>
+    <p>흩어진 CSV 여섯 개가 266행의 매출 테이블이 되었고, 그 위에 순매출 기준이 하나로 정해졌습니다. Genie는 그 기준으로 답하고, 모르는 말 앞에서는 되묻습니다.</p>
+    <p>현업 프로젝트도 같은 순서로 갑니다. 데이터를 정리하고, 기준을 정의하고, Agent를 붙이고, 정답 질문으로 잽니다. 오늘 적어 둔 Accuracy와 고칠 점이 다음 반복의 출발점입니다.</p>
+    <div class="acts">
+      <button type="button" class="primary" id="copyMemo">적은 기록 모아서 복사</button>
+      <a href="https://github.com/yisakh843/dbx-cafe-hands-on" target="_blank" rel="noopener">GitHub 저장소</a>
+      <a href="https://github.com/yisakh843/dbx-cafe-hands-on/tree/main/docs/runbook" target="_blank" rel="noopener">마크다운 가이드</a>
+    </div>
+  </div>
+
+  <h3>오늘 만든 것</h3>
+  <div class="tw min"><table>
+    <thead><tr><th>기초 · 12절까지</th><th>심화 · 16절까지</th></tr></thead>
+    <tbody>
+      <tr><td>Git folder, Catalog·Schema·Volume, CSV 6개</td><td>용어집 테이블과 AI Search Index</td></tr>
+      <tr><td><code class="k">cafe_medallion_pipeline</code> · <code class="k">cafe_medallion_job</code></td><td><code class="k">agent-cafe-supervisor</code> App</td></tr>
+      <tr><td>Metric View <code class="k">cafe_sales_metrics</code></td><td>MLflow Trace와 Scorer 평가</td></tr>
+      <tr><td><code class="k">Cafe Sales Genie Agent</code> · Benchmark 12개</td><td>Q1~Q4 통합 검증</td></tr>
+    </tbody>
+  </table></div>
+
+  <details class="fold">
+    <summary>강사용 · GitHub 반영과 참가자 배포 (17절)</summary>
+    <div class="in">
+      <p>참가자는 건너뛰어도 됩니다. 검증이 끝난 문서와 이미지를 작업 브랜치로 커밋·push하고, 리뷰를 거쳐 <code class="k">main</code>에 병합합니다. 참가자는 <code class="k">main</code>을 Clone하므로 병합 전에는 바뀐 내용이 보이지 않습니다.</p>
+      <div class="snip"><div class="snip-top"><span class="snip-lbl">로컬 저장소에서</span></div>
+        <div class="snip-body"><pre>git status                      # 변경 파일 확인
+git diff --check                # 공백 오류 확인
+git add &lt;변경한 파일&gt;
+git commit -m "&lt;변경 요약&gt;"
+git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pre></div></div>
+      <p>병합 뒤 Databricks Git folder 메뉴에서 <strong>Pull</strong>(또는 Update)을 누르고 브랜치가 main인지 확인합니다. 참가자는 각자의 Free Edition Workspace에서 같은 public repository를 Clone하고 문서의 이름을 그대로 씁니다.</p>
+    </div>
+  </details>
+</section>
+</div>
+
+</div>
+
+<footer>
+  <div class="inner">
+    <span>Databricks Cafe Hands-on · 샘플 데이터 기간 2026-07-01 ~ 07-14</span>
+    <a href="https://github.com/yisakh843/dbx-cafe-hands-on" target="_blank" rel="noopener">github.com/yisakh843/dbx-cafe-hands-on</a>
+  </div>
+</footer>
+
+<!-- ── 도움말 ── -->
+<div class="helpdesk" id="helpdesk" hidden role="dialog" aria-label="도움말">
+  <div class="hd-top"><b>자주 막히는 곳</b><button type="button" class="hd-close" id="helpclose">닫기 ×</button></div>
+  <div class="hd-body">
+    <p>대부분 아래 중 하나입니다. 그래도 안 풀리면 손을 들어 주세요.</p>
+
+    <div class="grp">노트북 · 업로드</div>
+    <details class="fold"><summary>This file is part of a bundle 안내가 뜬다</summary>
+      <div class="in"><p>닫고 진행하면 됩니다. 저장소에 Bundle 설정이 들어 있어서 뜨는 안내이고, 이 실습에서는 쓰지 않습니다.</p></div></details>
+    <details class="fold"><summary>Compute에 SQL Warehouse가 안 보인다</summary>
+      <div class="in"><p>Compute 버튼이 <strong>Serverless</strong>로 되어 있으면 <strong>Serverless → More… → SQL Warehouse</strong>로 들어가야 목록이 나옵니다. Free Edition 기본 이름은 Serverless Starter Warehouse입니다.</p></div></details>
+    <details class="fold"><summary>setup을 돌렸는데 Schema가 하나만 생겼다</summary>
+      <div class="in"><p>셀 왼쪽 실행 버튼을 눌렀을 가능성이 큽니다. 그 버튼은 셀 하나만 돌립니다. 위쪽 <strong>Run all</strong>로 다시 실행하세요. 같은 이름으로 다시 만들어도 문제없습니다.</p></div></details>
+    <details class="fold"><summary>업로드했는데 트리에 파일이 없다</summary>
+      <div class="in"><p>Catalog 패널 위쪽 <strong>Refresh catalog</strong>를 먼저 누릅니다. 그래도 없으면 업로드 창의 Destination volume 끝이 <code class="k">raw</code>, <code class="k">orders</code>, <code class="k">support</code> 중 맞는 곳이었는지 봅니다. 엉뚱한 곳에 올라간 파일은 지우고 다시 올리면 됩니다.</p></div></details>
+
+    <div class="grp">Pipeline · Job</div>
+    <details class="fold"><summary>Pipeline이 setup이나 Metric View 파일까지 실행한다</summary>
+      <div class="in"><p>Source code에 <code class="k">notebooks</code> 폴더 전체가 들어간 경우입니다. Legacy pipeline settings에서 경로를 지우고 <code class="k">01_cafe_medallion_pipeline</code> 파일 하나만 다시 고르세요.</p></div></details>
+    <details class="fold"><summary>행 수가 300 / 296 / 266이 아니다</summary>
+      <div class="in"><p>Volume의 파일 구조를 4절 최종 구조와 비교합니다. 주문 배치가 <code class="k">orders</code>가 아닌 곳에 있거나, 같은 파일이 두 번 올라가 있으면 숫자가 달라집니다. 파일을 바로잡은 뒤 결과가 그대로면 강사에게 보여 주세요.</p></div></details>
+
+    <div class="grp">Metric View · Genie</div>
+    <details class="fold"><summary>CREATE 뒤에 No rows returned가 나온다</summary>
+      <div class="in"><p>오류가 아닙니다. CREATE 문은 결과 행이 없습니다. 마지막 SELECT 결과만 보면 됩니다.</p></div></details>
+    <details class="fold"><summary>Metric View의 표시명·동의어가 사라졌다</summary>
+      <div class="in"><p>02 기준선 노트북을 다시 Run all 하면 최적화 정의가 덮어써집니다. <code class="k">03_metric_view_optimized.sql</code>을 한 번 더 실행하세요.</p></div></details>
+    <details class="fold"><summary>Genie 지침이 저장됐는지 모르겠다</summary>
+      <div class="in"><p>다른 탭에 갔다가 Instructions로 돌아와 보세요. 붙여 넣은 내용이 그대로 있으면 저장된 것입니다. 비어 있으면 다시 붙여 넣고 Save를 누릅니다.</p></div></details>
+    <details class="fold"><summary>모호한 질문에 Genie가 바로 숫자를 낸다</summary>
+      <div class="in"><p>먼저 Instructions가 저장됐는지 확인합니다. 저장돼 있다면 그 문항이 Agent Benchmark에서 어떻게 채점되는지 보고, 12절 표에 따라 고칠 곳 한 군데를 정합니다.</p></div></details>
+
+    <div class="grp">심화</div>
+    <details class="fold"><summary>설치 셀 다음에 Python이 재시작됐다</summary>
+      <div class="in"><p>정상입니다. 설치 셀은 다시 돌리지 말고 그다음 셀부터 실행합니다.</p></div></details>
+    <details class="fold"><summary>Index 생성 셀이 실패한다</summary>
+      <div class="in"><p>Endpoint가 아직 <code class="k">ONLINE</code>이 아닐 수 있습니다. AI Search → Endpoints에서 상태를 보고, ONLINE이 된 다음에 다시 실행하세요.</p></div></details>
+    <details class="fold"><summary>Playground에 모델이 없다</summary>
+      <div class="in"><p>Choose an option to get started만 보이면 쓸 수 있는 모델 endpoint가 없는 상태입니다. 참가자가 풀 수 있는 문제가 아니니 강사에게 알려 주세요.</p></div></details>
+    <details class="fold"><summary>MLflow에 Trace가 하나도 없다</summary>
+      <div class="in"><p>노트북 위젯의 <code class="k">experiment_path</code>가 App이 쓰는 Experiment와 같은지 봅니다. App에서 질문을 한 번도 안 했다면 Trace가 없으니 먼저 물어보세요.</p></div></details>
+  </div>
+</div>
+<button type="button" class="helpbtn" id="helpbtn" aria-controls="helpdesk" aria-expanded="false">도움말</button>
+
+<!-- ── 확대 보기 ── -->
+<div class="lb" id="lb" hidden role="dialog" aria-label="스크린샷 크게 보기">
+  <img id="lbimg" alt="">
+  <div class="lb-bar"><span class="lb-cap" id="lbcap"></span><button type="button" id="lbclose">닫기</button></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var KEY = "dbx-cafe-hands-on-guide-v1";
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  var state = load();
+
+  var CHAPTERS = [
+    { key: "intro",    label: "시작",           part: 1 },
+    { key: "repo",     label: "2 저장소",        part: 1 },
+    { key: "catalog",  label: "3 Catalog",      part: 1 },
+    { key: "upload",   label: "4 업로드",        part: 1 },
+    { key: "pipeline", label: "5 Pipeline",     part: 1 },
+    { key: "job",      label: "6 Job",          part: 1 },
+    { key: "metric",   label: "7·8 Metric View", part: 1 },
+    { key: "genie",    label: "9·10 Genie",     part: 1 },
+    { key: "bench",    label: "11·12 평가",      part: 1 },
+    { key: "search",   label: "13 AI Search",   part: 2 },
+    { key: "app",      label: "14 App",         part: 2 },
+    { key: "mlflow",   label: "15 MLflow",      part: 2 },
+    { key: "verify",   label: "16 통합 검증",     part: 2 },
+    { key: "done",     label: "마무리",          part: 2, plain: true }
+  ];
+  var PARTS = { 1: "기초 · 3시간", 2: "심화" };
+
+  var panes = {};
+  [].forEach.call(document.querySelectorAll(".pane"), function (p) { panes[p.dataset.pane] = p; });
+  var boxes = [].slice.call(document.querySelectorAll(".task input[type=checkbox]"));
+  var fields = [].slice.call(document.querySelectorAll("[data-k^=memo]"));
+  var trackEl = document.getElementById("track");
+  var cnt = document.getElementById("cnt");
+  var chipsBox = document.getElementById("chips");
+  var chipEls = {}, segs = {};
+
+  function boxesIn(el) { return [].slice.call(el.querySelectorAll(".task input[type=checkbox]")); }
+
+  // 챕터 칩과 진행 바
+  var lastPart = 0;
+  CHAPTERS.forEach(function (ch) {
+    if (ch.part !== lastPart) {
+      if (lastPart !== 0) {
+        var br = document.createElement("span"); br.className = "chipbreak"; chipsBox.appendChild(br);
+        var gap = document.createElement("span"); gap.className = "seggap"; trackEl.appendChild(gap);
+      }
+      lastPart = ch.part;
+      var tag = document.createElement("span"); tag.className = "parttag"; tag.textContent = PARTS[ch.part];
+      chipsBox.appendChild(tag);
+    }
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip" + (ch.plain ? " plain" : "");
+    b.innerHTML = '<span class="tick" aria-hidden="true">✓</span><span></span>';
+    b.lastChild.textContent = ch.label;
+    b.addEventListener("click", function () { go(ch.key); });
+    chipsBox.appendChild(b);
+    chipEls[ch.key] = b;
+
+    var pane = panes[ch.key];
+    var n = pane ? boxesIn(pane).length : 0;
+    if (n) {
+      var seg = document.createElement("span"); seg.className = "seg"; seg.style.flex = String(n);
+      var f = document.createElement("span"); f.className = "segfill"; seg.appendChild(f);
+      trackEl.appendChild(seg);
+      segs[ch.key] = { fill: f, total: n };
+    }
+  });
+
+  // 챕터 아래 이전/다음
+  CHAPTERS.forEach(function (ch, i) {
+    var pane = panes[ch.key];
+    if (!pane) { return; }
+    if (boxesIn(pane).length) {
+      var done = document.createElement("div");
+      done.className = "donebar";
+      done.textContent = "이 챕터 확인 항목을 모두 마쳤습니다. 아래 버튼으로 넘어가세요.";
+      pane.appendChild(done);
+    }
+    var nav = document.createElement("div"); nav.className = "pager";
+    if (i > 0) {
+      var prev = document.createElement("button"); prev.type = "button"; prev.className = "prev";
+      prev.textContent = "← " + CHAPTERS[i - 1].label;
+      prev.addEventListener("click", function () { go(CHAPTERS[i - 1].key); });
+      nav.appendChild(prev);
+    }
+    if (i < CHAPTERS.length - 1) {
+      var next = document.createElement("button"); next.type = "button"; next.className = "next";
+      next.textContent = CHAPTERS[i + 1].label + " →";
+      next.addEventListener("click", function () { go(CHAPTERS[i + 1].key); });
+      nav.appendChild(next);
+    }
+    pane.appendChild(nav);
+  });
+
+  // 단계 제목 옆 점
+  [].forEach.call(document.querySelectorAll(".step"), function (sec) {
+    var slot = sec.querySelector(".dots");
+    if (!slot) { return; }
+    boxesIn(sec).forEach(function () { slot.appendChild(document.createElement("i")); });
+  });
+
+  function go(key, keepScroll) {
+    if (!panes[key]) { key = "intro"; }
+    state.__pane = key; save(state);
+    Object.keys(panes).forEach(function (k) { panes[k].classList.toggle("showing", k === key); });
+    CHAPTERS.forEach(function (ch) {
+      var on = ch.key === key;
+      chipEls[ch.key].classList.toggle("active", on);
+      if (on) { chipEls[ch.key].setAttribute("aria-current", "step"); } else { chipEls[ch.key].removeAttribute("aria-current"); }
+    });
+    try { history.replaceState(null, "", "#" + key); } catch (e) {}
+    if (!keepScroll) { window.scrollTo(0, 0); }
+    var chip = chipEls[key];
+    if (chip && chip.scrollIntoView && chipsBox.scrollWidth > chipsBox.clientWidth) {
+      try { chip.scrollIntoView({ block: "nearest", inline: "center" }); } catch (e) {}
+    }
+  }
+
+  function paint() {
+    var done = 0;
+    boxes.forEach(function (b) {
+      b.closest(".task").classList.toggle("on", b.checked);
+      if (b.checked) { done++; }
+    });
+    cnt.textContent = done + " / " + boxes.length;
+    CHAPTERS.forEach(function (ch) {
+      var pane = panes[ch.key];
+      if (!pane) { return; }
+      var local = boxesIn(pane);
+      var hit = local.filter(function (b) { return b.checked; }).length;
+      if (segs[ch.key]) { segs[ch.key].fill.style.width = (hit / segs[ch.key].total * 100) + "%"; }
+      var bar = pane.querySelector(".donebar");
+      if (bar) { bar.classList.toggle("on", local.length > 0 && hit === local.length); }
+      if (!ch.plain) { chipEls[ch.key].classList.toggle("filled", local.length > 0 && hit === local.length); }
+    });
+    [].forEach.call(document.querySelectorAll(".step"), function (sec) {
+      var slot = sec.querySelector(".dots");
+      if (!slot) { return; }
+      var local = boxesIn(sec);
+      [].forEach.call(slot.children, function (dot, i) { dot.classList.toggle("on", !!(local[i] && local[i].checked)); });
+    });
+    [].forEach.call(document.querySelectorAll("[data-carry]"), function (el) {
+      el.textContent = (state[el.dataset.carry] || "").trim();
+    });
+  }
+
+  boxes.forEach(function (b) {
+    if (state[b.dataset.k]) { b.checked = true; }
+    b.addEventListener("change", function () { state[b.dataset.k] = b.checked; save(state); paint(); });
+  });
+  fields.forEach(function (f) {
+    if (state[f.dataset.k]) { f.value = state[f.dataset.k]; }
+    f.addEventListener("input", function () { state[f.dataset.k] = f.value; save(state); paint(); });
+  });
+
+  // 복사
+  function selectText(el) {
+    try {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    } catch (e) {}
+  }
+  function flash(btn, cls, text, orig) {
+    btn.classList.add(cls); btn.textContent = text;
+    setTimeout(function () { btn.classList.remove(cls); btn.textContent = orig; }, 1600);
+  }
+  function copyFrom(el, btn) {
+    var text = el.textContent;
+    var orig = btn ? btn.textContent : "";
+    function fallback() {
+      selectText(el);
+      if (btn) { flash(btn, "sel", "선택됨 · Ctrl+C", orig); }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        if (btn) { flash(btn, "done", "복사됨", orig); }
+        else { el.classList.add("copied"); setTimeout(function () { el.classList.remove("copied"); }, 900); }
+      }, fallback);
+    } else { fallback(); }
+  }
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".copy");
+    if (btn) {
+      var src = btn.closest(".qa-r") ? btn.closest(".qa-r").querySelector(".v") : btn.closest(".snip").querySelector("pre");
+      if (src) { copyFrom(src, btn); }
+      return;
+    }
+    var code = e.target.closest("code.k[data-c]");
+    if (code) { copyFrom(code, null); }
+  });
+
+  // 전체 보기 · 처음부터
+  var allBtn = document.getElementById("all");
+  allBtn.addEventListener("click", function () {
+    var on = document.body.classList.toggle("show-all");
+    allBtn.classList.toggle("on", on);
+    allBtn.textContent = on ? "챕터별 보기" : "전체 보기";
+    if (!on) { go(state.__pane || "intro"); }
+  });
+  var resetBtn = document.getElementById("reset"), armTimer = null;
+  resetBtn.addEventListener("click", function () {
+    if (!resetBtn.classList.contains("armed")) {
+      resetBtn.classList.add("armed"); resetBtn.textContent = "한 번 더 누르면 초기화";
+      armTimer = setTimeout(function () { resetBtn.classList.remove("armed"); resetBtn.textContent = "처음부터"; }, 3000);
+      return;
+    }
+    clearTimeout(armTimer);
+    resetBtn.classList.remove("armed"); resetBtn.textContent = "처음부터";
+    state = {}; save(state);
+    boxes.forEach(function (b) { b.checked = false; });
+    fields.forEach(function (f) { f.value = ""; });
+    paint(); go("intro");
+  });
+
+  // 도움말
+  var helpBtn = document.getElementById("helpbtn"), helpBox = document.getElementById("helpdesk");
+  function setHelp(open) {
+    helpBox.hidden = !open;
+    helpBtn.classList.toggle("on", open);
+    helpBtn.setAttribute("aria-expanded", String(open));
+    helpBtn.textContent = open ? "도움말 닫기" : "도움말";
+  }
+  helpBtn.addEventListener("click", function () { setHelp(helpBox.hidden); });
+  document.getElementById("helpclose").addEventListener("click", function () { setHelp(false); helpBtn.focus(); });
+
+  // 스크린샷 확대
+  var lb = document.getElementById("lb"), lbImg = document.getElementById("lbimg"), lbCap = document.getElementById("lbcap");
+  var lastZoom = null;
+  function closeLb() { lb.hidden = true; document.body.classList.remove("lb-open"); lbImg.removeAttribute("src"); if (lastZoom) { lastZoom.focus(); } }
+  [].forEach.call(document.querySelectorAll(".zoom"), function (z) {
+    z.addEventListener("click", function () {
+      var img = z.querySelector("img");
+      var cap = z.parentNode.querySelector("figcaption");
+      lastZoom = z;
+      lbImg.src = z.dataset.full || img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent = cap ? cap.textContent : "";
+      lb.hidden = false; document.body.classList.add("lb-open");
+      document.getElementById("lbclose").focus();
+    });
+  });
+  lbImg.addEventListener("error", function () {
+    if (lastZoom) { var t = lastZoom.querySelector("img").src; if (lbImg.src !== t) { lbImg.src = t; } }
+  });
+  lb.addEventListener("click", function (e) { if (e.target === lb || e.target.id === "lbclose") { closeLb(); } });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") { return; }
+    if (!lb.hidden) { closeLb(); } else if (!helpBox.hidden) { setHelp(false); }
+  });
+
+  // 기록 모아 복사
+  var memoLabels = {
+    memoEvalName: "Evaluation name", memoStatus: "Execution status",
+    memoChatAcc: "Genie Chat Accuracy", memoAgentAcc: "Genie Agent Accuracy",
+    memoGood: "Good 문항", memoBad: "Bad/Manual Review 문항",
+    memoBefore: "개선 전 Accuracy", memoAfter: "개선 후 Accuracy", memoFixId: "수정한 Benchmark ID",
+    memoFixPart: "수정한 구성 요소", memoRegress: "회귀가 발생한 문항",
+    memoRouting: "Supervisor routing 결과", memoTraces: "MLflow Trace 개수",
+    memoRel: "RelevanceToQuery", memoSafety: "Safety", memoTcc: "ToolCallCorrectness",
+    memoNext: "가장 먼저 개선할 항목"
+  };
+  var copyMemo = document.getElementById("copyMemo");
+  copyMemo.addEventListener("click", function () {
+    var lines = Object.keys(memoLabels).map(function (k) { return memoLabels[k] + ": " + (state[k] || "").trim(); });
+    var holder = document.createElement("pre");
+    holder.textContent = lines.join("\n");
+    holder.style.cssText = "position:absolute;left:-9999px;top:0;";
+    document.body.appendChild(holder);
+    copyFrom(holder, copyMemo);
+    setTimeout(function () { holder.remove(); }, 2000);
+  });
+
+  window.addEventListener("hashchange", function () {
+    var k = (location.hash || "").replace("#", "");
+    if (panes[k] && k !== state.__pane) { go(k); }
+  });
+
+  paint();
+  var fromHash = (location.hash || "").replace("#", "");
+  go(panes[fromHash] ? fromHash : (state.__pane || "intro"), true);
+})();
+</script>
+</body>
+</html>
