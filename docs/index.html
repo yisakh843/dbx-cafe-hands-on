@@ -1483,14 +1483,15 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   </table></div>
 
   <h3><span class="sn">12-2</span>권장 개선 순서</h3>
+  <p>무엇을 더했을 때 정확도가 올랐는지 알 수 있도록, 아무것도 더하지 않은 상태의 점수부터 재 두고 하나씩 더해 갑니다.</p>
   <ol class="do">
-    <li>Metric View 하나만 연결한 기준선을 실행합니다.</li>
-    <li>필드와 측정값에 표시명·설명·동의어·포맷을 정의합니다.</li>
-    <li>대표 질문의 검증된 SQL을 Example Query로 추가합니다.</li>
-    <li>같은 Benchmark를 다시 돌려 개선 전후 Accuracy를 비교합니다.</li>
-    <li>실패한 질문의 생성 SQL과 SQL Answer를 비교합니다.</li>
+    <li>Genie에 Metric View만 연결하고 지침·예제는 넣지 않은 상태로 Benchmark를 돌립니다. 이때 나온 Accuracy가 비교의 출발점입니다.</li>
+    <li>Metric View의 필드와 측정값에 표시명·설명·동의어·포맷을 채웁니다.</li>
+    <li>자주 나오는 질문은 검증된 SQL과 함께 Example Query로 넣습니다.</li>
+    <li>같은 Benchmark를 다시 돌려 1번의 Accuracy와 비교합니다.</li>
+    <li>틀린 문항은 Genie가 만든 SQL과 SQL Answer를 나란히 놓고 봅니다.</li>
     <li>원인에 맞는 구성 요소 하나만 고칩니다.</li>
-    <li>같은 문항을 다시 돌리고, 다른 문항이 깨지지 않았는지도 봅니다.</li>
+    <li>같은 문항을 다시 돌리고, 전에 맞던 문항이 틀리지 않았는지도 봅니다.</li>
   </ol>
 
   <h3><span class="sn">12-3</span>실패 원인별 수정 위치</h3>
@@ -1525,7 +1526,7 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
     <div class="f"><label for="memoFixPart">수정한 구성 요소</label><input type="text" id="memoFixPart" data-k="memoFixPart" placeholder="예: Metric View 동의어"></div>
     <div class="f"><label for="memoRegress">회귀가 생긴 문항</label><input type="text" id="memoRegress" data-k="memoRegress" placeholder="없으면 없음"></div>
   </div>
-  <p>실패한 문항이 없다면 Instruction을 더 넣을 필요가 없습니다. 지금 Accuracy를 기준선으로 적어 두면 됩니다.</p>
+  <p>실패한 문항이 없다면 Instruction을 더 넣을 필요가 없습니다. 지금 Accuracy를 다음 비교의 출발점으로 적어 두면 됩니다.</p>
 
 
   <div class="note ok">
