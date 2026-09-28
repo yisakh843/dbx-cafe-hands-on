@@ -1,10 +1,10 @@
 # Databricks Cafe Hands-on 실행 가이드
 
-참가자가 각자 만든 Databricks Free Edition 계정의 Workspace에 GitHub 저장소를 연결한 뒤 카페 데이터의 메달리온 Pipeline, Lakeflow Job, Metric View, Genie Agent를 구성하는 실행 가이드입니다.
+이 가이드를 따라 본인의 Databricks Free Edition Workspace에 실습 저장소를 연결하고, 카페 매출 데이터로 메달리온 Pipeline, Lakeflow Job, Metric View, Genie Agent를 차례로 만들어 봅니다.
 
 ## 처음 실습하는 분께
 
-이 문서는 위에서 아래로 순서대로 진행합니다. 각 단계의 예상 결과를 확인한 뒤 다음 단계로 넘어가세요. 샘플 데이터의 기간은 **2026-07-01~2026-07-14**입니다.
+위에서 아래로 순서대로 따라 하시면 됩니다. 단계마다 예상 결과가 나왔는지 확인한 뒤 다음으로 넘어갑니다. 샘플 데이터의 기간은 **2026-07-01~2026-07-14**입니다.
 
 | 구간 | 하는 일 | 완료하면 보이는 결과 |
 |---|---|---|
@@ -14,7 +14,7 @@
 | 9~12절 | 자연어 분석과 답변 평가 | Genie 답변, 예제 SQL, Benchmark 결과 |
 | 13~16절 | 용어 검색과 Agent 앱 연결 | AI Search, Supervisor, App, MLflow Trace |
 
-전체 설계는 약 5시간 15분입니다. 3시간 기초 교육에서는 12절까지 진행하고, 13~16절은 심화 실습으로 분리합니다. 강사가 정한 범위에 맞춰 진행하세요.
+전체를 모두 진행하면 약 5시간 15분이 걸립니다. 3시간 기초 과정은 12절까지 진행하고, 13~16절은 심화 실습으로 따로 다룹니다. 강사가 안내하는 범위까지 진행합니다.
 
 ### 빠른 이동
 
@@ -28,18 +28,20 @@
 
 ### 화면과 경로 읽는 법
 
-아래는 Databricks Free Edition의 홈 화면입니다(2026-09-21 촬영). 왼쪽의 Workspace, Catalog, Jobs & Pipelines, Genie Agents, SQL Warehouses, Playground가 실습의 주요 진입점입니다.
+아래는 Databricks Free Edition의 홈 화면입니다(2026-09-21 기준).
+
+실습에서는 왼쪽 메뉴의 Workspace, Catalog, Jobs & Pipelines, Genie Agents, SQL Warehouses, Playground를 주로 사용합니다.
 
 <a href="images/runbook/00-workspace-home.jpg"><img src="images/runbook/00-workspace-home.jpg" alt="Databricks 홈과 실습에서 사용할 왼쪽 메뉴" width="600"></a>
 
 화면 1. 실습에서 사용할 홈 화면
 
-> **화면 기준:** Databricks Free Edition에서 직접 촬영한 화면을 사용합니다. 캡처의 계정 이메일과 리소스 ID는 촬영 환경의 값이며, 참가자는 본인 계정에서 실습합니다. 버튼 이름과 배치는 Workspace 버전에 따라 달라질 수 있습니다. 그림은 본문 폭에 맞춰 줄여 두었으며, 클릭하면 원래 크기로 볼 수 있습니다. 현재 캡처·검증 범위는 [강사용 확인표](02_screenshot_checklist.md)에 기록되어 있습니다.
+> **화면 안내:** 그림은 Databricks Free Edition에서 직접 촬영한 화면입니다. 캡처에 보이는 계정 이메일과 리소스 ID는 촬영할 때의 값이니, 실습은 본인 계정에서 진행하시면 됩니다. 버튼 이름과 위치는 Workspace 버전에 따라 조금 다를 수 있습니다. 그림을 클릭하면 원래 크기로 볼 수 있습니다. 현재 캡처·검증 범위는 [강사용 확인표](02_screenshot_checklist.md)에 기록되어 있습니다.
 
 - **Workspace**는 코드·노트북을 여는 곳입니다. **Catalog Explorer**는 테이블·Metric View·Volume을 확인하는 곳입니다.
 - **Catalog → Schema → Table/Volume** 순으로 데이터가 정리됩니다. `cafe_training.cafe_hands_on.gold_sales`는 Catalog, Schema, Table 이름을 점으로 연결한 것입니다.
-- `/Workspace/...`는 실습 코드 경로이고, `/Volumes/...`는 업로드한 데이터 파일 경로입니다. 서로 바꿔 입력하지 않습니다.
-- `<사용자 이메일>`은 본인의 Databricks 로그인 이메일로 바꿉니다. 꺾쇠괄호까지 그대로 입력하지 않습니다.
+- `/Workspace/...`는 실습 코드 경로이고, `/Volumes/...`는 업로드한 데이터 파일 경로입니다. 두 경로를 혼동하지 않도록 주의합니다.
+- `<사용자 이메일>`은 본인의 Databricks 로그인 이메일로 바꿔 입력합니다. 꺾쇠괄호(`< >`)는 빼고 입력합니다.
 - **SQL Warehouse**는 SQL을 실행하는 컴퓨팅 자원입니다. Python 노트북에는 Python 실행이 가능한 Compute를 연결합니다.
 - **Pipeline**은 Bronze·Silver·Gold 데이터를 만드는 처리 흐름이고, **Job**은 Pipeline 실행과 검증 작업의 순서를 관리합니다.
 
@@ -52,7 +54,7 @@
 | `04_pipeline_validate.sql` | 6절에서 Job의 SQL File task로 등록 |
 | `05_create_ai_search.py`, `06_mlflow_monitoring.py` | Python Compute를 연결하고 안내된 셀 순서대로 실행 |
 
-> **오류가 나면:** 실행한 파일·셀, 오류 메시지, 선택한 Compute를 확인합니다. 앞 단계가 실패했다면 다음 단계 실행을 멈추고 강사에게 해당 화면을 보여 주세요.
+> **오류가 나면:** 어떤 파일·셀에서 어떤 오류 메시지가 나왔는지, 어떤 Compute를 선택했는지 먼저 확인합니다. 앞 단계가 실패한 상태에서는 다음 단계로 넘어가지 말고 강사에게 화면을 보여 주시기 바랍니다.
 
 <a id="step-0"></a>
 
@@ -78,9 +80,9 @@
 
 ## 1. 사전 조건
 
-참가자는 교육 전에 **본인 계정으로 Databricks Free Edition을 만들고 Workspace에 로그인**합니다. 실습 객체는 각자의 환경에 생성하므로, 모두 0절의 고정 이름(`cafe_training` 등)을 그대로 사용합니다.
+교육 전에 **본인 계정으로 Databricks Free Edition에 가입하고 Workspace에 로그인**해 둡니다. 실습 객체는 각자의 Workspace에 만들기 때문에, 모두 0절의 이름(`cafe_training` 등)을 똑같이 사용하면 됩니다.
 
-본인 Workspace에서 다음 기능과 권한을 확인합니다.
+본인 Workspace에서 다음 기능과 권한을 사용할 수 있어야 합니다.
 
 - Unity Catalog 사용
 - `cafe_training`에 대한 `USE CATALOG`
@@ -92,7 +94,7 @@
 - `cafe_hands_on` Schema `CREATE TABLE`
 - Genie Agent 생성·편집 권한
 
-Catalog는 3절의 setup 노트북에서 생성합니다. 생성 또는 실행이 실패하면 본인의 Free Edition Workspace에 로그인했는지 확인하고, 오류 메시지를 강사에게 보여 주세요. 13~16절의 심화 실습은 강사가 Free Edition에서 해당 기능과 모델을 사용할 수 있는지 사전 검증한 뒤 진행합니다.
+Catalog는 3절의 setup 노트북에서 만듭니다. 만들거나 실행하다가 실패하면 본인의 Free Edition Workspace에 로그인되어 있는지 확인하고, 오류 메시지를 강사에게 보여 주시기 바랍니다. 13~16절 심화 실습은 강사가 Free Edition에서 필요한 기능과 모델을 쓸 수 있는지 미리 확인한 뒤 진행합니다.
 
 <a id="step-2"></a>
 
@@ -120,13 +122,13 @@ Catalog는 3절의 setup 노트북에서 생성합니다. 생성 또는 실행�
 
 화면 3. 저장소 연결 정보
 
-생성된 폴더는 다음 형식입니다.
+폴더는 다음 위치에 만들어집니다.
 
 ```text
 /Workspace/Users/<사용자 이메일>/dbx-cafe-hands-on
 ```
 
-**완료 확인:** 폴더 이름 옆 브랜치가 **main**이고, 다음 항목이 보입니다. Databricks에서는 노트북의 `.sql`·`.py` 확장자가 생략되어 보일 수 있습니다.
+**완료 확인:** 폴더 이름 옆 브랜치가 **main**이고, 다음 항목이 보이면 됩니다. Databricks에서는 노트북의 `.sql`·`.py` 확장자가 보이지 않을 수 있습니다.
 
 - `README.md`
 - `databricks.yml`
@@ -141,7 +143,7 @@ Catalog는 3절의 setup 노트북에서 생성합니다. 생성 또는 실행�
 
 ### 2-2. 함께 열어 둘 문서
 
-실습에 필요한 이름, 경로, 입력값, 검증값은 모두 이 문서(`docs/01_hands_on_runbook.md`)에 있으므로 실습 내내 열어 둡니다. 배경이 궁금하면 다음 문서를 참고합니다.
+실습에 필요한 이름, 경로, 입력값, 검증값은 모두 이 문서(`docs/01_hands_on_runbook.md`)에 있으니 실습하는 동안 계속 열어 둡니다. 배경이 궁금하면 다음 문서를 참고하시면 됩니다.
 
 - `README.md` — 저장소 구조와 실행 순서
 - `docs/00_start_here.md` — Catalog·Schema·Volume 준비
@@ -149,7 +151,7 @@ Catalog는 3절의 setup 노트북에서 생성합니다. 생성 또는 실행�
 
 ### 2-3. 로컬 PC로 파일 내려받기
 
-Volume 업로드 화면은 로컬 파일을 선택하므로, 다음 방법 중 하나로 저장소 파일을 로컬 PC에 준비합니다.
+Volume에 올릴 파일은 내 PC에서 선택해야 하므로, 다음 방법 중 하나로 저장소 파일을 PC에 받아 둡니다.
 
 방법 A: GitHub 저장소 화면에서 `Code > Download ZIP`을 선택한 뒤 압축을 해제합니다.
 
@@ -159,11 +161,11 @@ Volume 업로드 화면은 로컬 파일을 선택하므로, 다음 방법 중 �
 git clone https://github.com/yisakh843/dbx-cafe-hands-on.git
 ```
 
-Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니다. 로컬 다운로드는 아래 Volume 업로드 파일과 Excel·CSV 참고 파일을 확인할 때 사용합니다.
+문서와 노트북은 Workspace의 Git folder에서 바로 열면 됩니다. PC에 받은 파일은 Volume 업로드와 Excel·CSV 참고 파일을 볼 때만 사용합니다.
 
 ### 2-4. Volume에 업로드할 파일 확인
 
-다음 6개 파일을 4절에서 Volume에 업로드합니다.
+4절에서 다음 6개 파일을 Volume에 업로드합니다.
 
 - `sample_data/raw/stores.csv`
 - `sample_data/raw/products.csv`
@@ -203,12 +205,12 @@ Git folder 안의 문서·노트북은 Workspace에서 직접 열어도 됩니�
 
 ### 2-6. Excel 파일 사용
 
-다음 Excel 파일은 참고용이며 Volume에 업로드하지 않습니다.
+다음 Excel 파일은 참고용이라 Volume에 올리지 않습니다.
 
 - `cafe_hands_on_assets.xlsx`
 - `cafe_sample_data_review.xlsx`
 
-Excel에서는 샘플 데이터, 데이터 사전, 기대 결과, Genie 질문·Benchmark 구성을 한눈에 확인할 수 있습니다. 실행 중 값이 예상과 다를 때 `expected_results.csv`와 함께 확인합니다.
+샘플 데이터, 데이터 사전, 기대 결과, Genie 질문·Benchmark 구성을 한눈에 볼 수 있습니다. 실행 결과가 예상과 다를 때 `expected_results.csv`와 함께 비교해 봅니다.
 
 <a id="step-3"></a>
 
@@ -222,7 +224,7 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 1. 노트북 상단 Compute 버튼이 `Serverless`이면 **Serverless → More… → SQL Warehouse**를 선택합니다.
 2. 교육용 Warehouse를 고릅니다. Free Edition의 기본 Warehouse 이름은 `Serverless Starter Warehouse`입니다.
-3. **SQL Warehouse** 선택과 Warehouse 이름을 확인한 뒤 **Start and attach**(이미 실행 중이면 **Attach**)를 누릅니다.
+3. **SQL Warehouse**가 선택되어 있고 Warehouse 이름이 맞는지 확인한 뒤 **Start and attach**(이미 실행 중이면 **Attach**)를 누릅니다.
 
 아래는 **Serverless → More…**에서 **SQL Warehouse**를 선택하면 나타나는 연결 창입니다.
 
@@ -232,7 +234,7 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 ### 3-2. Setup 실행
 
-상단에 Warehouse 이름이 표시되면 **Run all**로 실행합니다. 개별 셀 왼쪽의 실행 버튼과 전체 실행 버튼을 구분하세요.
+상단에 Warehouse 이름이 보이면 **Run all**을 눌러 전체를 실행합니다. 셀 왼쪽의 실행 버튼은 그 셀 하나만 실행하므로 혼동하지 않도록 주의합니다.
 
 <a href="images/runbook/05-setup-run-all-annotated.png"><img src="images/runbook/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720"></a>
 
@@ -250,7 +252,7 @@ cafe_training
 └── cafe_hands_on
 ```
 
-왼쪽에서 **cafe_training → cafe_landing → Volumes → raw**를 엽니다. 생성 직후에는 파일 목록이 비어 있습니다.
+왼쪽에서 **cafe_training → cafe_landing → Volumes → raw**를 엽니다. 아직 파일을 올리기 전이라 목록은 비어 있습니다.
 
 <a href="images/runbook/06-volume.jpg"><img src="images/runbook/06-volume.jpg" alt="Catalog Explorer에서 raw Volume 확인" width="720"></a>
 
@@ -350,7 +352,7 @@ raw/
     └── glossary.csv
 ```
 
-**완료 확인:** 루트에 CSV 두 개, `orders`에 세 개, `support`에 한 개로 총 6개입니다.
+**완료 확인:** 루트에 CSV 두 개, `orders`에 세 개, `support`에 한 개, 모두 6개가 있으면 됩니다.
 
 ---
 
@@ -360,19 +362,19 @@ raw/
 
 ## 5. Lakeflow Pipeline 생성
 
-`01_cafe_medallion_pipeline.sql`은 Pipeline 전용 소스입니다. 3절의 setup 노트북처럼 SQL Warehouse에서 `Run all`하지 말고, 아래에서 Pipeline에 연결합니다.
+`01_cafe_medallion_pipeline.sql`은 Pipeline에서만 실행하는 소스입니다. 3절 setup 노트북처럼 SQL Warehouse에서 `Run all`하지 말고, 아래 순서대로 Pipeline에 연결합니다.
 
 **이동:** `Jobs & Pipelines → ETL pipeline`
 
-**ETL pipeline**은 데이터 변환용이고, **Job**은 6절에서 실행 순서를 만드는 메뉴입니다.
+여기서는 **ETL pipeline**을 선택합니다. 옆의 **Job**은 6절에서 사용합니다.
 
 <a href="images/runbook/12-jobs-entry.jpg"><img src="images/runbook/12-jobs-entry.jpg" alt="Jobs & Pipelines에서 ETL pipeline 선택" width="800"></a>
 
 화면 13. ETL pipeline 진입 메뉴
 
-현재 UI에서는 `ETL pipeline`을 누르면 기본 Pipeline과 빈 소스 파일이 생성됩니다. 상단 Pipeline 이름을 `cafe_medallion_pipeline`으로 바꾸고 Enter를 누른 뒤 **Settings**를 엽니다.
+`ETL pipeline`을 누르면 기본 Pipeline과 빈 소스 파일이 자동으로 만들어집니다. 상단 Pipeline 이름을 `cafe_medallion_pipeline`으로 바꾸고 Enter를 누른 뒤 **Settings**를 엽니다.
 
-Settings에서 **Code assets**와 **Default location for data assets**를 확인합니다. 아래 소스 선택 화면(화면 15~16)은 패널을 아래로 스크롤하면 나오는 **Legacy pipeline settings**에서 촬영했습니다.
+Settings에서 **Code assets**와 **Default location for data assets**를 확인합니다. 아래 화면 15~16은 패널을 아래로 내리면 나오는 **Legacy pipeline settings**에서 촬영한 것입니다.
 
 <a href="images/runbook/13-pipeline-settings-entry.jpg"><img src="images/runbook/13-pipeline-settings-entry.jpg" alt="Pipeline 설정 진입 화면" width="720"></a>
 
@@ -397,33 +399,33 @@ Source가 폴더 단위로 표시되면 다음 폴더에서 `01_cafe_medallion_p
 /Workspace/Users/<사용자 이메일>/dbx-cafe-hands-on/notebooks
 ```
 
-초기 생성된 `transformations/**` 경로를 지우고 **01_cafe_medallion_pipeline** 하나만 선택합니다. `notebooks` 전체를 소스로 지정하면 setup·Metric View·검증 파일까지 함께 실행되므로 반드시 파일을 지정하세요.
+자동으로 들어가 있던 `transformations/**` 경로는 지우고 **01_cafe_medallion_pipeline** 하나만 선택합니다. `notebooks` 폴더 전체를 지정하면 setup·Metric View·검증 파일까지 함께 실행되니 꼭 파일 하나만 지정합니다.
 
 <a href="images/runbook/14-pipeline-source-annotated.png"><img src="images/runbook/14-pipeline-source-annotated.png" alt="Git folder에서 Pipeline 전용 노트북 선택" width="720"></a>
 
 화면 15. Pipeline 소스 선택
 
-Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확인하고 **Save**합니다. Free Edition은 Default Storage를 사용하므로 Channel이 **Preview**로 표시됩니다. Serverless UI에 Product edition 선택란이 없으면 따로 찾지 않아도 됩니다.
+Source code의 **Path**, Destination의 **cafe_training / cafe_hands_on**을 확인하고 **Save**합니다. Free Edition은 Default Storage를 사용하기 때문에 Channel이 **Preview**로 표시되는 것이 정상입니다. Product edition 선택란이 보이지 않으면 그대로 두셔도 됩니다.
 
 <a href="images/runbook/15-pipeline-settings-annotated.png"><img src="images/runbook/15-pipeline-settings-annotated.png" alt="Pipeline의 소스 경로와 출력 위치 설정" width="720"></a>
 
 화면 16. 소스 경로와 출력 위치
 
-저장 후 **Run pipeline**을 클릭합니다.
+저장했으면 **Run pipeline**을 클릭합니다.
 
-생성 데이터셋:
+실행하면 다음 데이터셋이 만들어집니다.
 
 - bronze_stores, bronze_products, bronze_orders
 - silver_stores, silver_products, silver_orders_clean
 - gold_sales
 
-**완료 확인:** 상태가 **Completed**이고 7개 데이터셋이 모두 성공입니다. 초록색 DAG만 보지 말고 아래 Tables의 Output records에서 `bronze_orders` 300행, `gold_sales` 266행도 확인합니다.
+**완료 확인:** 상태가 **Completed**이고 7개 데이터셋이 모두 성공으로 표시됩니다. DAG가 초록색인 것만 보지 말고, 아래 Tables의 Output records에서 `bronze_orders` 300행, `gold_sales` 266행인지도 확인합니다.
 
 <a href="images/runbook/19-pipeline-completed.jpg"><img src="images/runbook/19-pipeline-completed.jpg" alt="Pipeline 실행 성공과 Bronze·Silver·Gold DAG" width="720"></a>
 
 화면 17. Pipeline 실행 결과
 
-Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 위 테이블이 생성되었는지 확인할 수 있습니다.
+Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 만들어진 테이블을 볼 수 있습니다.
 
 <a id="step-6"></a>
 
@@ -431,7 +433,7 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 위 테이블이 생�
 
 **이동:** `Jobs & Pipelines → Job`
 
-상단의 자동 생성된 Job 이름을 클릭해 `cafe_medallion_job`으로 바꾸고 Enter를 누릅니다. 첫 화면의 **Add another task type → ETL Pipeline**으로 첫 Task를 추가합니다.
+상단에 자동으로 붙은 Job 이름을 클릭해 `cafe_medallion_job`으로 바꾸고 Enter를 누릅니다. 이어서 **Add another task type → ETL Pipeline**으로 첫 Task를 추가합니다.
 
 ### 6-1. Pipeline 실행 Task
 
@@ -450,7 +452,7 @@ Catalog Explorer의 `cafe_training.cafe_hands_on`에서도 위 테이블이 생�
 
 ### 6-2. Pipeline 검증 Task
 
-**Add task → SQL file**을 선택한 뒤 다음을 입력합니다. 생성 메뉴에서는 **SQL file**로 표시되고, 저장 후 편집 화면에서는 **Type = SQL / SQL task = File**로 표시됩니다.
+**Add task → SQL file**을 선택하고 다음 값을 입력합니다. 저장한 뒤 다시 열면 **Type = SQL / SQL task = File**로 표시되는데, 같은 설정입니다.
 
 | 항목 | 값 |
 |---|---|
@@ -496,7 +498,7 @@ run_medallion_pipeline
 
 ### 6-3. Job 실행과 결과 확인
 
-`Save` 후 `Run now`를 클릭합니다. 두 Task가 모두 **Succeeded**이면 검증 Task를 열어 결과 표를 확인합니다. 행 순서는 달라질 수 있습니다.
+`Save`한 뒤 `Run now`를 클릭합니다. 두 Task가 모두 **Succeeded**가 되면 검증 Task를 열어 결과 표를 확인합니다. 행 순서는 달라도 괜찮습니다.
 
 | 테이블 | 실제 | 기대 | 결과 |
 |---|---:|---:|---|
@@ -504,7 +506,7 @@ run_medallion_pipeline
 | silver_orders_clean | 296 | 296 | PASS |
 | gold_sales | 266 | 266 | PASS |
 
-> **주의:** Job 상태가 성공이어도 결과 표의 세 행이 모두 `PASS`인지 확인합니다. 제공된 검증 SQL은 값이 다르면 `FAIL`을 표시하지만, 그 자체로 SQL 실행 오류를 발생시키지는 않습니다.
+> **주의:** Job이 성공으로 끝나도 결과 표의 세 행이 모두 `PASS`인지 꼭 확인해야 합니다. 검증 SQL은 값이 달라도 `FAIL`로 표시만 할 뿐 오류를 내지 않기 때문에, Job 상태만으로는 알 수 없습니다.
 
 <a href="images/runbook/28-job-succeeded.jpg"><img src="images/runbook/28-job-succeeded.jpg" alt="Pipeline 실행과 SQL 검증 task가 모두 성공한 Job" width="720"></a>
 
@@ -524,7 +526,7 @@ run_medallion_pipeline
 
 ## 7. Metric View 기준선 생성
 
-`notebooks/02_metric_view_baseline.sql`을 열고 SQL Warehouse를 확인한 뒤 **Run all**을 누릅니다. Warehouse가 정지 상태라면 **Start, attach and run**을 선택합니다. 이 노트북은 Metric View `cafe_training.cafe_hands_on.cafe_sales_metrics`를 만듭니다.
+`notebooks/02_metric_view_baseline.sql`을 열고 SQL Warehouse를 확인한 뒤 **Run all**을 누릅니다. Warehouse가 정지 상태라면 **Start, attach and run**을 선택합니다. 이 노트북을 실행하면 Metric View `cafe_training.cafe_hands_on.cafe_sales_metrics`가 만들어집니다.
 
 마지막 쿼리의 예상값:
 
@@ -538,7 +540,7 @@ run_medallion_pipeline
 
 화면 23. Metric View 기준선 실행
 
-**완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**입니다. CREATE 문 뒤의 `No rows returned`는 오류가 아닙니다.
+**완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**이면 됩니다. CREATE 문 뒤에 나오는 `No rows returned`는 오류가 아니니 걱정하지 않으셔도 됩니다.
 
 <a href="images/runbook/21-metric-baseline-result.jpg"><img src="images/runbook/21-metric-baseline-result.jpg" alt="Metric View 실제 지표 조회 결과" width="720"></a>
 
@@ -548,13 +550,13 @@ run_medallion_pipeline
 
 ## 8. Metric View 최적화 정의 적용
 
-`notebooks/03_metric_view_optimized.sql`을 같은 SQL Warehouse에서 `Run all`합니다. 기준선 Metric View에 표시명·동의어·포맷을 더하는 SQL입니다.
+`notebooks/03_metric_view_optimized.sql`을 같은 SQL Warehouse에서 `Run all`합니다. 기준선 Metric View에 표시명·동의어·포맷을 추가하는 단계입니다.
 
 <a href="images/runbook/22-metric-optimized.jpg"><img src="images/runbook/22-metric-optimized.jpg" alt="Metric View 최적화 SQL 실행 화면" width="720"></a>
 
 화면 25. Metric View 최적화 실행
 
-적용되는 메타데이터:
+이 단계에서 추가되는 정보는 다음과 같습니다.
 
 | 항목 | 값 |
 |---|---|
@@ -563,9 +565,9 @@ run_medallion_pipeline
 | 포맷 | 매출·객단가 KRW, 주문수·판매수량 정수 |
 | Materialization | daily_store_category, 하루 1회 |
 
-최적화 후에는 아래 **조회문만** 새 SQL 셀에서 실행하여 값이 유지되는지 확인합니다.
+실행이 끝나면 아래 **조회문만** 새 SQL 셀에 넣고 실행해서 값이 그대로인지 확인합니다.
 
-> **주의:** 기준선 노트북을 다시 `Run all`하면 최적화 정의를 기준선 정의로 덮어씁니다.
+> **주의:** 기준선 노트북을 다시 `Run all`하면 방금 적용한 최적화 정의가 기준선으로 덮어써집니다.
 
 ```sql
 SELECT MEASURE(net_sales) AS net_sales,
@@ -582,19 +584,19 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 **이동:** `Genie Agents → New`
 
-**Connect your data**에서 `cafe_sales_metrics`를 검색합니다. 소속이 **cafe_training.cafe_hands_on**인 Metric View 하나만 선택하고 **Create**를 누릅니다.
+**Connect your data**에서 `cafe_sales_metrics`를 검색합니다. 위치가 **cafe_training.cafe_hands_on**인 Metric View 하나만 선택하고 **Create**를 누릅니다.
 
 <a href="images/runbook/23-genie-select-metric-view-annotated.png"><img src="images/runbook/23-genie-select-metric-view-annotated.png" alt="Genie에 연결할 Metric View 선택" width="720"></a>
 
 화면 26. Genie 연결 자산 선택
 
-생성 후 이름이 자동으로 정해지므로 **Configure → About → About this agent의 연필 아이콘**에서 **Name = Cafe Sales Genie Agent**, **Default warehouse = Serverless Starter Warehouse**(실습에 사용한 Warehouse)로 지정하고 **Save**를 누릅니다. Owner와 Agent ID는 각자의 환경에서 자동 지정됩니다.
+만들고 나면 이름이 자동으로 붙어 있으니 **Configure → About → About this agent의 연필 아이콘**에서 **Name = Cafe Sales Genie Agent**, **Default warehouse = Serverless Starter Warehouse**(실습에 사용한 Warehouse)로 지정하고 **Save**를 누릅니다. Owner와 Agent ID는 자동으로 채워집니다.
 
 <a href="images/runbook/24-genie-name.jpg"><img src="images/runbook/24-genie-name.jpg" alt="Genie 이름과 기본 Warehouse 설정" width="720"></a>
 
 화면 27. Genie 이름과 Warehouse
 
-이어서 **Configure → Instructions**(구버전: `Configure > Context > Instructions`)에 [genie_instructions.md](../resources/genie_instructions.md)의 전체 내용(아래 펼치기에도 있음)을 붙여 넣고 **Save**를 누릅니다. 다른 탭으로 이동했다 돌아와도 내용이 유지되는지 확인합니다.
+이어서 **Configure → Instructions**(구버전: `Configure > Context > Instructions`)에 [genie_instructions.md](../resources/genie_instructions.md)의 전체 내용(아래 펼치기에도 있음)을 붙여 넣고 **Save**를 누릅니다. 다른 탭에 다녀와도 내용이 남아 있으면 제대로 저장된 것입니다.
 
 <a href="images/runbook/25-genie-instructions-annotated.png"><img src="images/runbook/25-genie-instructions-annotated.png" alt="Genie 공통 지침 입력 화면" width="720"></a>
 
@@ -649,7 +651,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 화면 29. 예제 등록 메뉴
 
-추가 항목의 이름은 Workspace 버전에 따라 다를 수 있습니다. 현재는 **Example Query**만 선택합니다.
+Add를 누르면 여러 항목이 나오는데(이름은 버전에 따라 다를 수 있습니다), 이번 실습에서는 **Example Query**만 사용합니다.
 
 | 메뉴 | 현재 단계 | 용도 |
 |---|---|---|
@@ -734,13 +736,13 @@ ORDER BY avg_order_value DESC;
 
 ### 등록 후 채팅 테스트
 
-채팅 화면에서 다음 질문을 테스트합니다.
+채팅 화면에서 다음 질문을 입력해 봅니다.
 
 `전체 기간 순매출은 얼마야?`
 
 **예상 결과:** 순매출 `1,734,580원`
 
-다음 질문은 바로 SQL을 실행하지 않고 되물어야 합니다.
+다음 질문은 뜻이 모호하므로, Genie가 바로 답하지 않고 먼저 되물으면 정상입니다.
 
 - 인기메뉴가 뭐야?
 - 라떼 매출 알려줘
@@ -758,13 +760,13 @@ ORDER BY avg_order_value DESC;
 
 ## 11. Genie Benchmark 등록 및 실행
 
-Benchmark는 Genie Agent의 답변 정확도를 반복 측정하기 위한 테스트 질문 모음입니다. Chat 모드는 등록된 SQL Answer의 결과셋과 Genie 결과를 비교하고, Agent 모드는 Evaluation note를 기준으로 평가합니다. 실행할 때 `Chat` 또는 `Agent` 모드를 선택합니다.
+Benchmark는 Genie Agent가 얼마나 정확하게 답하는지 반복해서 측정하는 테스트 질문 모음입니다. Chat 모드는 정답 SQL(SQL Answer)의 결과와 Genie의 결과를 비교하고, Agent 모드는 Evaluation note에 적은 기준으로 평가합니다. 모드는 실행할 때 고릅니다.
 
 ### 11-1. Benchmark 입력 파일
 
 `sample_data/support/genie_benchmarks.csv`
 
-파일의 열은 다음과 같습니다.
+파일에는 다음 열이 있습니다.
 
 `benchmark_id, mode, category, question, sql_answer, evaluation_note, expected_behavior`
 
@@ -844,7 +846,7 @@ Bad 또는 Manual Review 문항:
 - Request review
 - Weekly digest
 
-사용자 피드백만으로 Agent의 Instruction이 자동 변경되지는 않습니다. 문제가 반복되는 질문을 확인한 뒤 다음 품질 최적화 절차로 수정합니다.
+사용자 피드백이 쌓인다고 Instruction이 저절로 바뀌지는 않습니다. 같은 문제가 반복되는 질문을 찾았다면 12절의 방법으로 직접 수정합니다.
 
 <a id="step-12"></a>
 
@@ -892,7 +894,7 @@ Bad 또는 Manual Review 문항:
 
 생성 SQL을 수정한 경우 실행 결과가 올바른지 확인한 뒤 `... → Add as instruction`을 선택합니다.
 
-이 기능은 질문과 검증된 SQL을 재사용 가능한 예제로 저장하는 용도로 사용합니다. 생성 SQL을 검토하지 않은 상태로 저장하지 않습니다.
+이 기능은 질문과 검증된 SQL을 예제로 저장해 다음 답변에 활용하게 합니다. 검토하지 않은 SQL을 저장하면 잘못된 답이 굳어질 수 있으니 꼭 확인한 뒤 저장합니다.
 
 ### 12-5. Instruction 작성 원칙
 
@@ -902,7 +904,7 @@ Bad 또는 Manual Review 문항:
 - 이미 Metric View에 정의된 측정값을 원시 컬럼으로 다시 계산하도록 지시하지 않습니다.
 - 기간·비교 기준·집계 수준처럼 결과에 큰 영향을 주는 조건이 모호하면 짧게 확인하도록 합니다.
 
-일반적인 Instruction 예시는 다음과 같습니다.
+예를 들면 다음과 같이 씁니다.
 
 ```text
 질문에 기간, 비교 기준, 집계 수준 또는 정렬 기준이 명시되지 않아 결과가 달라질 수 있으면 실행 전에 필요한 기준을 짧게 확인한다.
@@ -918,17 +920,17 @@ Bad 또는 Manual Review 문항:
 회귀가 발생한 문항:
 ```
 
-실패한 문항이 없다면 불필요한 Instruction을 추가하지 않고 현재 Accuracy를 기준선으로 기록합니다.
+실패한 문항이 없다면 Instruction을 더 추가할 필요가 없습니다. 현재 Accuracy를 기준선으로 기록해 둡니다.
 
 ---
 
-> **기초 세션 종료:** 3시간 과정은 여기까지입니다. [최종 확인표의 기초 실습 항목](#step-18)을 확인하세요. 아래 13~16절은 강사가 안내한 경우에 진행하는 심화 실습입니다.
+> **기초 과정 끝:** 3시간 과정은 여기까지입니다. 수고하셨습니다. [최종 확인표의 기초 실습 항목](#step-18)으로 빠진 것이 없는지 확인해 봅니다. 아래 13~16절은 강사가 안내한 경우에만 진행하는 심화 실습입니다.
 
 <a id="step-13"></a>
 
 ## 13. AI Search 용어집 구성
 
-AI Search는 약어·동의어·다의어·업무 규칙을 검색하는 용어집 계층입니다. 검색 결과가 하나의 표준 의미로 확정되면 Supervisor가 해당 의미를 Genie Agent에 전달합니다.
+AI Search는 "아메" 같은 약어나 동의어, 여러 뜻을 가진 단어, 업무 규칙을 찾아 주는 용어집 역할을 합니다. 검색으로 뜻이 하나로 정해지면 Supervisor가 그 뜻을 Genie Agent에 넘겨 줍니다.
 
 ### 13-1. 고정 이름
 
@@ -951,7 +953,7 @@ AI Search는 약어·동의어·다의어·업무 규칙을 검색하는 용어�
 /Volumes/cafe_training/cafe_landing/raw/support/glossary.csv
 ```
 
-원본 용어집은 19개 행이며 `term_id`, `term`, `aliases`, `definition`, `metric_or_field`, `resolution_rule`, `example_question`, `updated_at`, `search_text` 컬럼을 포함합니다.
+용어집은 19개 행이고, `term_id`, `term`, `aliases`, `definition`, `metric_or_field`, `resolution_rule`, `example_question`, `updated_at`, `search_text` 컬럼이 있습니다.
 
 ### 13-3. 노트북 실행
 
@@ -966,7 +968,7 @@ Git folder에서 다음 노트북을 엽니다.
 dbutils.library.restartPython()
 ```
 
-Python이 재시작되면 설치 셀을 반복 실행하지 말고 다음 위젯 셀부터 순서대로 실행합니다. Endpoint 생성 뒤에는 13-5절의 상태 확인을 마친 후 Index 생성 셀로 넘어갑니다.
+Python이 재시작되면 설치 셀은 다시 실행하지 말고 그다음 위젯 셀부터 차례로 실행합니다. Endpoint를 만든 뒤에는 13-5절에서 상태를 확인하고 나서 Index 생성 셀로 넘어갑니다.
 
 위젯 기본값:
 
@@ -998,7 +1000,7 @@ Endpoint 생성 셀을 실행한 뒤 `AI Search → Endpoints → cafe-ai-search
 
 **완료 확인:** Endpoint 상태가 `ONLINE`입니다.
 
-Endpoint가 `ONLINE`인 뒤 Index 생성 셀을 실행합니다.
+Endpoint가 `ONLINE`이 되면 Index 생성 셀을 실행합니다.
 
 | 항목 | 값 |
 |---|---|
@@ -1018,7 +1020,7 @@ index.sync()
 
 Catalog Explorer에서 Index 상태가 `ONLINE`이고 Indexed rows가 19인지 확인합니다.
 
-노트북 마지막 검색 셀은 Hybrid 검색을 실행합니다.
+노트북 마지막 셀에서 Hybrid 검색을 해 봅니다.
 
 ```python
 results = index.similarity_search(
@@ -1030,7 +1032,7 @@ results = index.similarity_search(
 display(results)
 ```
 
-다음 검색어도 실행합니다.
+다음 검색어로도 바꿔 가며 실행해 봅니다.
 
 - 라떼 매출
 - 손님수
@@ -1062,11 +1064,11 @@ display(results)
 
 ## 14. Databricks Apps 구성
 
-AI Playground에서 검증한 Supervisor Agent를 Databricks Apps로 배포합니다. App은 Genie Agent와 AI Search Index를 리소스로 연결하고, MLflow Experiment에 Trace를 기록합니다.
+Playground에서 확인한 Supervisor Agent를 Databricks Apps로 배포합니다. 배포한 App은 Genie Agent와 AI Search Index를 사용하고, 대화 기록(Trace)을 MLflow Experiment에 남깁니다.
 
 ### 14-0. 먼저 Playground에서 Supervisor 구성
 
-Export 전에 Playground에서 Supervisor가 두 도구를 올바르게 고르는지 먼저 확인합니다. 참고: [Supervisor 지침](../resources/supervisor_prompt.md) · [Databricks Playground 가이드](https://docs.databricks.com/aws/en/getting-started/gen-ai-llm-agent)
+App으로 내보내기 전에, Playground에서 Supervisor가 질문에 맞는 도구를 제대로 고르는지 먼저 확인합니다. 참고: [Supervisor 지침](../resources/supervisor_prompt.md) · [Databricks Playground 가이드](https://docs.databricks.com/aws/en/getting-started/gen-ai-llm-agent)
 
 Playground에 아래처럼 **Choose an option to get started**와 모델 배포 안내만 보이면 아직 사용할 모델이 없는 상태입니다. 강사가 모델 endpoint와 접근 권한을 먼저 준비해야 모델·System prompt·Tools를 입력할 수 있습니다.
 
@@ -1077,8 +1079,8 @@ Playground에 아래처럼 **Choose an option to get started**와 모델 배포 
 1. 왼쪽 **AI/ML > Playground**를 엽니다.
 2. 강사가 지정한 모델 중 `Tools enabled` 모델을 선택합니다.
 3. System prompt에 `resources/supervisor_prompt.md`의 전체 내용을 붙여 넣습니다.
-4. `Tools > + Add tool`에서 Genie에 연결할 관리형 MCP 도구를 선택하고 `Cafe Sales Genie Agent`를 연결합니다. AI Search 도구에는 `cafe_training.cafe_hands_on.cafe_glossary_index`를 연결합니다. 도구 선택 화면과 제공 유형은 Workspace에서 확인합니다.
-5. 아래 질문을 각각 새 대화에서 테스트합니다. 응답뿐 아니라 호출한 도구와 순서도 확인합니다.
+4. `Tools > + Add tool`에서 Genie에 연결할 관리형 MCP 도구를 선택하고 `Cafe Sales Genie Agent`를 연결합니다. AI Search 도구에는 `cafe_training.cafe_hands_on.cafe_glossary_index`를 연결합니다. 도구 선택 화면은 Workspace마다 조금 다를 수 있습니다.
+5. 아래 질문을 하나씩 새 대화에서 테스트합니다. 답변 내용뿐 아니라 어떤 도구를 어떤 순서로 불렀는지도 함께 확인합니다.
 
 | 입력 질문 | 확인할 동작 |
 |---|---|
@@ -1087,11 +1089,11 @@ Playground에 아래처럼 **Choose an option to get started**와 모델 배포 
 | `라떼 매출 알려줘` | AI Search 결과를 바탕으로 상품을 되묻기 |
 | `손님 수가 가장 많은 매장은?` | 고객 데이터가 없음을 설명하고 대체 지표 제안 |
 
-도구가 없거나 연결 오류가 나면 강사와 사용 권한·기능 활성화 상태를 확인합니다. 네 질문의 동작을 확인한 뒤 Export로 넘어갑니다. Apps 내보내기에는 Databricks Apps와 Managed MCP Servers preview가 필요합니다. 여기서 Supervisor는 두 도구를 선택·호출하는 Agent의 역할을 뜻합니다.
+도구가 보이지 않거나 연결 오류가 나면 강사에게 권한과 기능 활성화 여부를 확인해 달라고 요청합니다. 네 질문이 모두 예상대로 동작하면 Export로 넘어갑니다. 참고로 App으로 내보내려면 Databricks Apps와 Managed MCP Servers preview가 켜져 있어야 합니다. 이 문서에서 말하는 Supervisor는 질문에 따라 두 도구를 골라 부르는 Agent를 가리킵니다.
 
 ### 14-1. Playground에서 App으로 내보내기
 
-AI Playground에서 Supervisor 구성 화면을 엽니다.
+Playground의 Supervisor 구성 화면에서 다음을 선택합니다.
 
 `Get code → Export to Databricks Apps`
 
@@ -1103,7 +1105,7 @@ AI Playground에서 Supervisor 구성 화면을 엽니다.
 | App description | 카페 매출 Genie와 용어집 AI Search를 연결한 Supervisor Agent |
 | MLflow experiment | `cafe-supervisor-agent` |
 
-`Export` 후 생성된 App을 엽니다.
+`Export`가 끝나면 만들어진 App을 엽니다.
 
 `Apps → agent-cafe-supervisor`
 
@@ -1111,7 +1113,7 @@ AI Playground에서 Supervisor 구성 화면을 엽니다.
 
 App 설정에서 `Settings → Resources`를 엽니다.
 
-다음 리소스를 추가하거나 Export 결과를 확인합니다.
+Export할 때 자동으로 추가된 리소스를 확인하고, 빠진 것이 있으면 추가합니다.
 
 | Resource type | 대상 | Resource key | 권한 |
 |---|---|---|---|
@@ -1119,9 +1121,9 @@ App 설정에서 `Settings → Resources`를 엽니다.
 | AI Search index | `cafe_training.cafe_hands_on.cafe_glossary_index` | `cafe_glossary_index` | Can select |
 | MLflow experiment | `cafe-supervisor-agent` | `cafe_experiment` | Can edit 이상 |
 
-AI Search Index의 UI 리소스 유형은 Workspace 버전에 따라 `AI Search index` 또는 `Vector search index`로 표시될 수 있습니다.
+AI Search Index는 Workspace 버전에 따라 `AI Search index` 또는 `Vector search index`로 표시됩니다.
 
-앱 리소스는 App 서비스 주체에 최소 권한으로 부여합니다. AI Search Index는 `Can select`, Genie Agent는 `Can run` 권한을 사용합니다. ([Databricks Apps 리소스 문서](https://docs.databricks.com/aws/en/dev-tools/databricks-apps/resources))
+권한은 필요한 만큼만 줍니다. AI Search Index는 `Can select`, Genie Agent는 `Can run`이면 충분합니다. ([Databricks Apps 리소스 문서](https://docs.databricks.com/aws/en/dev-tools/databricks-apps/resources))
 
 ### 14-3. 환경 변수 확인
 
@@ -1137,13 +1139,13 @@ env:
     valueFrom: cafe_experiment
 ```
 
-현재 Databricks UI의 `Genie Agent`가 내부 환경 변수에서 `GENIE_SPACE_ID`라는 이름을 사용하는 경우가 있으므로, 예제의 환경 변수 이름은 변경하지 않습니다.
+화면에서는 `Genie Agent`라고 부르지만 내부 환경 변수는 여전히 `GENIE_SPACE_ID`라는 이름을 쓰는 경우가 있으니, 예제의 변수 이름은 바꾸지 않습니다.
 
 ### 14-4. App 실행과 확인
 
 **완료 확인:** App 상태가 `Running`입니다.
 
-다음 질문을 각각 실행합니다.
+App에서 다음 질문을 하나씩 입력해 봅니다.
 
 - 매장별 순매출을 비교해줘
 - 아메 매출 알려줘
@@ -1159,17 +1161,17 @@ env:
 | 다의어 질문 | Supervisor → AI Search → 사용자 명확화 |
 | 미지원 개념 | Supervisor → AI Search → 대체 지표 안내 |
 
-App에서 각 질문의 응답과 도구 호출 순서를 확인합니다.
+질문마다 답변과 도구 호출 순서가 위와 같은지 확인합니다.
 
 <a id="step-15"></a>
 
 ## 15. MLflow Trace·평가·모니터링
 
-MLflow Trace는 Supervisor의 입력·출력·모델 호출·Genie 호출·AI Search 호출·실행 시간 등을 기록합니다. 개발 단계에서는 Trace를 조회하고 Scorer로 평가하며, 운영 단계에서는 같은 Scorer를 Production Monitoring에 재사용할 수 있습니다. ([MLflow 공식 문서](https://docs.databricks.com/aws/en/mlflow3/genai/eval-monitor))
+MLflow Trace에는 Supervisor가 받은 질문과 답변, 모델·Genie·AI Search를 부른 기록, 걸린 시간 등이 남습니다. 개발할 때는 이 Trace를 보고 Scorer로 평가하고, 운영할 때는 같은 Scorer를 Production Monitoring에 그대로 쓸 수 있습니다. ([MLflow 공식 문서](https://docs.databricks.com/aws/en/mlflow3/genai/eval-monitor))
 
 ### 15-1. Trace 생성
 
-14-4에서 App에 입력한 네 질문이 Trace로 기록됩니다. 아직 실행하지 않았다면 App에서 먼저 실행합니다. 전체 평가 질문은 `sample_data/support/agent_evaluation.csv`에 있습니다.
+14-4에서 App에 입력한 네 질문이 이미 Trace로 기록되어 있습니다. 아직 실행하지 않았다면 App에서 먼저 입력합니다. 전체 평가 질문은 `sample_data/support/agent_evaluation.csv`에 있습니다.
 
 ### 15-2. MLflow 노트북 실행
 
@@ -1184,7 +1186,7 @@ Python Compute를 연결하고 첫 번째 셀을 실행합니다.
 dbutils.library.restartPython()
 ```
 
-Python 재시작 후 노트북을 다시 열고 다음 셀부터 실행합니다.
+Python이 재시작되면 그다음 셀부터 실행합니다.
 
 ### 15-3. MLflow Experiment 지정
 
@@ -1192,7 +1194,7 @@ Python 재시작 후 노트북을 다시 열고 다음 셀부터 실행합니다
 
 `experiment_path: /Shared/cafe-supervisor-agent`
 
-App Export 화면에서 다른 경로를 사용했다면 해당 경로를 입력합니다. 노트북과 App이 같은 Experiment를 사용해야 App Trace가 조회됩니다.
+App을 Export할 때 다른 경로를 썼다면 그 경로를 입력합니다. 노트북과 App이 같은 Experiment를 가리켜야 App의 Trace를 볼 수 있습니다.
 
 예상 출력:
 
@@ -1229,7 +1231,7 @@ Trace에서 다음 항목을 확인합니다.
 
 ### 15-5. 기본 Scorer 평가
 
-평가 셀을 실행하면 다음 Scorer가 실행됩니다.
+평가 셀을 실행하면 다음 세 가지 Scorer로 평가합니다.
 
 ```python
 from mlflow.genai.scorers import (
@@ -1245,14 +1247,14 @@ from mlflow.genai.scorers import (
 - Safety
 - ToolCallCorrectness
 
-노트북은 `evaluation.metrics`와 `evaluation.result_df`를 출력합니다.
+결과는 `evaluation.metrics`와 `evaluation.result_df`로 출력됩니다.
 
 ```python
 print(evaluation.metrics)
 display(evaluation.result_df)
 ```
 
-`ToolCallCorrectness`는 Trace의 Tool span을 사용해 도구 선택과 인자를 평가합니다. ([MLflow ToolCallCorrectness 문서](https://mlflow.org/docs/latest/genai/eval-monitor/scorers/llm-judge/tool-call/correctness/))
+`ToolCallCorrectness`는 Trace에 남은 도구 호출 기록을 보고, 알맞은 도구를 알맞은 값으로 불렀는지 평가합니다. ([MLflow ToolCallCorrectness 문서](https://mlflow.org/docs/latest/genai/eval-monitor/scorers/llm-judge/tool-call/correctness/))
 
 ### 15-6. MLflow UI 확인
 
@@ -1264,11 +1266,11 @@ Workspace 왼쪽 메뉴에서 `AI/ML → Experiments`를 선택합니다.
 - Evaluations
 - Runs
 
-Trace 하나를 열어 입력, 출력, Tool span, latency를 확인합니다. Evaluation 결과에서는 Scorer별 결과와 실패한 질문을 확인합니다.
+Trace 하나를 열어 입력, 출력, Tool span, latency를 살펴보고, Evaluations 탭에서는 Scorer별 결과와 실패한 질문을 확인합니다.
 
 ### 15-7. 운영 모니터링 선택 실습
 
-Production Monitoring Preview가 Workspace에서 활성화된 경우에만 다음 셀을 실행합니다.
+이 셀은 Workspace에서 Production Monitoring Preview가 켜져 있을 때만 실행합니다.
 
 ```python
 from mlflow.genai.scorers import Safety, ScorerSamplingConfig
@@ -1297,7 +1299,7 @@ print(safety_monitor)
 
 ## 16. 최종 통합 검증
 
-각 기능을 따로 확인한 뒤 하나의 사용자 질문이 `Supervisor → AI Search/Genie → App → MLflow` 흐름을 통과하는지 검증합니다.
+지금까지 따로 확인한 기능들이 하나로 잘 이어지는지, 즉 질문 하나가 `Supervisor → AI Search/Genie → App → MLflow`를 거쳐 제대로 처리되는지 확인합니다.
 
 ### 16-1. 데이터와 의미 계층 확인
 
@@ -1340,7 +1342,7 @@ print(safety_monitor)
 
 ### 16-4. App 통합 질문 실행
 
-App에서 다음 4개 질문을 새 대화로 각각 실행합니다.
+App에서 다음 4개 질문을 각각 새 대화로 입력합니다.
 
 - Q1. 매장별 순매출을 비교해줘
 - Q2. 아메 매출 알려줘
@@ -1356,7 +1358,7 @@ App에서 다음 4개 질문을 새 대화로 각각 실행합니다.
 | Q3 | AI Search | 카페라떼·바닐라라떼 중 선택 질문 |
 | Q4 | AI Search | 고객 데이터 부재와 주문수·판매수량 대안 안내 |
 
-예상 결과가 다르면 App의 응답, 도구 호출, AI Search 검색 결과, Genie 생성 SQL 순서로 확인합니다.
+결과가 예상과 다르면 App의 답변 → 도구 호출 → AI Search 검색 결과 → Genie가 만든 SQL 순서로 원인을 찾아봅니다.
 
 ### 16-5. MLflow 통합 확인
 
@@ -1414,7 +1416,7 @@ ToolCallCorrectness 결과:
 
 ## 17. GitHub 반영 및 참가자 배포
 
-이 절은 **강사·저장소 관리자용 배포 절차**입니다. 참가자는 GitHub에 push할 필요가 없습니다.
+이 절은 **강사·저장소 관리자용**입니다. 참가자는 건너뛰셔도 됩니다.
 
 최종 검증이 끝난 문서와 이미지 파일을 함께 GitHub에 반영합니다. 로컬 저장소 `dbx-cafe-hands-on` 폴더에서 작업 브랜치로 커밋·push한 뒤, 저장소의 리뷰 절차에 따라 `main`에 병합합니다.
 
@@ -1433,7 +1435,7 @@ GitHub 반영 후 Databricks Git folder에서 다음을 선택합니다.
 - Git folder 메뉴 > Pull 또는 Update
 - Branch: main
 
-참가자는 각자 만든 Databricks Free Edition 계정의 Workspace에서 같은 public repository를 Clone합니다. 각자의 환경에서 `cafe_training`, `cafe_hands_on` 등 문서의 고정 이름을 그대로 사용합니다. 자세한 준비 절차는 [시작하기](00_start_here.md)를 참고합니다.
+참가자는 각자의 Free Edition Workspace에서 같은 public repository를 Clone하고, `cafe_training`, `cafe_hands_on` 등 문서의 이름을 그대로 사용합니다. 자세한 준비 절차는 [시작하기](00_start_here.md)에 있습니다.
 
 <a id="step-18"></a>
 
