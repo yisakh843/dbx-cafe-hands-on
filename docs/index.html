@@ -703,7 +703,10 @@
 <!-- ════════════════════════ 2 저장소 ════════════════════════ -->
 <div class="pane" data-pane="repo">
 <section class="step">
-  <div class="head"><span class="num">2</span><h2>GitHub 저장소를 Git folder로 받기</h2><span class="dots"></span></div>
+  <div class="head"><span class="num">2<small>·3</small></span><h2>저장소 연결과 Catalog 준비</h2><span class="dots"></span></div>
+  <p>실습 코드를 Workspace와 내 PC에 받고, CSV를 올릴 Catalog·Schema·Volume을 만듭니다.</p>
+
+  <h3><span class="sn">2</span>GitHub 저장소를 Git folder로 받기</h3>
   <p>실습 코드는 GitHub에 있습니다. Workspace에는 Git folder로 연결하고, 내 PC에는 ZIP으로 받습니다. 둘 다 필요합니다. 노트북은 Workspace에서 열고, Volume에 올릴 CSV는 내 PC에서 골라야 하기 때문입니다.</p>
 
   <h3><span class="sn">2-1</span>Git folder 만들기</h3>
@@ -744,23 +747,7 @@
     <figcaption><span class="fn">화면 4-1</span>Code → Download ZIP으로 저장소 내려받기</figcaption>
   </figure>
 
-  <div class="checks">
-    <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="r1"><span class="mark"></span>
-      <span class="txt">Git folder <code class="k">dbx-cafe-hands-on</code>가 생겼고 브랜치가 main이다</span></label>
-    <label class="task"><input type="checkbox" data-k="r2"><span class="mark"></span>
-      <span class="txt">폴더 안에 docs, notebooks, resources, sample_data가 보인다</span></label>
-    <label class="task"><input type="checkbox" data-k="r3"><span class="mark"></span>
-      <span class="txt">내 PC에 ZIP을 받아 압축을 풀었다
-        <small>압축 푼 폴더 안에 <code class="k">sample_data/raw/</code>가 있는지 확인합니다.</small></span></label>
-  </div>
-</section>
-</div>
-
-<!-- ════════════════════════ 3 Catalog ════════════════════════ -->
-<div class="pane" data-pane="catalog">
-<section class="step">
-  <div class="head"><span class="num">3</span><h2>Catalog, Schema, Volume 준비</h2><span class="dots"></span></div>
+  <h3><span class="sn">3</span>Catalog, Schema, Volume 준비</h3>
   <p>setup 노트북 하나를 실행하면 Catalog와 Schema 두 개, CSV를 올릴 Volume이 한꺼번에 만들어집니다.</p>
 
   <h3><span class="sn">3-1</span>SQL Warehouse 연결</h3>
@@ -800,12 +787,12 @@
 
   <div class="checks">
     <span class="lbl">완료 확인</span>
-    <label class="task"><input type="checkbox" data-k="c1"><span class="mark"></span>
-      <span class="txt">00_setup 노트북에 SQL Warehouse를 연결했다</span></label>
-    <label class="task"><input type="checkbox" data-k="c2"><span class="mark"></span>
-      <span class="txt">Run all로 전체 셀을 실행했다</span></label>
+    <label class="task"><input type="checkbox" data-k="r1"><span class="mark"></span>
+      <span class="txt">Git folder <code class="k">dbx-cafe-hands-on</code>가 main 브랜치로 만들어졌다</span></label>
+    <label class="task"><input type="checkbox" data-k="r3"><span class="mark"></span>
+      <span class="txt">내 PC에 ZIP을 받아 압축을 풀었다</span></label>
     <label class="task"><input type="checkbox" data-k="c3"><span class="mark"></span>
-      <span class="txt">Catalog 패널에서 <code class="k">cafe_landing</code>, <code class="k">cafe_hands_on</code>, <code class="k">raw</code> Volume이 보인다</span></label>
+      <span class="txt">setup을 Run all 했고, Catalog 패널에 <code class="k">raw</code> Volume이 보인다</span></label>
   </div>
 </section>
 </div>
@@ -1961,8 +1948,7 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
 
   var CHAPTERS = [
     { key: "intro",    label: "시작하기",           part: 1 },
-    { key: "repo",     label: "2 Git 저장소 연결",        part: 1 },
-    { key: "catalog",  label: "3 Catalog·Volume 준비",      part: 1 },
+    { key: "repo",     label: "2·3 저장소 연결·Catalog 준비", part: 1 },
     { key: "upload",   label: "4 샘플 데이터 업로드",        part: 1 },
     { key: "pipeline", label: "5 Pipeline으로 데이터 정제",     part: 1 },
     { key: "job",      label: "6 Job 실행·검증",          part: 1 },
@@ -2062,7 +2048,9 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
     boxesIn(sec).forEach(function () { slot.appendChild(document.createElement("i")); });
   });
 
+  var ALIAS = { catalog: "repo" };
   function go(key, keepScroll) {
+    if (ALIAS[key]) { key = ALIAS[key]; }
     if (!panes[key]) { key = "intro"; }
     state.__pane = key; save(state);
     Object.keys(panes).forEach(function (k) { panes[k].classList.toggle("showing", k === key); });
@@ -2255,11 +2243,13 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
 
   window.addEventListener("hashchange", function () {
     var k = (location.hash || "").replace("#", "");
+    if (ALIAS[k]) { k = ALIAS[k]; }
     if (panes[k] && k !== state.__pane) { go(k); }
   });
 
   paint();
   var fromHash = (location.hash || "").replace("#", "");
+  if (ALIAS[fromHash]) { fromHash = ALIAS[fromHash]; }
   go(panes[fromHash] ? fromHash : (state.__pane || "intro"), true);
 })();
 </script>
