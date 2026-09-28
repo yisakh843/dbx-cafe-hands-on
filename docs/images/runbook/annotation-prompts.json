@@ -7,42 +7,42 @@
       "name": "06-volume-notebook",
       "capture_date": "2026-09-28",
       "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Use case: precise-object-edit. Preserve this light-mode screenshot, full framing, notebook editor, all UI text, filenames, SQL, tree structure, values, and selections exactly. ONLY add thin bright-red rounded rectangular outline boxes (3px at source resolution), transparent interior and small padding. Do not add ticks/checkmarks, words, numbers or arrows. Do not redesign, crop, change text, or remove any UI/banner. Outline the left Catalog tab icon (x23 y305), and the expanded cafe_training > cafe_landing > Volumes (1) > raw tree group (x75 y375 to x217 y506) in the 1070x853 source. Keep cafe_hands_on visible. Exactly two red outlines.",
-      "source": "06-volume-notebook.png",
+      "source": "06-volume-notebook.jpg",
       "output": "06-volume-notebook-annotated.png"
     },
     {
       "name": "08-create-directory-notebook",
       "capture_date": "2026-09-28",
       "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Use case: precise-object-edit. Preserve this light-mode screenshot, full framing, notebook editor, all UI text, filenames, SQL, tree structure, values, and selections exactly. ONLY add thin bright-red rounded rectangular outline boxes (3px at source resolution), transparent interior and small padding. Do not add ticks/checkmarks, words, numbers or arrows. Do not redesign, crop, change text, or remove any UI/banner. Outline the orders name input (x493 y427 to x687 y461), and the Create button (x750 y479 to x818 y514) in the 1070x853 source. Exactly two red outlines.",
-      "source": "08-create-directory-notebook.png",
+      "source": "08-create-directory-notebook.jpg",
       "output": "08-create-directory-notebook-annotated.png"
     },
     {
       "name": "07-upload-root-notebook",
       "capture_date": "2026-09-28",
       "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Use case: precise-object-edit. Preserve this light-mode screenshot, full framing, notebook editor, all UI text, filenames, SQL, tree structure, values, and selections exactly. ONLY add thin bright-red rounded rectangular outline boxes (3px at source resolution), transparent interior and small padding. Do not add ticks/checkmarks, words, numbers or arrows. Do not redesign, crop, change text, or remove any UI/banner. Outline the Destination volume path /Volumes/cafe_training/cafe_landing/raw (x141 y626 to x430 y659), and the Upload button (x861 y625 to x931 y660) in the 1070x853 source. Exactly two outlines. Preserve both filenames and the unchecked Overwrite checkbox.",
-      "source": "07-upload-root-notebook.png",
+      "source": "07-upload-root-notebook.jpg",
       "output": "07-upload-root-notebook-annotated.png"
     },
     {
       "name": "09-upload-orders-notebook",
       "capture_date": "2026-09-28",
       "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Use case: precise-object-edit. Preserve this light-mode screenshot, full framing, notebook editor, all UI text, filenames, SQL, tree structure, values, and selections exactly. ONLY add thin bright-red rounded rectangular outline boxes (3px at source resolution), transparent interior and small padding. Do not add ticks/checkmarks, words, numbers or arrows. Do not redesign, crop, change text, or remove any UI/banner. Outline Destination volume path /Volumes/cafe_training/cafe_landing/raw/orders (x142 y626 to x490 y659), and Upload button (x861 y625 to x932 y660) in 1070x853 source. Exactly two red outlines. Preserve all three orders_batch_001.csv, orders_batch_002.csv, orders_batch_003.csv filenames and unchecked Overwrite checkbox.",
-      "source": "09-upload-orders-notebook.png",
+      "source": "09-upload-orders-notebook.jpg",
       "output": "09-upload-orders-notebook-annotated.png"
     },
     {
       "name": "10-upload-glossary-notebook",
       "capture_date": "2026-09-28",
       "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Use case: precise-object-edit. Preserve this light-mode screenshot, full framing, notebook editor, all UI text, filenames, SQL, tree structure, values, and selections exactly. ONLY add thin bright-red rounded rectangular outline boxes (3px at source resolution), transparent interior and small padding. Do not add ticks/checkmarks, words, numbers or arrows. Do not redesign, crop, change text, or remove any UI/banner. Outline Destination volume path /Volumes/cafe_training/cafe_landing/raw/support (x142 y626 to x505 y659), and Upload button (x861 y625 to x932 y660) in 1070x853 source. Exactly two red outlines. Preserve glossary.csv and unchecked Overwrite checkbox.",
-      "source": "10-upload-glossary-notebook.png",
+      "source": "10-upload-glossary-notebook.jpg",
       "output": "10-upload-glossary-notebook-annotated.png"
     },
     {
       "name": "11-volume-ready-notebook",
       "capture_date": "2026-09-28",
       "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Use case: precise-object-edit. Preserve this light-mode screenshot, full framing, notebook editor, all UI text, filenames, SQL, tree structure, values, and selections exactly. ONLY add thin bright-red rounded rectangular outline boxes (3px at source resolution), transparent interior and small padding. Do not add ticks/checkmarks, words, numbers or arrows. Do not redesign, crop, change text, or remove any UI/banner. Add one red rounded rectangular outline around the entire expanded raw file tree, including raw, orders with three orders_batch files, support with glossary.csv, and products.csv and stores.csv (x103 y478 through x313 y714 in 1070x853 source). Preserve the exact filename truncation with ellipses shown by the real UI; do not invent or complete text. Exactly one red outline. Keep notebook visible and unchanged.",
-      "source": "11-volume-ready-notebook.png",
+      "source": "11-volume-ready-notebook.jpg",
       "output": "11-volume-ready-notebook-annotated.png"
     },
     {
