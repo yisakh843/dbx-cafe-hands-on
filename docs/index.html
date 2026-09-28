@@ -101,8 +101,9 @@
     outline:2px solid var(--accent);outline-offset:2px;
   }
 
+  .chipbar{background:var(--surface);border-bottom:1px solid var(--rule);}
   .chips{
-    max-width:var(--page-max);margin:0 auto;padding:0 20px 10px;
+    max-width:var(--page-max);margin:0 auto;padding:12px 20px 12px;
     display:flex;flex-wrap:wrap;gap:6px;row-gap:5px;align-items:center;
   }
   .chipbreak{flex:0 0 100%;height:0;}
@@ -113,7 +114,7 @@
   .chip{
     font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-3);
     background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
-    padding:5px 11px;cursor:pointer;white-space:nowrap;
+    padding:5px 10px;cursor:pointer;white-space:nowrap;
     display:flex;align-items:center;gap:7px;line-height:1.3;
   }
   .chip:hover{border-color:var(--rule-2);color:var(--ink-2);}
@@ -536,6 +537,8 @@
       <button type="button" class="ghost" id="reset">처음부터</button>
     </span>
   </div>
+</div>
+<div class="chipbar">
   <nav class="chips" id="chips" aria-label="챕터"></nav>
 </div>
 
@@ -789,7 +792,7 @@
 <!-- ════════════════════════ 4 업로드 ════════════════════════ -->
 <div class="pane" data-pane="upload">
 <section class="step">
-  <div class="head"><span class="num">4</span><h2>CSV를 Volume에 업로드</h2><span class="dots"></span></div>
+  <div class="head"><span class="num">4</span><h2>샘플 데이터 CSV를 Volume에 업로드</h2><span class="dots"></span></div>
   <p>노트북 편집 화면은 그대로 두고 왼쪽 Catalog 트리에서 작업합니다. 폴더 행의 <strong>⋮</strong>를 누르거나 마우스 오른쪽 버튼을 누르면 디렉터리 생성과 업로드 메뉴가 나옵니다.</p>
   <p class="path"><b>이동</b><span>00_setup 노트북</span><span>Catalog 탭</span><span>cafe_training</span><span>cafe_landing</span><span>Volumes</span><span>raw</span></p>
 
@@ -1893,18 +1896,18 @@ git push origin &lt;작업 브랜치&gt;    # 이후 PR/MR로 main에 병합</pr
   var state = load();
 
   var CHAPTERS = [
-    { key: "intro",    label: "시작",           part: 1 },
-    { key: "repo",     label: "2 저장소",        part: 1 },
-    { key: "catalog",  label: "3 Catalog",      part: 1 },
-    { key: "upload",   label: "4 업로드",        part: 1 },
-    { key: "pipeline", label: "5 Pipeline",     part: 1 },
-    { key: "job",      label: "6 Job",          part: 1 },
-    { key: "metric",   label: "7·8 Metric View", part: 1 },
-    { key: "genie",    label: "9·10 Genie",     part: 1 },
-    { key: "bench",    label: "11·12 평가",      part: 1 },
-    { key: "search",   label: "13 AI Search",   part: 2 },
-    { key: "app",      label: "14 App",         part: 2 },
-    { key: "mlflow",   label: "15 MLflow",      part: 2 },
+    { key: "intro",    label: "시작하기",           part: 1 },
+    { key: "repo",     label: "2 Git 저장소 연결",        part: 1 },
+    { key: "catalog",  label: "3 Catalog·Volume 준비",      part: 1 },
+    { key: "upload",   label: "4 샘플 데이터 업로드",        part: 1 },
+    { key: "pipeline", label: "5 Pipeline으로 데이터 정제",     part: 1 },
+    { key: "job",      label: "6 Job 실행·검증",          part: 1 },
+    { key: "metric",   label: "7·8 Metric View 매출 기준", part: 1 },
+    { key: "genie",    label: "9·10 Genie Agent 구성",     part: 1 },
+    { key: "bench",    label: "11·12 Benchmark 평가·개선",      part: 1 },
+    { key: "search",   label: "13 AI Search 용어집",   part: 2 },
+    { key: "app",      label: "14 Supervisor App 배포",         part: 2 },
+    { key: "mlflow",   label: "15 MLflow 추적·평가",      part: 2 },
     { key: "verify",   label: "16 통합 검증",     part: 2 },
     { key: "done",     label: "마무리",          part: 2, plain: true }
   ];
