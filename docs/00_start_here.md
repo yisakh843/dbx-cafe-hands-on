@@ -1,6 +1,6 @@
 # 00. 시작하기
 
-개인 Databricks Workspace에서 실습 환경을 준비하는 안내서입니다.
+참가자가 각자 만든 Databricks Free Edition 계정의 Workspace에서 실습 환경을 준비하는 안내서입니다. 교육 전에 본인 계정으로 로그인까지 완료합니다. 각자의 환경에서 실습하므로 모두 `cafe_training` 등 동일한 이름을 사용합니다.
 
 ## 1. 권한 확인
 
@@ -11,13 +11,7 @@
 - SQL Warehouse 사용 권한
 - Serverless Lakeflow Pipeline 사용 권한
 
-Catalog 생성 권한이 없다면 Catalog 관리자에게 다음 SQL 실행을 요청합니다.
-
-```sql
-CREATE CATALOG IF NOT EXISTS cafe_training;
-```
-
-Catalog는 Unity Catalog 메타스토어 범위의 객체입니다. 여러 Workspace가 같은 메타스토어를 공유한다면 `cafe_training`이 서로 보일 수 있으므로 Workspace-Catalog binding 또는 별도 Catalog를 사용합니다.
+Catalog는 아래 setup 노트북에서 생성합니다. 생성 또는 실행이 실패하면 본인의 Free Edition Workspace에 로그인했는지 확인하고, 오류 메시지를 강사에게 보여 주세요.
 
 ## 2. Schema와 Volume 생성
 

@@ -503,7 +503,7 @@ flowchart LR
 
 ### 실행 전 확인
 
-1. 개인 Workspace에서 기본 Catalog `cafe_training`을 사용한다. 해당 Catalog를 만들 권한이 없으면 Catalog 관리자에게 생성을 요청한다.
+1. 참가자는 각자 만든 Databricks Free Edition 계정의 Workspace에서 기본 Catalog `cafe_training`을 사용한다. setup 노트북의 Catalog 생성이 실패하면 본인 계정의 Workspace인지 확인하고 오류 메시지를 강사와 확인한다.
 2. 원천 CSV와 지원 CSV를 Volume에 업로드한다.
 3. Pipeline을 미리 한 번 Validate한다.
 4. AI Search endpoint의 embedding model 접근을 확인한다.

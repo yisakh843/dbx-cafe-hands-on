@@ -1,0 +1,67 @@
+{
+  "tool": "image_gen.imagegen",
+  "review_date": "2026-09-22",
+  "note": "추가 강조본 10장의 편집 프롬프트. 기존 강조본 6장은 별도로 제작됨.",
+  "edits": [
+    {
+      "name": "01-create-menu",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline the top-right Create button, and the Git folder menu item in its open menu. Exactly two outlines.",
+      "source": "01-create-menu.jpg",
+      "output": "01-create-menu-annotated.png"
+    },
+    {
+      "name": "05-setup-run-all",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline ONLY the Run all button in the top notebook toolbar, around x847 y190 width78 height24 in the 1423x1160 source. Do not mark individual cell play buttons. Exactly one outline.",
+      "source": "05-setup-run-all.jpg",
+      "output": "05-setup-run-all-annotated.png"
+    },
+    {
+      "name": "07-upload-root",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline ONLY the Destination volume breadcrumb path at the bottom of the upload dialog, /Volumes/cafe_training/cafe_landing/raw. Enclose the path text and raw endpoint, around x298 y766 through x591 y800. Do not mark other fields or buttons. Exactly one outline.",
+      "source": "07-upload-root.jpg",
+      "output": "07-upload-root-annotated.png"
+    },
+    {
+      "name": "09-upload-orders",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline ONLY the Destination volume breadcrumb path at the bottom of the upload dialog, /Volumes/cafe_training/cafe_landing/raw/orders. Enclose the path text through the orders endpoint around x298 y766 through x663 y800. Exactly one outline. Preserve orders_batch_001.csv, orders_batch_002.csv, orders_batch_003.csv.",
+      "source": "09-upload-orders.jpg",
+      "output": "09-upload-orders-annotated.png"
+    },
+    {
+      "name": "10-upload-glossary",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline ONLY the Destination volume breadcrumb path at the bottom of the upload dialog, /Volumes/cafe_training/cafe_landing/raw/support. Enclose path text through support endpoint around x298 y766 through x670 y800. Exactly one outline. Preserve glossary.csv.",
+      "source": "10-upload-glossary.jpg",
+      "output": "10-upload-glossary-annotated.png"
+    },
+    {
+      "name": "14-pipeline-source",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline ONLY the selected 01_cafe_medallion_pipeline row in the central Select an asset dialog (x416 y509 width592 height24), and the blue Select button (x943 y797 width65 height33). Exactly two outlines. Do not outline other notebook rows or background Save.",
+      "source": "14-pipeline-source.jpg",
+      "output": "14-pipeline-source-annotated.png"
+    },
+    {
+      "name": "16-job-pipeline-task",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline the Pipeline dropdown containing cafe_medallion_pipeline (x241 y785 width561 height33), the full Trigger a full refresh on the pipeline checkbox AND its label as a group (x238 y839 through x503 y868), and the blue Save task button (x813 y1090 width84 height32). Exactly three outlines. CRITICAL: the full refresh checkbox must remain EMPTY/UNCHECKED. Never draw a checkmark or fill inside it.",
+      "source": "16-job-pipeline-task.jpg",
+      "output": "16-job-pipeline-task-annotated.png"
+    },
+    {
+      "name": "17-job-sql-file",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline the selected 04_pipeline_validate.sql file row in the rightmost column of Select SQL file (x840 y376 width244 height28), and the blue Confirm button (x1052 y797 width76 height33). Exactly two outlines. Preserve all filenames.",
+      "source": "17-job-sql-file.jpg",
+      "output": "17-job-sql-file-annotated.png"
+    },
+    {
+      "name": "23-genie-select-metric-view",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline the selected cafe_sales_metrics cafe_training.cafe_hands_on result row (x416 y343 width353 height24), and the blue Create button near the lower-right of the modal (x941 y965 width67 height33). Exactly two outlines.",
+      "source": "23-genie-select-metric-view.jpg",
+      "output": "23-genie-select-metric-view-annotated.png"
+    },
+    {
+      "name": "25-genie-instructions",
+      "prompt": "Edit this actual Databricks screenshot for a beginner training runbook. Preserve the complete screenshot, layout, all original text, numbers, Korean, filenames, selections and UI state faithfully. Do not crop, redesign, blur, remove or add interface elements. ONLY overlay thin bright-red rounded rectangular outlines (3px, transparent interior, small padding) around the specified targets. No arrows, checkmarks, numbering or added words. Never outline Cancel. Outline the Instructions tab at the top of the right configuration pane (x1040 y178 through x1128 y216), and the blue Save button at the bottom-right (x1338 y1074 width55 height33). Exactly two outlines. Preserve the entire Korean instructions editor exactly and leave its text unmarked.",
+      "source": "25-genie-instructions.jpg",
+      "output": "25-genie-instructions-annotated.png"
+    }
+  ]
+}
