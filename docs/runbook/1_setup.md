@@ -1,10 +1,12 @@
 # 1부 · 환경 준비
 
-> 이 부에서 진행하는 절: **2~4절**
+> 이 부에서 진행하는 절: **2\~4절**
 
 [← 시작하기](README.md) · [목차](README.md) · [2부 데이터 파이프라인 →](2_pipeline.md)
 
-<a id="step-2"></a>
+<a id="step-2">
+
+</a>
 
 ## 2. GitHub 저장소를 Git folder로 받기
 
@@ -12,7 +14,9 @@
 
 **이동:** `Workspace → Home(개인 폴더) → Create → Git folder`
 
-<a href="../images/runbook/01-create-menu-annotated.png"><img src="../images/runbook/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720">
+<a href="../images/runbook/01-create-menu-annotated.png">
+
+<img src="../images/runbook/01-create-menu-annotated.png" alt="Workspace의 Create 메뉴에서 Git folder 선택" width="720">
 
 </a>
 
@@ -30,7 +34,9 @@
 
 위 값을 입력한 뒤 **Create Git folder**를 누릅니다.
 
-<a href="../images/runbook/02-create-git-folder-annotated.png"><img src="../images/runbook/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720">
+<a href="../images/runbook/02-create-git-folder-annotated.png">
+
+<img src="../images/runbook/02-create-git-folder-annotated.png" alt="Git 저장소 URL과 폴더 이름 입력" width="720">
 
 </a>
 
@@ -51,7 +57,9 @@
 - `resources/`
 - `sample_data/`
 
-<a href="../images/runbook/03-git-folder-ready.jpg"><img src="../images/runbook/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720">
+<a href="../images/runbook/03-git-folder-ready.jpg">
+
+<img src="../images/runbook/03-git-folder-ready.jpg" alt="Clone 완료 후 main 브랜치와 실습 폴더" width="720">
 
 </a>
 
@@ -77,7 +85,9 @@ Volume에 올릴 파일은 내 PC에서 선택해야 하므로, [GitHub 저장�
 
 ---
 
-<a id="step-3"></a>
+<a id="step-3">
+
+</a>
 
 ## 3. Catalog, Schema, Volume 준비
 
@@ -87,7 +97,7 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 `notebooks/00_setup.sql`
 
-> 참고: 노트북을 열 때 **This file is part of a bundle** 안내가 보이면 닫고 진행합니다. 저장소에 Pipeline·Job을 코드로 배포하는 Bundle 설정이 함께 들어 있어서 뜨는 안내이며, 이 실습에서는 사용하지 않습니다.
+▎ 참고: 노트북을 열 때 This file is part of a bundle 안내가 보이면 닫고 진행합니다. 저장소에 Pipeline·Job을 코드로 배포하는 Bundle 설정이 함께 들어 있어서 뜨는 안내이며, 이 실습에서는 사용하지 않습니다.
 
 1. 노트북 상단 Compute 버튼이 `Serverless`이면 **Serverless → More… → SQL Warehouse**를 선택합니다.
 2. 교육용 Warehouse를 고릅니다. Free Edition의 기본 Warehouse 이름은 `Serverless Starter Warehouse`입니다.
@@ -95,7 +105,9 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 아래는 **Serverless → More…** 메뉴에서 **SQL Warehouse**를 선택하면 나타나는 연결 창입니다.
 
-<a href="../images/runbook/04-attach-warehouse-annotated.png"><img src="../images/runbook/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720">
+<a href="../images/runbook/04-attach-warehouse-annotated.png">
+
+<img src="../images/runbook/04-attach-warehouse-annotated.png" alt="SQL Warehouse 선택 및 연결" width="720">
 
 </a>
 
@@ -105,7 +117,9 @@ Git folder에서 다음 파일을 열고 SQL Warehouse를 연결합니다.
 
 상단에 Warehouse 이름이 보이면 **Run all**을 눌러 전체를 실행합니다. 셀 왼쪽의 실행 버튼은 그 셀 하나만 실행하므로 혼동하지 않도록 주의합니다.
 
-<a href="../images/runbook/05-setup-run-all-annotated.png"><img src="../images/runbook/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720">
+<a href="../images/runbook/05-setup-run-all-annotated.png">
+
+<img src="../images/runbook/05-setup-run-all-annotated.png" alt="Setup 노트북의 Run all과 Warehouse" width="720">
 
 </a>
 
@@ -133,7 +147,9 @@ cafe_training
 
 ---
 
-<a id="step-4"></a>
+<a id="step-4">
+
+</a>
 
 ## 4. CSV를 Volume에 업로드
 
@@ -205,7 +221,7 @@ cafe_training
 
 ### 4-4. 용어집 업로드
 
-왼쪽 `support` 행의 **⋮ → Upload to volume**을 선택합니다. 내려받아 압축을 푼 폴더에서 `sample_data/support/glossary.csv`를 고르고 목적지 끝이 **support**인지 확인한 뒤 **Upload**를 누릅니다.
+`raw`로 돌아온 뒤 `support` 디렉터리를 엽니다. 다운받은 압축 폴더 내에 `sample_data/support/glossary.csv`를 선택하고 **support** 폴더를 목적지로 업로드합니다.
 
 **업로드 목적지:**
 
