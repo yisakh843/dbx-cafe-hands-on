@@ -24,7 +24,7 @@
 | 6 | Job 실행 결과 | 두 task 성공 및 300/296/266 PASS | 캡처 완료 · 두 Task Succeeded 및 300/296/266 PASS 확인 |
 | 7~8 | Metric View 정의와 조회 결과 | 순매출 1,734,580, 주문수 266, 설명·동의어 | 기준선 실제 값 확인 · 최적화 두 셀 succeeded 확인 · 최적화 후 지표 재조회 대기 |
 | 9 | Genie 생성·연결 자산 | Metric View 하나만 선택 | 캡처 완료 · 생성·이름 저장 확인 |
-| 9~10 | Context 지침과 Example Query 입력 | 질문·SQL 입력, 저장, 예제 6개 | 지침 저장·Examples 진입 확인 · 예제 등록 대기 |
+| 9~10 | Context 지침과 Example Query 입력 | 질문·SQL 입력, 저장, 필수 예제 3개 (선택 3개) | 지침 저장·Examples 진입 확인 · 예제 등록 대기 |
 | 10 | Genie 응답과 생성 SQL | 순매출 결과, Show code | 미완료 |
 | 11 | Chat·Agent Benchmark 입력 | SQL Answer와 Evaluation note의 차이 | 미완료 |
 | 11~12 | Evaluations·Monitor | Accuracy, 실패 문항, 생성 SQL | 미완료 |

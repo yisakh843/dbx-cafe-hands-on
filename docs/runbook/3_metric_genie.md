@@ -154,7 +154,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 ## 10. Genie Example Query 등록
 
-**Configure → Examples** 탭 오른쪽 위 **Add**에서 예제를 추가합니다(구버전: `Configure > Context > Add`). 아래 화면은 등록 전 상태(**All (0)**)이며, 6개를 저장하면 목록에 6개가 표시됩니다(**All (6)**).
+**Configure → Examples** 탭 오른쪽 위 **Add**에서 예제를 추가합니다(구버전: `Configure > Context > Add`). 아래 화면은 등록 전 상태(**All (0)**)이며, 필수 예제 3개를 저장하면 **All (3)**이 됩니다. 선택 예제까지 모두 저장하면 **All (6)**입니다.
 
 [![Genie 예제 목록과 Add 버튼](../images/runbook/thumbnails/26-genie-examples-annotated.png)](../images/runbook/26-genie-examples-annotated.png)
 
@@ -172,7 +172,7 @@ Add를 누르면 여러 항목이 나오는데(이름은 버전에 따라 다를
 | Join          | 사용하지 않음 | 여러 데이터 자산 관계  |
 
 
-아래 E001\~E006(원본: `sample_data/support/genie_example_queries.csv`)의 `Question`과 `SQL`을 각각 하나의 Example Query로 등록합니다.
+아래 **E001~E003은 필수**, **E004~E006은 선택**입니다(원본: `sample_data/support/genie_example_queries.csv`). 각 예제의 `Question`과 `SQL`을 하나의 Example Query로 등록합니다. 필수 예제는 전체 합계, 매장별 비교, 상품 순위 조회를 하나씩 다룹니다. 선택 예제는 시간이 남거나 Benchmark에서 해당 질문 유형을 보완할 때 추가하세요. 생략해도 다음 채팅과 Benchmark 실습을 진행할 수 있습니다.
 
 ### E001 · 전체 기간 순매출
 
@@ -208,7 +208,9 @@ ORDER BY item_quantity DESC
 LIMIT 3;
 ```
 
-### E004 · 일자별 순매출
+필수 예제 E001~E003을 저장했다면 아래 선택 예제를 건너뛰고 **등록 후 채팅 테스트**로 넘어가도 됩니다.
+
+### E004 · 일자별 순매출 (선택)
 
 **Question:** `일자별 순매출 추이를 보여줘`
 
@@ -220,7 +222,7 @@ GROUP BY order_date
 ORDER BY order_date;
 ```
 
-### E005 · 시간대별 순매출과 주문수
+### E005 · 시간대별 순매출과 주문수 (선택)
 
 **Question:** `시간대별 순매출과 주문수를 비교해줘`
 
@@ -233,7 +235,7 @@ GROUP BY daypart
 ORDER BY net_sales DESC;
 ```
 
-### E006 · 매장별 객단가
+### E006 · 매장별 객단가 (선택)
 
 **Question:** `매장별 객단가가 높은 순서로 보여줘`
 
@@ -460,7 +462,7 @@ Bad 또는 Manual Review 문항:
 - [ ] Metric View 기준선 및 최적화 정의 성공
 - [ ] `Cafe Sales Genie Agent` 생성 완료
 - [ ] Metric View 하나만 연결됨
-- [ ] Example Query 6개 등록 완료
+- [ ] 필수 Example Query E001~E003 등록 완료 (E004~E006은 선택)
 - [ ] Chat Benchmark 8개 등록 및 실행 완료
 - [ ] Agent Benchmark 4개 등록 및 실행 완료
 - [ ] Evaluations에서 Accuracy 확인

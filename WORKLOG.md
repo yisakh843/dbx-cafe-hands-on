@@ -1,5 +1,8 @@
 # dbx-cafe-hands-on Worklog
 
+## 2026-09-29 (Tue)
+- 기초 Genie Example Query를 필수 E001~E003과 선택 E004~E006으로 구분. HTML·runbook·최종 확인표·설계·캡처 체크리스트를 맞추고, 선택 예제를 생략해도 채팅·Benchmark로 진행할 수 있음을 명시.
+
 ## 2026-09-28 (Mon)
 - 14:48 runbook 원본 이미지 링크 제거 및 중복·오류 문장 정리
 - 14:49 runbook 이미지 표시 폭 지정(720/800px) 및 클릭 시 원본 크기 링크

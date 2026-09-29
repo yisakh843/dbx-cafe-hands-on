@@ -422,7 +422,7 @@ print(safety_monitor)
 | --------------- | ------------------------------------------------------ |
 | Genie Agent     | Cafe Sales Genie Agent                                 |
 | 연결 자산           | cafe\_training.cafe\_hands\_on.cafe\_sales\_metrics 하나 |
-| Example Query   | 6개                                                     |
+| Example Query   | 필수 E001~E003 등록 완료 (E004~E006은 선택)                   |
 | Chat Benchmark  | 8개                                                     |
 | Agent Benchmark | 4개                                                     |
 | Evaluations     | 최소 1회                                                  |
