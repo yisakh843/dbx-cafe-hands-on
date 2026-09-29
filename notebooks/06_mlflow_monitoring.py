@@ -16,17 +16,28 @@ import mlflow
 
 dbutils.widgets.text("experiment_path", "/Shared/cafe-supervisor-agent", "MLflow experiment")
 experiment_path = dbutils.widgets.get("experiment_path")
-mlflow.set_experiment(experiment_path)
+experiment = mlflow.get_experiment_by_name(experiment_path)
+if experiment is None:
+    raise ValueError(
+        "Experiment를 찾지 못했습니다. App Export에서 선택한 전체 경로를 확인하세요. "
+        "빈 Experiment를 새로 만들지 않고 중단합니다."
+    )
+mlflow.set_experiment(experiment_id=experiment.experiment_id)
 
-print(f"MLflow experiment: {experiment_path}")
+print(f"MLflow experiment: {experiment.name} (ID: {experiment.experiment_id})")
 
 # COMMAND ----------
 
-traces = mlflow.search_traces(max_results=30)
+traces = mlflow.search_traces(
+    experiment_ids=[experiment.experiment_id], max_results=30
+)
 print(f"조회한 Trace: {len(traces)}개")
 display(traces)
 
 # Trace가 없다면 Databricks App에서 평가 질문을 실행한 후 이 셀부터 다시 실행하세요.
+# 최근 30개에는 다른 대화도 포함될 수 있습니다. 입력 질문과 실행 시각을 확인하고,
+# 이번 실습만 평가하려면 traces = traces[traces["trace_id"].isin([...])]로 좁힙니다.
+# agent_evaluation.csv의 기대 경로는 자동으로 읽거나 채점하지 않습니다.
 
 # COMMAND ----------
 

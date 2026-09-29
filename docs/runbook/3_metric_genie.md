@@ -21,23 +21,31 @@
 
 ## 7. Metric View 기준선 생성
 
-`notebooks/02_metric_view_baseline.sql`을 열고 SQL Warehouse를 확인한 뒤 **Run all**을 누릅니다. Warehouse가 정지 상태라면 **Start, attach and run**을 선택합니다. 이 노트북을 실행하면 Metric View `cafe_training.cafe_hands_on.cafe_sales_metrics`가 만들어집니다.
+`gold_sales`를 바탕으로 **순매출·주문수·객단가 등의 계산 기준을 담은 Metric View `cafe_sales_metrics`**를 만듭니다. 기준선은 기본 계산 정의만 넣은 첫 버전이며, 8절에서 설명·동의어 등을 추가합니다.
+
+YAML의 구성과 각 지표의 의미는 [기준선 노트북](../../notebooks/02_metric_view_baseline.sql)의 첫 설명 셀과 코드 주석에서 확인할 수 있습니다.
+
+### 실행과 확인
+
+`notebooks/02_metric_view_baseline.sql`을 열고 SQL Warehouse를 확인한 뒤 **Run all**을 누릅니다. Warehouse가 정지 상태라면 **Start, attach and run**을 선택합니다.
+
+생성 위치는 `cafe_training.cafe_hands_on.cafe_sales_metrics`입니다. 마지막 조회문은 매장 등으로 나누지 않고 **전체 기간의 순매출·주문수·객단가**를 확인합니다.
 
 마지막 쿼리의 예상값:
 
 
 | 항목                | 값          |
 | ----------------- | ---------- |
-| net\_sales        | 1,734,580  |
-| order\_count      | 266        |
-| avg\_order\_value | 약 6,520.98 |
+| net_sales        | 1,734,580  |
+| order_count      | 266        |
+| avg_order_value | 약 6,520.98 |
 
 
 [![Metric View 기준선 생성 노트북](../images/runbook/thumbnails/20-metric-baseline.jpg)](../images/runbook/20-metric-baseline.jpg)
 
 *화면 23 · Metric View 기준선 실행*
 
-**완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**이면 됩니다. CREATE 문 뒤에 나오는 `No rows returned`는 오류가 아니니 걱정하지 않으셔도 됩니다.
+**완료 확인:** 마지막 SELECT 결과가 **1734580 / 266 / 6520.977443609023**이면 됩니다.
 
 [![Metric View 실제 지표 조회 결과](../images/runbook/thumbnails/21-metric-baseline-result.jpg)](../images/runbook/21-metric-baseline-result.jpg)
 
@@ -47,7 +55,9 @@
 
 ## 8. Metric View 최적화 정의 적용
 
-`notebooks/03_metric_view_optimized.sql`을 같은 SQL Warehouse에서 `Run all`합니다. 기준선 Metric View에 표시명·동의어·포맷을 추가하는 단계입니다.
+`notebooks/03_metric_view_optimized.sql`을 같은 SQL Warehouse에서 `Run all`합니다. 7절에서 만든 **동일한 `cafe_sales_metrics`**를 설명·표시명·동의어·포맷·Materialization이 포함된 정의로 교체합니다.
+
+**원천 데이터와 지표 계산식은 그대로이므로, 같은 데이터를 조회하면 순매출·주문수·객단가도 같아야 합니다.** 예를 들어 `net_sales`에 “순매출”이라는 표시명과 “매출”이라는 동의어를 붙여도, 계산식은 계속 `SUM(net_sales)`입니다.
 
 [![Metric View 최적화 SQL 실행 화면](../images/runbook/thumbnails/22-metric-optimized.jpg)](../images/runbook/22-metric-optimized.jpg)
 
@@ -61,12 +71,12 @@
 | 표시명             | 순매출, 주문수, 판매수량, 객단가           |
 | 동의어             | 매출, 실매출, 결제매출, 판매액 등          |
 | 포맷              | 매출·객단가 KRW, 주문수·판매수량 정수       |
-| Materialization | daily\_store\_category, 하루 1회 |
+| Materialization | daily_store_category, 하루 1회 |
 
 
 실행이 끝나면 아래 **조회문만** 새 SQL 셀에 넣고 실행해서 값이 그대로인지 확인합니다.
 
-> **주의:** 기준선 노트북을 다시 `Run all`하면 방금 적용한 최적화 정의가 기준선으로 덮어써집니다.
+> **결과만 확인할 때:** 아래 SELECT만 실행합니다. 02와 03 노트북은 모두 같은 이름의 Metric View를 `CREATE OR REPLACE`로 정의합니다. 따라서 03 실행 후 02를 다시 `Run all`하면, 03에서 추가한 설명·동의어·표시 형식·Materialization 설정이 빠진 기본 정의로 돌아갑니다. 원천 주문 데이터나 지표 계산식이 바뀐다는 뜻은 아닙니다.
 
 ```sql
 SELECT MEASURE(net_sales) AS net_sales,

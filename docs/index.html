@@ -1576,9 +1576,27 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
 <div class="pane" data-pane="search">
 <section class="step">
   <div class="head"><span class="num">13</span><h2>AI Search 용어집</h2><span class="dots"></span></div>
-  <p>Genie는 Metric View에 정의된 말만 압니다. "아메", "피크타임" 같은 현장 용어나 뜻이 여러 개인 단어는 용어집에서 먼저 찾아야 합니다. AI Search로 용어집을 검색할 수 있게 만들어 두면, 14절의 Supervisor가 뜻을 확정한 뒤 Genie에 넘깁니다.</p>
+  <p>기초 과정에서는 Genie가 같은 매출 기준으로 답하도록 만들었습니다. 심화에서는 <strong>현장 용어를 해석하고, 뜻이 모호하면 되묻고, 그 판단 과정을 기록</strong>합니다. Genie도 지침·동의어를 활용할 수 있지만, 이번에는 업무 용어를 별도 용어집으로 관리하고 Supervisor가 먼저 찾아보게 합니다.</p>
+  <div class="note">
+    <p><strong>이번 절의 결과물:</strong> 매출 숫자를 계산하는 도구가 아니라, “아메 → 아메리카노”, “라떼 → 상품을 먼저 확인”이라는 근거를 찾아 주는 검색 도구입니다.</p>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>심화 흐름 · 약 2시간 15분</th><th>만드는 것</th><th>다음 절로 넘어가는 기준</th></tr></thead>
+    <tbody>
+      <tr><td>13 · 용어 검색</td><td>용어집 테이블과 검색 Index</td><td>검색 결과에서 정의와 처리 규칙을 읽을 수 있다</td></tr>
+      <tr><td>14 · 질문 처리</td><td>Supervisor App</td><td>네 질문에서 조회·되묻기를 구분한다</td></tr>
+      <tr><td>15 · 추적과 평가</td><td>Trace와 평가 결과</td><td>답변의 근거와 실패 지점을 찾는다</td></tr>
+      <tr><td>16 · 통합 검증</td><td>질문별 검증 기록</td><td>숫자·도구 흐름·되묻기를 함께 확인한다</td></tr>
+    </tbody>
+  </table></div>
+  <details class="fold"><summary>시작 전 · 준비되어 있어야 하는 것</summary><div class="in">
+    <ul><li>6절 Job 검증 PASS, 8절 Metric View, 10절 Genie Agent가 준비되어 있어야 합니다.</li>
+      <li>4절의 <code class="k">support/glossary.csv</code>, Python Compute, AI Search 생성 권한과 사용 가능한 Embedding 모델을 확인합니다.</li>
+      <li>14절에는 Tools enabled 모델, Databricks Apps와 Managed MCP Servers 기능이 필요합니다. Free Edition·리전·Workspace 정책에 따라 사용할 수 없으면 강사의 준비된 환경에서 진행합니다.</li>
+      <li>공유 Workspace에서는 기존 리소스를 임의로 덮어쓰지 않습니다. 강사가 지정한 Catalog·Schema·Endpoint 이름을 위젯과 이후 App 설정에 일관되게 씁니다.</li></ul>
+  </div></details>
   <h3><span class="sn">13-1</span>고정 이름</h3>
-  <p>이번 절에서 만들고 쓰는 이름입니다.</p>
+  <p><strong>테이블</strong>은 용어집 원본, <strong>Index</strong>는 검색에 쓰는 사본, <strong>Endpoint</strong>는 Index를 서비스하는 실행 환경입니다. 아래는 기본 실습 이름입니다.</p>
 
   <div class="tw min"><table>
     <thead><tr><th>항목</th><th>값</th></tr></thead>
@@ -1597,6 +1615,7 @@ ORDER BY avg_order_value DESC;</pre><button type="button" class="copy">복사</b
   <p>4절에서 올린 <code class="k">/Volumes/cafe_training/cafe_landing/raw/support/glossary.csv</code>가 있어야 합니다. 19행이고, <code class="k">term_id</code> <code class="k">term</code> <code class="k">aliases</code> <code class="k">definition</code> <code class="k">metric_or_field</code> <code class="k">resolution_rule</code> <code class="k">example_question</code> <code class="k">updated_at</code> <code class="k">search_text</code> 컬럼이 있습니다.</p>
 
   <h3><span class="sn">13-3</span>노트북 실행</h3>
+  <p><strong>Run all 대신 셀을 하나씩 실행합니다.</strong> Endpoint 준비와 Index 동기화는 요청 직후 끝나지 않으므로 중간에 상태 확인이 필요합니다.</p>
   <p><code class="k" data-c title="눌러서 복사">notebooks/05_create_ai_search.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">첫 셀 · 패키지 설치</span></div>
     <div class="snip-body"><pre>%pip install -q --upgrade databricks-ai-search
@@ -1607,18 +1626,33 @@ dbutils.library.restartPython()</pre></div></div>
   </div>
 
   <h3><span class="sn">13-4</span>Delta 테이블 확인</h3>
-  <p>용어집 CSV를 읽는 셀과 테이블 생성 셀을 실행합니다. Catalog Explorer에서 <code class="k">cafe_glossary</code>가 <strong>19행</strong>이고, Primary key가 <code class="k">term_id</code>, Change Data Feed가 켜져 있는지 봅니다.</p>
+  <p>CSV를 읽고 테이블을 만드는 셀을 실행한 뒤 Catalog Explorer에서 <code class="k">cafe_glossary</code>의 데이터를 엽니다. <code class="k">search_text</code>에는 용어·별칭·정의·규칙이 한 문장으로 모여 있습니다. 이 텍스트를 Embedding 모델이 숫자 벡터로 바꿔 의미가 가까운 질문을 찾게 합니다.</p>
+  <p>아래 SQL을 SQL Editor에서 실행합니다. <strong>total_rows = 19, unique_ids = 19, missing_ids = 0</strong>이어야 합니다. 여기서 Primary key는 <em>Index 생성 시 지정하는 식별 열</em>이며, 제공 노트북은 원본 테이블에 SQL PRIMARY KEY 제약조건을 만들지 않습니다.</p>
+  <div class="snip"><div class="snip-top"><span class="snip-lbl">용어집 원본 검증 · SQL</span><button type="button" class="copy">복사</button></div>
+    <div class="snip-body"><pre>SELECT COUNT(*) AS total_rows,
+       COUNT(DISTINCT term_id) AS unique_ids,
+       COUNT_IF(term_id IS NULL OR TRIM(term_id) = '') AS missing_ids
+FROM cafe_training.cafe_hands_on.cafe_glossary;
+
+SHOW TBLPROPERTIES cafe_training.cafe_hands_on.cafe_glossary
+  ('delta.enableChangeDataFeed');</pre></div></div>
+  <p>두 번째 결과의 값은 <code class="k">true</code>입니다. Change Data Feed는 이후 변경된 용어를 Index에 반영하는 데 씁니다. 테이블 생성 셀은 <code class="k">CREATE OR REPLACE</code>이므로 다시 실행하면 테이블을 CSV 내용으로 다시 만듭니다.</p>
 
   <h3><span class="sn">13-5</span>Endpoint와 Index 확인</h3>
-  <p>Endpoint 생성 셀을 실행하고 <strong>AI Search → Endpoints → cafe-ai-search-endpoint</strong>에서 상태가 <code class="k">ONLINE</code>이 될 때까지 기다립니다. 그다음 Index 생성 셀을 실행합니다. 순서를 바꾸면 Index 생성이 실패합니다.</p>
+  <ol class="do">
+    <li>Endpoint 생성 셀을 실행합니다. <strong>Compute › AI Search</strong>에서 <code class="k">cafe-ai-search-endpoint</code>를 엽니다. 화면에 따라 AI Search › Endpoints로 표시될 수 있습니다.</li>
+    <li>Endpoint가 <code class="k">ONLINE</code>이 되면 Index 생성 셀을 실행합니다. Catalog Explorer에서 <code class="k">cafe_training › cafe_hands_on › cafe_glossary_index</code>를 엽니다.</li>
+    <li>Source table, <code class="k">term_id</code>, <code class="k">search_text</code>, Embedding 모델, <code class="k">TRIGGERED</code> 설정을 13-1과 대조하고 초기 동기화가 끝날 때까지 기다립니다.</li>
+  </ol>
+  <p>“생성 요청” 출력은 준비 완료를 뜻하지 않습니다. 기존 Index를 재사용했다면 이름뿐 아니라 연결된 원본과 설정도 확인합니다. <a href="https://docs.databricks.com/aws/en/ai-search/create-ai-search" target="_blank" rel="noopener">공식 Endpoint·Index 생성 안내</a></p>
 
   <h3><span class="sn">13-6</span>Triggered Sync와 검색 실행</h3>
-  <p>Index를 만든 뒤 아래 셀로 동기화합니다.</p>
+  <p><strong>TRIGGERED는 필요할 때 직접 동기화하는 방식</strong>입니다. 초기 Index 생성 작업이 끝난 뒤 아래 셀을 실행합니다. 이후 용어집 테이블을 고쳐도 동기화하지 않으면 검색에는 이전 내용이 남을 수 있습니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">Triggered Sync</span></div>
     <div class="snip-body"><pre>index.sync()</pre></div></div>
-  <p>Catalog Explorer에서 Index가 <code class="k">ONLINE</code>, Indexed rows가 <strong>19</strong>면 됩니다.</p>
+  <p><code class="k">sync()</code>는 시작 요청입니다. Catalog Explorer에서 최신 동기화가 완료되고 Index가 <code class="k">ONLINE</code>, Indexed rows가 <strong>19</strong>인지 확인한 뒤 검색합니다. 동기화 중에는 같은 셀을 반복 실행하지 않습니다.</p>
 
-  <p>이어서 노트북 마지막 셀로 Hybrid 검색을 해 봅니다.</p>
+  <p>이어서 노트북 마지막 셀로 Hybrid 검색을 해 봅니다. <strong>HYBRID</strong>는 단어 일치와 의미 유사도를 함께 활용하고, <strong>Top 3</strong>는 검색 후보를 최대 세 개 받는다는 뜻입니다. 결과 순위가 곧 업무상 정답은 아닙니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">Hybrid 검색</span></div>
     <div class="snip-body"><pre>results = index.similarity_search(
     query_text="아메 매출과 피크타임을 알려줘",
@@ -1627,6 +1661,16 @@ dbutils.library.restartPython()</pre></div></div>
     query_type="HYBRID",
 )
 display(results)</pre></div></div>
+  <p>결과의 <code class="k">term</code>과 <code class="k">definition</code>으로 뜻을 읽고, <code class="k">resolution_rule</code>로 “바로 조회할지, 먼저 되물을지”를 판단합니다. 점수가 높아도 라떼의 모호함은 사라지지 않습니다. 검색만으로 매출 숫자가 나오는 것은 아닙니다.</p>
+  <details class="fold"><summary>검색 결과가 JSON으로 보이거나 원하는 규칙이 안 보이면</summary><div class="in">
+    <p>SDK 응답은 표가 아니라 딕셔너리로 표시될 수 있습니다. 아래 셀을 추가하면 응답의 열 이름과 행을 맞춰 볼 수 있습니다.</p>
+    <div class="snip"><div class="snip-top"><span class="snip-lbl">검색 결과를 표로 보기 · Python</span><button type="button" class="copy">복사</button></div><div class="snip-body"><pre>import pandas as pd
+
+names = [col["name"] for col in results["manifest"]["columns"]]
+rows = results.get("result", {}).get("data_array", [])
+display(pd.DataFrame(rows, columns=names))</pre></div></div>
+    <p>“아메 매출과 피크타임”은 여러 개념이 섞인 검색입니다. 원하는 규칙이 Top 3에 없으면 “아메”, “피크타임”으로 나눠 검색하고, 원본의 search_text와 최신 Sync 결과를 확인합니다. 기대 순위를 억지로 맞추기보다 필요한 규칙이 검색되는지 봅니다.</p>
+  </div></details>
   <p><code class="k">query_text</code>를 <code class="k" data-c title="눌러서 복사">라떼 매출</code> <code class="k" data-c title="눌러서 복사">손님수</code> <code class="k" data-c title="눌러서 복사">최근 매출</code> <code class="k" data-c title="눌러서 복사">주말 매출</code>로 바꿔 가며 돌려 봅니다.</p>
   <div class="tw min"><table>
     <thead><tr><th>검색어</th><th>용어집이 알려 줘야 하는 것</th></tr></thead>
@@ -1639,6 +1683,12 @@ display(results)</pre></div></div>
       <tr><td class="key">주말</td><td>토요일과 일요일</td></tr>
     </tbody>
   </table></div>
+
+  <details class="fold"><summary>13절에서 막혔을 때 · 증상별 확인 순서</summary><div class="in">
+    <ul><li><strong>파일을 찾을 수 없음:</strong> Volume의 support 폴더, 파일명, 위젯의 Catalog를 확인합니다.</li>
+      <li><strong>Endpoint·Index 생성 실패:</strong> 첫 오류 메시지를 읽고 ONLINE 상태, 생성 권한, Embedding 모델 사용 가능 여부를 확인합니다. 권한 오류를 이름 중복으로 판단해 새 자원을 계속 만들지 않습니다.</li>
+      <li><strong>Index는 ONLINE인데 결과가 비어 있음:</strong> 원본 19행 → 초기/최신 Sync 완료 → Indexed rows 19 순서로 확인합니다.</li></ul>
+  </div></details>
 
   <div class="checks">
     <span class="lbl">13-7 · 완료 기준</span>
@@ -1658,10 +1708,18 @@ display(results)</pre></div></div>
 <div class="pane" data-pane="app">
 <section class="step">
   <div class="head"><span class="num">14</span><h2>Supervisor를 App으로 내보내기</h2><span class="dots"></span></div>
-  <p>Supervisor는 질문을 보고 Genie와 AI Search 중 무엇을 부를지 고르는 Agent입니다. Playground에서 먼저 동작을 확인하고, 그대로 Databricks App으로 내보냅니다. App은 대화 기록(Trace)을 MLflow Experiment에 남깁니다.</p>
+  <p>Supervisor는 질문의 뜻을 판단하고 도구를 선택하는 Agent입니다. <strong>App은 대화 화면, Supervisor는 판단, AI Search는 용어 해석, Genie는 수치 조회</strong>를 맡습니다. Playground에서 확인한 구성을 App으로 내보내고 MLflow에서 실행 기록을 확인합니다. 여기서 Supervisor는 이 역할을 부르는 이름이며, 별도의 Supervisor API를 설정하는 실습은 아닙니다.</p>
+  <div class="tw"><table>
+    <thead><tr><th>사용자의 말</th><th>Supervisor의 판단</th><th>다음 행동</th></tr></thead>
+    <tbody>
+      <tr><td>“매장별 순매출”</td><td>지표와 차원이 명확함</td><td>Genie → 결과와 기간을 답변</td></tr>
+      <tr><td>“아메 매출”</td><td>AI Search에서 아메리카노로 확정</td><td>상품 필터를 명시해 Genie에 조회</td></tr>
+      <tr><td>“라떼 매출”</td><td>AI Search에서 두 상품 후보 확인</td><td>사용자에게 되묻기 → 선택 후 Genie</td></tr>
+    </tbody>
+  </table></div>
 
   <h3><span class="sn">14-0</span>먼저 Playground에서 Supervisor 구성</h3>
-  <p>Playground에 <strong>Choose an option to get started</strong>와 모델 배포 안내만 보이면 쓸 수 있는 모델이 없는 상태입니다. 강사가 모델 endpoint와 권한을 준비해야 다음으로 넘어갈 수 있습니다.</p>
+  <p>Playground에서 먼저 모델 선택 목록을 확인합니다. 아래 시작 화면만으로 모델이 전혀 없다고 단정하지 않습니다. 목록이 비어 있거나 Tools enabled 모델을 선택할 수 없으면 강사와 모델 제공 여부·권한·리전을 확인합니다. 아래 이미지는 시작 화면 예시입니다.</p>
   <figure class="shot">
     <button type="button" class="zoom" title="크게 보기" data-full="images/runbook/27-playground-prerequisites.jpg"><img src="images/runbook/27-playground-prerequisites.jpg" alt="사용 가능한 모델 설정이 필요한 Playground 시작 화면" width="1423" height="1160" loading="lazy"></button>
     <figcaption><span class="fn">화면 30</span>Playground 사전 준비 화면</figcaption>
@@ -1670,7 +1728,8 @@ display(results)</pre></div></div>
     <li>왼쪽 <strong>AI/ML › Playground</strong>를 엽니다.</li>
     <li>강사가 알려 준 모델 중 <code class="k">Tools enabled</code> 표시가 있는 모델을 고릅니다.</li>
     <li>System prompt에 아래 Supervisor 지침 전체를 붙여 넣습니다.</li>
-    <li><strong>Tools › + Add tool</strong>에서 Genie용 관리형 MCP 도구를 골라 <code class="k">Cafe Sales Genie Agent</code>를 연결하고, AI Search 도구에는 <code class="k">cafe_training.cafe_hands_on.cafe_glossary_index</code>를 연결합니다. 도구 선택 화면은 Workspace마다 조금 다릅니다.</li>
+    <li><strong>Tools › + Add tool › MCP</strong>에서 Genie용 관리형 MCP 도구를 골라 기초에서 만든 <code class="k">Cafe Sales Genie Agent</code>를 연결합니다. 같은 이름이 여러 개면 해당 Agent를 열어 ID를 대조합니다.</li>
+    <li><strong>Tools › + Add tool › AI Search</strong>에서 <code class="k">cafe_training.cafe_hands_on.cafe_glossary_index</code>를 선택합니다. 원본 Delta 테이블이 아니라 13절에서 만든 Index를 고릅니다. 화면에 따라 관리형 MCP로 연결할 수도 있습니다.</li>
   </ol>
   <div class="snip tall"><div class="snip-top"><span class="snip-lbl">resources/supervisor_prompt.md</span><button type="button" class="copy">복사</button></div>
     <div class="snip-body"><pre># Cafe Supervisor Agent 시스템 지침
@@ -1703,7 +1762,7 @@ display(results)</pre></div></div>
     <label class="task"><input type="checkbox" data-k="a1"><span class="mark"></span>
       <span class="txt">Playground에 Supervisor 지침과 두 도구를 연결했다</span></label>
   </div>
-  <ol class="do" start="5">
+  <ol class="do" start="6">
     <li>아래 네 질문을 <strong>각각 새 대화에서</strong> 물어봅니다. 답뿐 아니라 어떤 도구를 어떤 순서로 불렀는지도 봅니다.</li>
   </ol>
   <div class="tw min"><table>
@@ -1715,7 +1774,8 @@ display(results)</pre></div></div>
       <tr><td><code class="k" data-c title="눌러서 복사">손님 수가 가장 많은 매장은?</code></td><td><span class="route-pill"><i class="s">AI Search</i><em>→</em><i>대체 지표</i></span></td><td>고객 데이터가 없다고 설명하고 대안 제안</td></tr>
     </tbody>
   </table></div>
-  <p>도구가 안 보이거나 연결 오류가 나면 강사에게 권한과 기능 활성화 여부를 확인해 달라고 합니다. App으로 내보내려면 Databricks Apps와 Managed MCP Servers preview가 켜져 있어야 합니다.</p>
+  <p>각 응답의 도구 호출 상세를 펼쳐 입력과 반환값을 확인합니다. 아메 질문에서는 검색 결과의 상품 정의가 Genie 요청에 반영되어야 합니다. 라떼·손님 수 질문은 <strong>첫 응답에 숫자를 내지 않고 되묻는 것이 성공</strong>입니다. “카페라떼로 알려줘” 또는 “주문수로 비교해줘”를 같은 대화에서 답했을 때만 정량 조회로 이어지는지도 봅니다.</p>
+  <p>도구가 안 보이면 권한과 기능 활성화 여부를 확인합니다. App으로 내보내려면 Databricks Apps와 Managed MCP Servers preview가 필요합니다. 13절 노트북의 HYBRID·Top 3 설정이 Playground 도구에 자동 적용되는 것은 아니므로, 도구 설정과 실제 반환 결과를 확인합니다. <a href="https://docs.databricks.com/aws/en/getting-started/gen-ai-llm-agent" target="_blank" rel="noopener">공식 Playground·Export 안내</a></p>
   <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="a2"><span class="mark"></span>
       <span class="txt">Playground에서 네 질문이 기대한 도구 흐름대로 동작했다</span></label>
@@ -1728,10 +1788,15 @@ display(results)</pre></div></div>
     <div class="qa-r"><span class="k">Description</span><span class="v">카페 매출 Genie와 용어집 AI Search를 연결한 Supervisor Agent</span><button type="button" class="copy">복사</button></div>
     <div class="qa-r"><span class="k">Experiment</span><span class="v">cafe-supervisor-agent</span><button type="button" class="copy">복사</button></div>
   </div>
-  <p>Export가 끝나면 <strong>Apps → agent-cafe-supervisor</strong>를 엽니다.</p>
+  <p>Experiment는 기존 항목을 선택하거나 새로 만듭니다. <strong>선택한 Experiment의 전체 경로와 ID</strong>를 아래에 기록합니다. 이름이 같아도 경로나 ID가 다르면 다른 Experiment입니다. App 이름이 이미 쓰이고 있으면 <code class="k">agent-cafe-supervisor-본인이니셜</code>처럼 구분합니다.</p>
+  <div class="memo">
+    <div class="f"><label for="memoExperimentPath">Experiment 전체 경로</label><input id="memoExperimentPath" type="text" data-k="memoExperimentPath" placeholder="예: /Shared/cafe-supervisor-agent"></div>
+    <div class="f"><label for="memoExperimentId">Experiment ID</label><input id="memoExperimentId" type="text" data-k="memoExperimentId" placeholder="선택한 Experiment의 숫자 ID"></div>
+  </div>
+  <p>Export 성공 후 <strong>View Agent</strong>로 App을 엽니다. 생성한 App의 설정과 소스도 확인합니다. Export는 선택한 모델·지침·도구 구성을 코드로 생성하므로, 이후 Playground만 수정해도 배포된 App이 자동으로 바뀌는 것은 아닙니다.</p>
 
   <h3><span class="sn">14-2</span>App Resource 연결</h3>
-  <p><strong>Settings → Resources</strong>에서 Export 때 자동으로 들어간 리소스를 보고, 빠진 것이 있으면 추가합니다. 권한은 필요한 만큼만 줍니다.</p>
+  <p>App 상세의 <strong>Resources</strong> 또는 <strong>Edit › App resources</strong>에서 Export가 연결한 대상을 확인합니다. 아래 Resource key는 저장소 예제에서 쓰는 이름이며, 자동 생성된 이름이 다르다고 실패한 것은 아닙니다. App 코드와 설정이 같은 키를 참조하는지가 중요합니다.</p>
   <div class="tw min"><table>
     <thead><tr><th>Resource type</th><th>대상</th><th>Resource key</th><th>권한</th></tr></thead>
     <tbody>
@@ -1740,14 +1805,14 @@ display(results)</pre></div></div>
       <tr><td class="key">MLflow experiment</td><td>cafe-supervisor-agent</td><td><code class="k" data-c title="눌러서 복사">cafe_experiment</code></td><td>Can edit 이상</td></tr>
     </tbody>
   </table></div>
-  <p>AI Search Index는 Workspace 버전에 따라 <strong>Vector search index</strong>로 보일 수도 있습니다.</p>
+  <p>AI Search Index는 <strong>Vector search index</strong>로 표시될 수 있습니다. 위 세 자원과 함께 <strong>선택한 모델 endpoint와 자동 생성된 MCP 연결</strong>도 유지합니다. 본인이 Playground에서 접근할 수 있는 것과 App 실행 주체가 접근할 수 있는 것은 별개입니다. <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/resources" target="_blank" rel="noopener">공식 App Resources 안내</a></p>
   <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="a3"><span class="mark"></span>
-      <span class="txt"><code class="k">agent-cafe-supervisor</code> App을 만들고 Resource 세 개를 연결했다</span></label>
+      <span class="txt">App에서 Genie·Index·Experiment와 모델 연결을 확인했다</span></label>
   </div>
 
   <h3><span class="sn">14-3</span>환경 변수 확인</h3>
-  <p><code class="k">resources/app.yaml.example</code>의 키가 14-2의 Resource key와 같아야 합니다.</p>
+  <p><strong>Export가 만든 app.yaml과 코드를 먼저 확인합니다.</strong> 아래는 저장소의 <code class="k">resources/app.yaml.example</code>을 설명하는 예시입니다. 생성된 설정 전체를 이 짧은 예제로 교체하지 않습니다. 자동 생성 코드가 다른 변수명이나 MCP 설정을 사용하면 그 구성을 유지합니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">app.yaml · env</span></div>
     <div class="snip-body"><pre>env:
   - name: GENIE_SPACE_ID
@@ -1757,11 +1822,18 @@ display(results)</pre></div></div>
   - name: MLFLOW_EXPERIMENT_ID
     valueFrom: cafe_experiment</pre></div></div>
   <div class="note">
-    <p>화면에서는 Genie Agent라고 부르지만 환경 변수 이름은 <code class="k">GENIE_SPACE_ID</code>로 남아 있는 경우가 있습니다. 예제의 변수 이름은 그대로 둡니다.</p>
+    <p><code class="k">name</code>은 코드에서 읽는 환경 변수 이름이고, <code class="k">valueFrom</code>은 Resources의 키입니다. 예를 들어 <code class="k">cafe_experiment</code>로 연결한 Experiment의 ID가 <code class="k">MLFLOW_EXPERIMENT_ID</code>에 들어갑니다. 경로 문자열을 valueFrom에 넣지 않습니다.</p>
+    <p>이 예제를 사용하는 코드에서는 <code class="k">GENIE_SPACE_ID</code>라는 이름을 그대로 씁니다. 설정이나 코드를 바꿨다면 저장 후 다시 Deploy하고 새 배포 상태를 확인합니다.</p>
   </div>
 
   <h3><span class="sn">14-4</span>App 실행과 확인</h3>
-  <p>App 상태가 <code class="k">Running</code>이 되면 Playground에서 했던 네 질문을 App에서 다시 입력합니다. 도구 흐름이 위 표와 같아야 합니다.</p>
+  <p>배포가 성공하고 App이 <code class="k">Running</code>이면 App URL을 열어 네 질문을 각각 새 대화에서 입력합니다. Running은 서버가 켜졌다는 뜻입니다. 실제 응답과 도구 호출이 성공해야 이 절을 마친 것입니다.</p>
+  <details class="fold"><summary>Playground에서는 되는데 App에서는 실패하면</summary><div class="in">
+    <ul><li><strong>시작 실패:</strong> App의 배포·실행 Logs에서 첫 오류와 실행 명령, 패키지 설치 상태를 봅니다.</li>
+      <li><strong>401·403 또는 도구 호출 실패:</strong> 실패한 대상이 모델·Genie·Index 중 무엇인지 확인하고 App 실행 주체의 권한과 Resource 연결을 대조합니다.</li>
+      <li><strong>답변은 되지만 Trace가 없음:</strong> 생성된 코드의 tracing 설정과 Experiment 연결을 확인합니다. 15절에서 ID까지 대조합니다.</li>
+      <li><strong>수정 전 지침으로 답함:</strong> App 코드에 반영한 지침과 최근 배포 시각을 확인한 뒤 새 대화로 테스트합니다.</li></ul>
+  </div></details>
   <div class="checks inline">
     <label class="task"><input type="checkbox" data-k="a4"><span class="mark"></span>
       <span class="txt">App이 Running이고 네 질문에 같은 흐름으로 답했다</span></label>
@@ -1774,10 +1846,11 @@ display(results)</pre></div></div>
 <div class="pane" data-pane="mlflow">
 <section class="step">
   <div class="head"><span class="num">15</span><h2>MLflow로 기록하고 평가하기</h2><span class="dots"></span></div>
-  <p>Trace에는 Supervisor가 받은 질문과 답, 모델·Genie·AI Search를 부른 기록, 단계별 걸린 시간이 남습니다. 개발 때는 이 Trace를 Scorer로 평가하고, 운영 때는 같은 Scorer를 Production Monitoring에 그대로 걸 수 있습니다.</p>
+  <p>답이 틀렸을 때 문장만 읽어서는 검색이 잘못됐는지, 도구 선택이 잘못됐는지 알기 어렵습니다. <strong>Trace는 질문 한 번의 실행 기록</strong>이고, 그 안의 <strong>Span은 모델·도구 호출 같은 개별 작업</strong>입니다. 먼저 기록을 읽고, 그 기록에 Scorer를 적용해 품질을 평가합니다.</p>
 
   <h3><span class="sn">15-1</span>Trace 생성</h3>
-  <p>14절에서 App에 넣은 네 질문이 이미 Trace로 남아 있습니다. 아직 안 했다면 App에서 먼저 물어보세요. 전체 평가 질문은 <code class="k">sample_data/support/agent_evaluation.csv</code>에 있습니다.</p>
+  <p>App에서 네 질문을 실행하고, Export에서 선택한 Experiment의 <strong>Traces</strong>에 기록이 생기는지 확인합니다. 질문을 입력했다고 반드시 Trace가 저장되는 것은 아닙니다. 보이지 않으면 App의 tracing 설정과 Experiment 연결부터 확인합니다.</p>
+  <p>전체 평가 질문은 <code class="k">sample_data/support/agent_evaluation.csv</code>의 10개입니다. 먼저 Q1~Q4로 동작을 확인하고 시간이 남으면 10개로 확장합니다. <strong>이 CSV를 업로드한다고 질문이 자동 실행되거나 기대 경로가 자동 채점되지는 않습니다.</strong></p>
 
   <h3><span class="sn">15-2</span>MLflow 노트북 실행</h3>
   <p><code class="k" data-c title="눌러서 복사">notebooks/06_mlflow_monitoring.py</code>를 열고 Python Compute를 연결한 뒤 첫 셀을 실행합니다. 재시작 뒤에는 다음 셀부터 진행합니다.</p>
@@ -1789,13 +1862,16 @@ dbutils.library.restartPython()</pre></div></div>
   <p>위젯에 App이 쓰는 Experiment 경로를 넣습니다. Export 때 다른 경로를 썼다면 그 경로입니다. 노트북과 App이 같은 Experiment를 봐야 Trace가 보입니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">experiment_path</span><button type="button" class="copy">복사</button></div>
     <div class="snip-body"><pre>/Shared/cafe-supervisor-agent</pre></div></div>
-  <p>셀 출력에 <code class="k">MLflow experiment: /Shared/cafe-supervisor-agent</code>가 나오면 됩니다.</p>
+  <p>위 경로는 예시입니다. App에서 선택한 실제 전체 경로를 입력하고 출력된 <strong>Experiment ID까지</strong> 14절 기록과 비교합니다. 최신 노트북은 경로를 찾지 못하면 중단합니다. 기존 버전의 <code class="k">mlflow.set_experiment(경로)</code>는 오타가 난 경로에 빈 Experiment를 새로 만들 수 있으므로, 출력 문장만 보고 성공으로 판단하지 않습니다.</p>
 
   <h3><span class="sn">15-4</span>Trace 조회</h3>
   <p>Trace 조회 셀을 실행합니다.</p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">Trace 조회 셀</span></div>
-    <div class="snip-body"><pre>traces = mlflow.search_traces(max_results=30)
+    <div class="snip-body"><pre>traces = mlflow.search_traces(
+    experiment_ids=[experiment.experiment_id], max_results=30
+)
 display(traces)</pre></div></div>
+  <p>이 셀은 노트북의 Experiment 지정 셀 다음에 실행합니다. <code class="k">max_results=30</code>은 최근 기록의 조회 한도이며 평가 질문 수가 아닙니다. 입력 질문·실행 시각으로 이번 실습 기록을 찾고 <code class="k">trace_id</code>를 기록합니다. <a href="https://www.mlflow.org/docs/latest/genai/tracing/search-traces" target="_blank" rel="noopener">공식 Trace 조회 안내</a></p>
   <p>입력 질문, 최종 응답, Supervisor 모델 호출, Genie와 AI Search의 Tool span, 상태, 전체와 단계별 latency를 봅니다. 질문별로 거친 도구는 이래야 합니다.</p>
   <div class="tw min"><table>
     <thead><tr><th>질문</th><th>Tool 경로</th></tr></thead>
@@ -1808,7 +1884,16 @@ display(traces)</pre></div></div>
   </table></div>
 
   <h3><span class="sn">15-5</span>기본 Scorer 평가</h3>
-  <p>평가 셀은 아래 세 Scorer를 씁니다. <code class="k">ToolCallCorrectness</code>는 Trace에 남은 도구 호출을 보고 알맞은 도구를 알맞은 값으로 불렀는지 채점합니다.</p>
+  <p>평가는 이미 저장된 Trace를 대상으로 합니다. 이 코드에는 App을 다시 호출하는 함수가 없으므로 <strong>질문을 재실행하는 단계가 아닙니다.</strong> 반대로 App 지침을 고친 뒤에는 새 질문으로 새 Trace를 만든 후 평가해야 합니다.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Scorer</th><th>확인하는 것</th><th>별도로 확인할 것</th></tr></thead>
+    <tbody>
+      <tr><td>RelevanceToQuery</td><td>사용자 질문과 답변의 관련성</td><td>답변 숫자가 검증 SQL과 같은지</td></tr>
+      <tr><td>Safety</td><td>응답에 안전성 문제가 있는지</td><td>업무 규칙·매출 계산의 정확성</td></tr>
+      <tr><td>ToolCallCorrectness</td><td>호출한 도구와 인자가 적절한지</td><td>Q1~Q4의 필수 순서·되묻기 조건</td></tr>
+    </tbody>
+  </table></div>
+  <p><code class="k">ToolCallCorrectness</code>에는 TOOL 유형 Span이 들어 있는 Trace가 필요합니다. 아래 기본 설정은 이 실습 CSV의 기대 순서를 엄격하게 비교하는 검사기가 아닙니다. 자동 점수가 좋아도 Q3에서 사용자 확인 전에 Genie를 호출했다면 실습 기준으로는 실패입니다. <a href="https://www.mlflow.org/docs/latest/genai/eval-monitor/scorers/llm-judge/tool-call/" target="_blank" rel="noopener">공식 도구 호출 평가 안내</a></p>
   <div class="snip"><div class="snip-top"><span class="snip-lbl">평가 셀</span></div>
     <div class="snip-body"><pre>from mlflow.genai.scorers import (
     RelevanceToQuery,
@@ -1816,15 +1901,32 @@ display(traces)</pre></div></div>
     ToolCallCorrectness,
 )
 
-print(evaluation.metrics)
-display(evaluation.result_df)</pre></div></div>
+# 필요한 경우 이번 실습의 trace_id 목록으로 traces를 먼저 좁힙니다.
+if len(traces) == 0:
+    print("App에서 질문을 실행하고 Trace 조회 셀부터 다시 실행하세요.")
+else:
+    evaluation = mlflow.genai.evaluate(
+        data=traces,
+        scorers=[RelevanceToQuery(), Safety(), ToolCallCorrectness()],
+    )
+    print(evaluation.metrics)
+    display(evaluation.result_df)</pre></div></div>
+  <p>평균값만 보지 말고 질문별 판정·이유·오류를 읽습니다. 평가 모델 접근 오류나 TOOL Span 누락으로 채점하지 못한 결과는 “응답 품질 실패”와 구분해서 적습니다. 최근 30개에 다른 대화가 섞여 있으면 해당 Trace를 제외한 뒤 평가합니다.</p>
 
   <h3><span class="sn">15-6</span>MLflow UI 확인</h3>
   <p class="path"><b>이동</b><span>AI/ML</span><span>Experiments</span><span>/Shared/cafe-supervisor-agent</span></p>
-  <p><strong>Traces</strong>, <strong>Evaluations</strong>, <strong>Runs</strong> 탭을 봅니다. Trace 하나를 열어 입력·출력·Tool span·latency를 보고, Evaluations에서는 Scorer별 결과와 실패한 질문을 확인합니다.</p>
+  <ol class="do">
+    <li>실제 사용한 Experiment에서 <strong>Traces</strong>를 열고 “아메 매출 알려줘” 기록을 고릅니다.</li>
+    <li>AI Search Span의 반환값에 아메리카노 해석이 있는지, 그 뒤 Genie Span의 요청에 상품 필터가 반영됐는지 봅니다. 실제 함수 이름은 템플릿마다 다르므로 이름뿐 아니라 입력·출력을 읽습니다.</li>
+    <li>전체 실행 시간과 각 Span의 시간을 비교합니다. 도구가 중첩·병렬 실행되면 Span 시간을 단순 합산한 값과 전체 시간이 다를 수 있습니다.</li>
+    <li><strong>Evaluations / Runs</strong>에서 방금 실행한 평가를 열고 Trace별 Scorer 결과와 이유를 확인합니다. 정상 종료(<code class="k">OK</code>)는 정답 판정과 다릅니다.</li>
+  </ol>
+  <details class="fold"><summary>Trace가 0개이거나 도구 호출이 안 보이면</summary><div class="in">
+    <p>① App에서 실제 질문 실행 → ② App과 노트북의 Experiment ID 일치 → ③ 화면의 기간·필터 → ④ App Logs의 기록 오류 순서로 확인합니다. 최상위 Trace만 있고 도구 Span이 없다면 tracing 계측을 확인합니다. Span이 없다는 이유만으로 “도구를 호출하지 않았다”고 단정하지 않습니다.</p>
+  </div></details>
 
   <h3><span class="sn">15-7</span>운영 모니터링 (선택)</h3>
-  <p>Workspace에 Production Monitoring Preview가 켜져 있을 때만 실행합니다. 들어오는 Trace의 절반(<code class="k">sample_rate: 0.5</code>)을 Safety로 채점합니다.</p>
+  <p>Workspace에 Production Monitoring 기능과 필요한 권한이 있을 때만 노트북 마지막 셀의 주석을 풀어 실행합니다. 앞으로 들어오는 Trace를 <code class="k">sample_rate: 0.5</code>로 샘플링해 Safety로 평가합니다. 네 질문 중 반드시 두 개가 뽑힌다는 뜻은 아닙니다. 이 선택 단계는 아래 완료 기준에 포함하지 않습니다.</p>
       <div class="snip"><div class="snip-top"><span class="snip-lbl">Production Monitoring</span></div>
         <div class="snip-body"><pre>from mlflow.genai.scorers import Safety, ScorerSamplingConfig
 
