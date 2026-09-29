@@ -11,8 +11,7 @@
 
 -- COMMAND ----------
 
--- Catalog → Schema → Table/View 또는 Volume 순서로 데이터를 관리합니다.
--- IF NOT EXISTS: 같은 이름이 이미 있으면 새로 만들지 않고 기존 객체를 유지합니다.
+-- Unity Catalog: Catalog·Schema 단위로 데이터 자산과 접근 권한을 관리합니다.
 CREATE CATALOG IF NOT EXISTS cafe_training;
 
 -- Landing Schema: CSV 파일을 보관할 Volume의 위치
@@ -23,7 +22,7 @@ COMMENT '카페 핸즈온 원천 파일용 스키마';
 CREATE SCHEMA IF NOT EXISTS cafe_training.cafe_hands_on
 COMMENT '카페 핸즈온 Bronze, Silver, Gold, Metric View용 스키마';
 
--- Volume: 테이블 행이 아니라 CSV 같은 파일을 저장하는 공간
+-- Managed Volume: 파일 접근을 Unity Catalog 권한으로 관리하고 저장 위치는 Databricks가 관리합니다.
 CREATE VOLUME IF NOT EXISTS cafe_training.cafe_landing.raw
 COMMENT '카페 핸즈온 CSV 업로드 볼륨';
 
@@ -35,8 +34,7 @@ COMMENT '카페 핸즈온 CSV 업로드 볼륨';
 -- sample_data/raw/orders/*.csv        -> /Volumes/cafe_training/cafe_landing/raw/orders/*.csv
 -- sample_data/support/glossary.csv    -> /Volumes/cafe_training/cafe_landing/raw/support/glossary.csv
 
--- 경로 형식: /Volumes/<Catalog>/<Schema>/<Volume>
--- LIST는 파일·폴더 목록을 보여 줍니다. 업로드 전에는 목록이 비어 있을 수 있습니다.
+-- Volume 파일은 /Volumes/<Catalog>/<Schema>/<Volume> 경로로 접근합니다.
 LIST '/Volumes/cafe_training/cafe_landing/raw';
 
 -- COMMAND ----------

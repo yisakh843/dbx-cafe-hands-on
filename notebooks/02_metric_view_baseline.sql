@@ -2,7 +2,7 @@
 -- MAGIC %md
 -- MAGIC # 02. Metric View 기준선 생성
 -- MAGIC
--- MAGIC `gold_sales`를 바탕으로 분석 기준과 지표 계산식을 정의합니다.
+-- MAGIC Unity Catalog Metric View에 분석 기준과 지표 계산식을 정의해 SQL·Genie에서 재사용합니다.
 -- MAGIC 다음 03 노트북에서 같은 Metric View에 설명·동의어·표시 형식을 추가합니다.
 
 -- COMMAND ----------

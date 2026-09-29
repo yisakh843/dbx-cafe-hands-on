@@ -12,8 +12,7 @@
 
 -- COMMAND ----------
 
--- Bronze: 새로 발견한 파일을 증분으로 읽고 원본 컬럼에 추적용 정보를 덧붙입니다.
--- CREATE OR REFRESH는 Pipeline이 유지할 데이터셋과 갱신 로직을 선언합니다.
+-- Streaming Table: 일반 갱신에서는 새 입력을 처리합니다. Full refresh는 기존 입력을 재처리합니다.
 CREATE OR REFRESH STREAMING TABLE bronze_stores
 COMMENT '원본 CSV를 변경 없이 증분 적재한 매장 Bronze 테이블'
 -- quality는 계층을 표시하는 속성입니다. 이 속성만으로 품질 검사가 실행되지는 않습니다.
@@ -21,21 +20,21 @@ TBLPROPERTIES ('quality' = 'bronze')
 AS
 SELECT
   *,
-  -- 문제 행의 원본 파일과 적재 시각을 추적할 수 있도록 남깁니다.
+  -- _metadata: Databricks 파일 소스가 제공하는 메타데이터. 원본 파일 추적에 사용합니다.
   _metadata.file_path AS _source_file,
   current_timestamp() AS _ingested_at
+-- STREAM read_files는 Auto Loader로 파일을 증분 수집합니다.
 FROM STREAM read_files(
   -- Streaming read_files는 파일 경로 대신 디렉터리 또는 glob 경로를 사용합니다.
   '/Volumes/cafe_training/cafe_landing/raw/stores*.csv',
   format => 'csv',
-  -- 첫 행을 컬럼명으로 사용하고, 값은 문자열로 읽어 Silver에서 타입을 정합니다.
   header => 'true',
+  -- Auto Loader의 컬럼 타입 추론을 끄고 CSV 값을 문자열로 받아 Silver에서 타입을 정합니다.
   inferColumnTypes => 'false'
 );
 
 -- COMMAND ----------
 
--- 상품 기준정보도 같은 방식으로 적재합니다. Gold에서 상품명·카테고리를 붙일 때 씁니다.
 CREATE OR REFRESH STREAMING TABLE bronze_products
 COMMENT '원본 CSV를 변경 없이 증분 적재한 상품 Bronze 테이블'
 TBLPROPERTIES ('quality' = 'bronze')
@@ -45,7 +44,6 @@ SELECT
   _metadata.file_path AS _source_file,
   current_timestamp() AS _ingested_at
 FROM STREAM read_files(
-  -- Streaming read_files는 파일 경로 대신 디렉터리 또는 glob 경로를 사용합니다.
   '/Volumes/cafe_training/cafe_landing/raw/products*.csv',
   format => 'csv',
   header => 'true',
@@ -72,8 +70,9 @@ FROM STREAM read_files(
 
 -- COMMAND ----------
 
--- Silver: 정리한 조회 결과를 저장·갱신하는 Materialized View입니다.
--- EXPECT는 행별 품질 조건, ON VIOLATION DROP ROW는 조건 위반 행을 결과에서 제외하는 정책입니다.
+-- Materialized View: Pipeline 갱신 시 원천 변경을 반영한 쿼리 결과를 유지합니다.
+-- Expectations: 행별 품질 규칙. DROP ROW로 위반 행을 제외하고 품질 지표를 event log에 기록합니다.
+-- 현재 Expectations가 포함된 Materialized View는 갱신 시 전체 재계산합니다.
 CREATE OR REFRESH MATERIALIZED VIEW silver_stores (
   CONSTRAINT valid_store_id EXPECT (store_id IS NOT NULL) ON VIOLATION DROP ROW,
   CONSTRAINT valid_store_name EXPECT (store_name IS NOT NULL) ON VIOLATION DROP ROW
@@ -82,7 +81,6 @@ COMMENT '타입과 필수값을 정리한 매장 Silver 테이블'
 TBLPROPERTIES ('quality' = 'silver')
 AS
 SELECT
-  -- TRIM: 앞뒤 공백 제거 / TRY_CAST: 변환할 수 없는 값은 오류 대신 NULL 반환
   TRIM(store_id) AS store_id,
   TRIM(store_name) AS store_name,
   TRIM(region) AS region,
@@ -91,7 +89,6 @@ FROM bronze_stores;
 
 -- COMMAND ----------
 
--- 상품 ID와 양수 가격 조건을 확인합니다. 기대 조건은 타입을 정리한 출력값에 적용됩니다.
 CREATE OR REFRESH MATERIALIZED VIEW silver_products (
   CONSTRAINT valid_product_id EXPECT (product_id IS NOT NULL) ON VIOLATION DROP ROW,
   CONSTRAINT positive_list_price EXPECT (list_price > 0) ON VIOLATION DROP ROW
@@ -121,7 +118,6 @@ CREATE OR REFRESH MATERIALIZED VIEW silver_orders_clean (
 COMMENT '배치 간 중복 제거, 타입 변환, NULL과 상태값을 표준화한 주문 Silver 테이블'
 TBLPROPERTIES ('quality' = 'silver')
 AS
--- CTE(이름 붙인 중간 쿼리)로 타입 변환 → 중복 제거 단계를 나누어 읽습니다.
 WITH typed AS (
   SELECT
     TRIM(order_id) AS order_id,
@@ -131,9 +127,7 @@ WITH typed AS (
     TRY_CAST(quantity AS INT) AS quantity,
     TRY_CAST(unit_price AS INT) AS unit_price,
     -- 할인율이 비었거나 숫자로 변환되지 않으면 0으로 처리하는 이 실습의 규칙입니다.
-    -- 0D는 DOUBLE 타입의 0이며, COALESCE는 처음으로 NULL이 아닌 값을 선택합니다.
     COALESCE(TRY_CAST(discount_pct AS DOUBLE), 0D) AS discount_pct,
-    -- " completed " 같은 입력을 "COMPLETED"로 통일합니다.
     UPPER(TRIM(status)) AS status,
     _source_file,
     _ingested_at
@@ -144,7 +138,6 @@ deduplicated AS (
   -- 최신 주문 시각을 선택하는 규칙은 아닙니다. 동률이면 선택 순서가 보장되지 않습니다.
   SELECT *
   FROM typed
-  -- ROW_NUMBER는 그룹 안의 순번, QUALIFY는 계산된 순번을 조건으로 행을 거릅니다.
   QUALIFY ROW_NUMBER() OVER (
     PARTITION BY order_id
     ORDER BY _source_file, _ingested_at
@@ -156,7 +149,7 @@ SELECT * FROM deduplicated;
 
 -- Gold: 완료 주문에 매장·상품 정보를 붙이고 매출 분석에 쓸 값을 계산합니다.
 CREATE OR REFRESH MATERIALIZED VIEW gold_sales
--- 저장 데이터의 클러스터링 키를 자동 선택하도록 설정합니다.
+-- Automatic Liquid Clustering: Databricks가 조회 성능을 위한 클러스터링 키를 선택합니다.
 CLUSTER BY AUTO
 COMMENT '완료 주문을 매장·상품과 결합하고 분석 파생값을 계산한 Gold 매출 테이블'
 TBLPROPERTIES ('quality' = 'gold')
@@ -166,7 +159,6 @@ SELECT
   o.order_ts,
   CAST(o.order_ts AS DATE) AS order_date,
   HOUR(o.order_ts) AS order_hour,
-  -- DAYOFWEEK의 일요일=1, 토요일=7을 한글 요일과 평일/주말로 바꿉니다.
   CASE DAYOFWEEK(o.order_ts)
     WHEN 1 THEN '일'
     WHEN 2 THEN '월'
@@ -177,7 +169,6 @@ SELECT
     WHEN 7 THEN '토'
   END AS day_name,
   CASE WHEN DAYOFWEEK(o.order_ts) IN (1, 7) THEN '주말' ELSE '평일' END AS day_type,
-  -- 시간 구간을 업무상 이름으로 묶습니다. BETWEEN의 양끝 시간도 포함됩니다.
   CASE
     WHEN HOUR(o.order_ts) BETWEEN 6 AND 10 THEN '모닝'
     WHEN HOUR(o.order_ts) BETWEEN 11 AND 13 THEN '점심'
@@ -194,12 +185,10 @@ SELECT
   o.quantity,
   o.unit_price,
   o.discount_pct,
-  -- 총매출 = 수량 × 단가 / 할인액 = 총매출 × 할인율 / 순매출 = 총매출 - 할인액
   o.quantity * o.unit_price AS gross_sales,
   o.quantity * o.unit_price * o.discount_pct / 100D AS discount_amount,
   o.quantity * o.unit_price * (1D - o.discount_pct / 100D) AS net_sales
 FROM silver_orders_clean o
--- INNER JOIN이므로 기준정보에 매장·상품 ID가 없는 주문은 여기서 제외됩니다.
 INNER JOIN silver_stores s USING (store_id)
 INNER JOIN silver_products p USING (product_id)
 -- 샘플의 취소 주문 30건을 제외한 266건이 매출 계산 대상입니다.

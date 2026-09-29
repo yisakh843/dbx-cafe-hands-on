@@ -22,7 +22,7 @@ fields:
     expr: order_date
     # display_name: 화면 표시명
     display_name: '주문일'
-    # comment: 필드의 의미와 업무 규칙
+    # comment: Unity Catalog에 저장되는 의미 정보. Genie의 필드 해석에 활용됩니다.
     comment: '주문이 완료된 달력 날짜. 데이터 기간은 2026-07-01부터 2026-07-14까지다.'
     # synonyms: Genie가 같은 필드를 찾도록 돕는 다른 이름
     synonyms: ['판매일', '일자', '날짜']

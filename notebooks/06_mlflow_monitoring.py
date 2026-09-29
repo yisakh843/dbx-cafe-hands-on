@@ -36,7 +36,7 @@ print(f"MLflow experiment: {experiment.name} (ID: {experiment.experiment_id})")
 
 # COMMAND ----------
 
-# 지정한 Experiment의 최근 Trace를 가져옵니다. max_results는 조회 한도이며 평가 질문 수가 아닙니다.
+# App과 동일한 Experiment ID로 Trace를 조회합니다.
 traces = mlflow.search_traces(
     experiment_ids=[experiment.experiment_id], max_results=30
 )
@@ -62,9 +62,9 @@ if len(traces) > 0:
     evaluation = mlflow.genai.evaluate(
         data=traces,
         scorers=[
-            # 질문에 맞는 응답인지 평가합니다. 매출 정답 숫자와의 일치 검사는 별도로 합니다.
+            # 질문·응답 관련성. 매출 정답 검증은 별도입니다.
             RelevanceToQuery(),
-            # 응답의 안전성을 평가합니다. 업무 규칙을 올바르게 적용했는지와는 별개입니다.
+            # 응답 안전성 평가
             Safety(),
             # 도구와 인자의 적절성을 평가하려면 TOOL 유형 Span이 기록되어 있어야 합니다.
             # 실습 CSV에 적힌 기대 호출 순서를 이 기본 설정이 자동 비교하지는 않습니다.
@@ -85,13 +85,12 @@ else:
 # MAGIC
 # MAGIC 이 기능은 워크스페이스에서 Production Monitoring Preview가 활성화된 경우에만 실행합니다.
 # MAGIC 필요한 경우 아래 코드의 주석을 해제합니다. 등록·시작 후에는 새로 들어오는 Trace를 대상으로 평가가 계속됩니다.
-# MAGIC `sample_rate=0.5`는 50%를 샘플링하는 설정으로, 질문 네 개 중 반드시 두 개가 선택된다는 뜻은 아닙니다.
+# MAGIC `sample_rate=0.5`로 새 Trace의 50%를 샘플링해 평가합니다.
 # MAGIC 실습을 마치고 자동 평가를 중단하려면 시작에 사용한 Scorer 객체의 `stop()`을 호출합니다.
 
 # COMMAND ----------
 
 # register는 현재 Experiment에 Scorer를 등록하고, start는 자동 평가를 시작합니다.
-# 이 블록은 선택 실습이므로 기본 상태에서는 실행되지 않습니다.
 # from mlflow.genai.scorers import Safety, ScorerSamplingConfig
 #
 # safety_monitor = Safety().register(name="cafe_safety")
