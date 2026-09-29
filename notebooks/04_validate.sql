@@ -3,9 +3,14 @@
 -- MAGIC # 04. 파이프라인 및 지표 검증
 -- MAGIC
 -- MAGIC 파이프라인 실행 결과를 확인하는 체크 노트북입니다.
+-- MAGIC **사전 준비:** Pipeline과 02 또는 03 Metric View 생성을 마친 뒤 SQL Warehouse에서 실행합니다.
+-- MAGIC 데이터를 변경하지 않는 조회입니다. 행 수 → 전체 지표 → 매장별 → 상품별 결과 순서로 확인합니다.
+-- MAGIC 아래 기대값은 제공 CSV 전체 기준입니다. 다른 데이터를 추가하면 결과도 달라집니다.
 
 -- COMMAND ----------
 
+-- actual과 expected를 비교합니다. 값이 달라도 이 조회 자체가 오류를 발생시키지는 않습니다.
+-- 불일치하면 처음 어긋난 계층부터 업로드 파일, 품질 조건, 조인 결과를 확인합니다.
 SELECT 'bronze_orders' AS object_name, COUNT(*) AS actual, 300 AS expected
 FROM cafe_training.cafe_hands_on.bronze_orders
 UNION ALL
@@ -17,6 +22,8 @@ FROM cafe_training.cafe_hands_on.gold_sales;
 
 -- COMMAND ----------
 
+-- MEASURE는 Metric View에 등록된 계산식을 사용합니다. 전체 기간의 합계·비율을 확인합니다.
+-- 이 코드에서는 GROUP BY가 없으므로 전체 데이터에 대한 한 행이 반환됩니다.
 SELECT
   MEASURE(gross_sales) AS gross_sales,
   MEASURE(discount_amount) AS discount_amount,
@@ -36,6 +43,7 @@ FROM cafe_training.cafe_hands_on.cafe_sales_metrics;
 
 -- COMMAND ----------
 
+-- 같은 순매출 정의를 매장별로 적용합니다. 세 매장 순매출의 합은 전체 순매출과 같아야 합니다.
 SELECT
   store_name,
   MEASURE(net_sales) AS net_sales
@@ -50,6 +58,8 @@ ORDER BY net_sales DESC;
 
 -- COMMAND ----------
 
+-- 판매수량 기준 상위 5개 상품입니다. 순매출 순위와는 다를 수 있습니다.
+-- 판매수량이 동률인 상품 사이의 순서는 이 쿼리에서 지정하지 않았습니다.
 SELECT
   product_name,
   MEASURE(item_quantity) AS item_quantity,

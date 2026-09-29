@@ -25,12 +25,16 @@ WITH METRICS
 LANGUAGE YAML
 AS
 $$
+# version: Metric View YAML 명세 버전. 이 실습의 진행 단계나 데이터 버전이 아닙니다.
 version: 1.1
 # 원천: 2부에서 만든 완료 주문 데이터
 source: cafe_training.cafe_hands_on.gold_sales
 
 # 분석 기준 8개: 날짜·매장·상품 등으로 나누거나 필터링할 때 사용
+# fields: "매장별", "날짜별"처럼 데이터를 나누는 기준(차원)을 정의합니다.
+# 예: store_name을 GROUP BY하면 매장별, WHERE로 제한하면 특정 매장만 조회합니다.
 fields:
+  # name: Metric View에서 조회할 필드 이름 / expr: 원천에서 값을 가져오는 SQL 식
   - name: order_date
     expr: order_date
   - name: day_name
@@ -49,6 +53,8 @@ fields:
     expr: category
 
 # 지표 6개: 선택한 분석 범위에 대해 아래 공식으로 계산
+# measures: "매출이 얼마인가", "주문이 몇 건인가"에 답하는 집계 계산입니다.
+# 아래 expr은 조회할 때 선택한 필터와 그룹별로 계산되며 MEASURE(name)으로 사용합니다.
 measures:
   # 총매출: 할인 전 판매금액 합계
   - name: gross_sales
